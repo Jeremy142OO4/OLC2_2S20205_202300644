@@ -11,7 +11,7 @@ typedef struct {
     GtkListStore *errors_store;
 } App;
 
-// ---------- Utilidades ----------
+// ---------- Utilidades ---------- #
 static void console_append(GtkTextView *view, const char *text) {
     GtkTextBuffer *buf = gtk_text_view_get_buffer(view);
     GtkTextIter end;
