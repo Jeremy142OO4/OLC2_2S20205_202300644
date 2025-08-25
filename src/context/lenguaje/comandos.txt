@@ -1,0 +1,11 @@
+para el lexer
+
+flex -l lexer.l
+
+para el bison
+
+bison -d parser.y
+
+######################
+juntarlos
+

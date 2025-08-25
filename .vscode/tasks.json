@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-gtk3",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "mkdir -p ${workspaceFolder}/src/UI/output && gcc -Wall -Wextra -g3 $(pkg-config --cflags gtk+-3.0) ${workspaceFolder}/src/UI/Main.c -o ${workspaceFolder}/src/UI/output/Main $(pkg-config --libs gtk+-3.0)"
+      ],
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "exec-gtk3",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "${workspaceFolder}/src/UI/output/Main"
+      ]
+    },
+    {
+      "label": "build-and-run",
+      "dependsOrder": "sequence",
+      "dependsOn": ["build-gtk3", "exec-gtk3"],
+      "group": { "kind": "build", "isDefault": true }
+    }
+  ]
+}
