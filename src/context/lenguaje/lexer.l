@@ -26,7 +26,9 @@
 "-"                           { return '-'; }
 "*"                           { return '*'; }
 "/"                           { return '/'; }
- 
+
+[0-9]+                        { yylval.entero = atoi(yytext); return ENTERO; }
+
 \"([^\"\r\n]|\"\")*\"         { yylval.cadena = strdup(yytext); return CADENA; }
 
 [a-zA-Z_][a-zA-Z0-9_]*        { yylval.id = strdup(yytext); return ID; }

@@ -126,7 +126,25 @@ static GtkWidget* build_editor(App *app) {
 static void on_run_clicked(GtkButton *btn, gpointer user_data) {
     (void)btn;
     App *app = (App*)user_data;
-    console_append(GTK_TEXT_VIEW(app->console_view), "[Ejecutar] Aquí iría la ejecución del código…");
+
+    // 1) Tomar TODO el texto del editor
+    GtkTextBuffer *src = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app->editor_view));
+    GtkTextIter start, end;
+    gtk_text_buffer_get_start_iter(src, &start);
+    gtk_text_buffer_get_end_iter(src, &end);
+    char *text = gtk_text_buffer_get_text(src, &start, &end, FALSE); // g_free luego
+
+    // 2) Añadirlo al final de la consola (usa tu helper)
+    console_append(GTK_TEXT_VIEW(app->console_view), text);
+
+    // 3) (opcional) auto-scroll al final
+    GtkTextBuffer *dst = gtk_text_view_get_buffer(GTK_TEXT_VIEW(app->console_view));
+    GtkTextIter dend;
+    gtk_text_buffer_get_end_iter(dst, &dend);
+    gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(app->console_view), &dend, 0.0, FALSE, 0.0, 0.0);
+
+    // 4) liberar
+    g_free(text);
 }
 
 // ---------- Ventana principal ----------

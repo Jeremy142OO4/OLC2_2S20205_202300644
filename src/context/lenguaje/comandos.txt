@@ -4,8 +4,13 @@ flex -l lexer.l
 
 para el bison
 
-bison -d parser.y
+bison -dv parser.y
 
 ######################
 juntarlos
 
+gcc -o compilador parser.tab.c lex.yy.c
+
+juntarlos con main
+
+gcc -o compilador main.c ./context/lenguaje/parser.tab.c ./context/lenguaje/lex.yy.c
