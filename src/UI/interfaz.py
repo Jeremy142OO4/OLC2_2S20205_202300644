@@ -19,7 +19,7 @@ def scrolled_text(parent, **opts):
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Mini IDE (Tkinter)")
+        self.title("Compilador")
         self.geometry("1100x700")
 
         # fuente monoespaciada para editor/consola
