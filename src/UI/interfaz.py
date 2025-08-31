@@ -48,9 +48,7 @@ class App(tk.Tk):
         # editor
         editor_frame, self.editor = scrolled_text(top_pane, font=self.mono, undo=True)
         demo = (
-            "#include <stdio.h>\n"
-            "int sumar(int a, int b){ return a + b; }\n"
-            "int main(){ int x = sumar(2, 3); printf(\"x=%d\\n\", x); return 0; }\n"
+            ""
         )
         self.editor.insert("1.0", demo)
         top_pane.add(editor_frame, weight=3)
@@ -153,18 +151,19 @@ class App(tk.Tk):
             f.write(text)
 
         cmd = [compiler, tmp_path]
-        self.console_insert(f"[Ejecutar] Lanzando: {' '.join(cmd)}")
+        #self.console_insert(f"[Ejecutar] Lanzando: {' '.join(cmd)}")
 
         try:
             # Nota: text=True captura stdout/stderr como str (UTF-8 por defecto)
             proc = subprocess.run(cmd, capture_output=True, text=True)
             if proc.stdout:
-                self.console_insert("[STDOUT]")
+                #self.console_insert("[STDOUT]")
                 self.console_insert(proc.stdout.rstrip("\n"))
-            if proc.stderr:
-                self.console_insert("[STDERR]")
-                self.console_insert(proc.stderr.rstrip("\n"))
-            self.console_insert(f"[Exit] Código de salida: {proc.returncode}")
+            #if proc.stderr:
+                #self.console_insert("[STDERR]")
+                #self.console_insert(proc.stderr.rstrip("\n"))
+            #self.console_insert(f"[Exit] Código de salida: {proc.returncode}")
+
         except FileNotFoundError:
             self.console_insert("[Error] No se encontró el ejecutable del compilador.")
         except Exception as e:
