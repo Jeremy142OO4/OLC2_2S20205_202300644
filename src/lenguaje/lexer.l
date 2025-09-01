@@ -24,21 +24,7 @@ int yycolumn = 1;
 
 %x COMMENT2 COMMENTLINEA
 espacios                [ \t]+
-enteros                 [0-9]
-letras                  [A-Za-z_]
-alfanumerico            ({letras}|{enteros})
-hexadecimal             [0-9A-F]
-ID                      {letras}{alfanumerico}*
-entero_s                {enteros}+
-hex_integer             ${hexadecimal}{hexadecimal}*
-float                   [0-9]+\.[0-9]+([eE][+-]?[0-9]+)?   
-exponente               e[+-]?{enteros}+
-real                    ({entero_s}\.{entero_s}?|{entero_s}?\.{entero_s}){exponente}?
 
-
-
-string                  \"([^"\n]|\"\")+\"
-bad_string              \"([^"\n]|\"\")+
 %%
 
 
@@ -59,8 +45,6 @@ bad_string              \"([^"\n]|\"\")+
 "System.out.println"     { return TK_PRINT; }
 "final"                  { return TK_FINAL; }
 
-"true"                   { return TRUE; }
-"false"                  { return FALSE; }
 
 "int"                    { return TK_INT; }
 "float"                  { return TK_FLOAT; }
@@ -68,6 +52,8 @@ bad_string              \"([^"\n]|\"\")+
 "boolean"                { return TK_BOOL; }
 "char"                   { return TK_CHAR; }
 
+"=="                     { return TK_IGUAL_IGUAL; }
+"!="                     { return TK_DIFERENTE; }
 ">="                     { return TK_MAYOR_IGUAL; }
 "<="                     { return TK_MENOR_IGUAL; }
 ">"                      { return TK_MAYOR; }
@@ -78,6 +64,7 @@ bad_string              \"([^"\n]|\"\")+
 "||"                     { return TK_OR; }
 "!"                      { return TK_NOT; }
 
+"="                      { return TK_IGUAL; }
 "+="                     { return TK_MAS_IGUAL; }
 "-="                     { return TK_MENOS_IGUAL; }
 "*="                     { return TK_POR_IGUAL; }
@@ -88,7 +75,7 @@ bad_string              \"([^"\n]|\"\")+
 "^="                     { return TK_POTENCIA_IGUAL; }
 ">>="                    { return TK_MAYOR_MAYOR_IGUAL; }
 "<<="                    { return TK_MENOR_MENOR_IGUAL; }
-"="                      { return TK_IGUAL; }
+
 ":="                     { return TK_DOSPUNTOS_IGUAL; }
 
 "("                      { return TK_PA; }
@@ -102,13 +89,12 @@ bad_string              \"([^"\n]|\"\")+
 "/"                      { return TK_DIVISION; }
 "%"                      { return TK_MODULAR; }
 
-{float}                  { yylval.cadena = strdup(yytext); return FLOAT; }
-{entero_s}               { yylval.entero = atoi(yytext); return ENTERO; }
-{string}                 { yylval.cadena = malloc(yyleng); strncpy(yylval.cadena, &yytext[1], yyleng-2); yylval.cadena[yyleng-2] = '\0'; return STRING; }
-{bad_string}             yyerror("Unterminated string");
-
-{ID}                     { yylval.id = strdup(yytext); return ID; }
-
+[0-9]+"."[0-9]+          { yylval.str = strdup(yytext); return DECIMAL; }
+[0-9]+                   { yylval.str = strdup(yytext); return INT; }
+\"([^"\n])*\"            { yylval.str = strdup(yytext); return CADENA; }
+\'[^\']\'                { yylval.str = strdup(yytext); return CARACTER; }
+"true"|"false"           { yylval.str = strdup(yytext); return BOOL; }
+[a-zA-Z_][a-zA-Z0-9_]*   { yylval.str = strdup(yytext); return ID; }
 {espacios}               /* ignorar */
 [\n\r]                   { yylineno++; yycolumn=1; }
 

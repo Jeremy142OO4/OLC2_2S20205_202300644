@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "../ast/ast.h"
 // Declaraciones externas que Flex/Bison generan
 extern int yyparse(void);
 extern FILE *yyin;
+extern struct ASTNode* root;
 
 int main(int argc, char *argv[]) {
     // Verificar argumento
@@ -26,6 +27,7 @@ int main(int argc, char *argv[]) {
 
     if (resultado == 0) {
         //printf("Parseo completado exitosamente.\n");
+        ast_print(root, 0);
     } else {
         printf("Error en el parseo.\n");
     }
