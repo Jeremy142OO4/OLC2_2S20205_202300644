@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Compilar lexer con Flex
-flex -l -o ./context/lenguaje/lex.yy.c ./context/lenguaje/lexer.l
+flex -l -o ./lenguaje/lex.yy.c ./lenguaje/lexer.l
 
 # Compilar parser con Bison
-bison -dv -o ./context/lenguaje/parser.tab.c ./context/lenguaje/parser.y
+bison -dv -o ./lenguaje/parser.tab.c ./lenguaje/parser.y
 
 # Compilar todo con GCC
-gcc -o compilador main.c ./context/lenguaje/parser.tab.c ./context/lenguaje/lex.yy.c -lfl
+gcc -o compilador main.c lenguaje/parser.tab.c lenguaje/lex.yy.c ast/ast.c class/entorno.c class/ejecutar.c -Iast -Ilenguaje
 
 # Mensaje final
 echo "✅ Compilación completada. Ejecuta ./compilador"

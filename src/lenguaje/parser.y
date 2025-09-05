@@ -16,6 +16,7 @@ struct ASTNode* root = NULL;
 
 %union {
     char* str;
+
     struct ASTNode* node;
 }
 
@@ -56,7 +57,7 @@ struct ASTNode* root = NULL;
 
 %type <node> inicio listainstrucciones instruccion IMPRIMIR
 %type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS
-%type <node> DECLARACION 
+%type <node> DECLARACION ASIGNACION
 
 
 %left TK_OR
@@ -82,12 +83,17 @@ listainstrucciones:
 instruccion:
       IMPRIMIR
     | DECLARACION
+    | ASIGNACION 
     ;
 
 DECLARACION:
-      TIPO ID TK_IGUAL expr             { printf("Declaracion con asignación: %s\n", $2); }
-    | TIPO ID                           { printf("Declaracion sin asignar: %s\n", $2); }
-    | TK_FINAL TIPO ID TK_IGUAL expr    { printf("Declaracion final (constante): %s\n", $3); }
+      TIPO ID TK_IGUAL expr             { $$ = ast_var_decl($2, $1, $4); }
+    | TIPO ID                           { $$ = ast_var_decl($2, $1, NULL); }
+    | TK_FINAL TIPO ID TK_IGUAL expr    {  $$ = ast_var_decl_const($3, $2, $5); }
+    ;
+
+ASIGNACION:
+      ID TK_IGUAL expr                   { $$ = ast_assign($1, $3); }
     ;
 
 IMPRIMIR:
@@ -97,12 +103,14 @@ IMPRIMIR:
 TIPO:
       TK_INT     { $$ = ast_type("int");}
     | TK_STRING  { $$ = ast_type("string");}
-    | TK_FLOAT   { $$ = ast_type("float64");}
+    | TK_FLOAT   { $$ = ast_type("float");}
     | TK_BOOL    { $$ = ast_type("bool");}
     | TK_CHAR    { $$ = ast_type("char");}
     ;
 
-expr: TK_PA expr TK_PC  {$$ = $2;}
+expr: 
+    TK_PA expr TK_PC  {$$ = $2;}
+    | TK_PA TIPO TK_PC expr { $$ = ast_cast($4, $2); }
     | INT               { $$ = ast_literal($1); }
     | DECIMAL           { $$ = ast_literal($1); }
     | CARACTER          { $$ = ast_literal($1); }

@@ -35,8 +35,8 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_PARSER_TAB_H_INCLUDED
-# define YY_YY_PARSER_TAB_H_INCLUDED
+#ifndef YY_YY_LENGUAJE_PARSER_TAB_H_INCLUDED
+# define YY_YY_LENGUAJE_PARSER_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -89,14 +89,14 @@ extern int yydebug;
     TK_MAYOR_MAYOR_IGUAL = 290,    /* TK_MAYOR_MAYOR_IGUAL  */
     TK_MENOR_MENOR_IGUAL = 291,    /* TK_MENOR_MENOR_IGUAL  */
     TK_DOSPUNTOS_IGUAL = 292,      /* TK_DOSPUNTOS_IGUAL  */
-    INT = 293,                     /* INT  */
-    DECIMAL = 294,                 /* DECIMAL  */
-    CARACTER = 295,                /* CARACTER  */
-    CADENA = 296,                  /* CADENA  */
-    ID = 297,                      /* ID  */
-    BOOL = 298,                    /* BOOL  */
-    TK_IGUAL_IGUAL = 299,          /* TK_IGUAL_IGUAL  */
-    TK_DIFERENTE = 300             /* TK_DIFERENTE  */
+    TK_IGUAL_IGUAL = 293,          /* TK_IGUAL_IGUAL  */
+    TK_DIFERENTE = 294,            /* TK_DIFERENTE  */
+    INT = 295,                     /* INT  */
+    DECIMAL = 296,                 /* DECIMAL  */
+    CARACTER = 297,                /* CARACTER  */
+    CADENA = 298,                  /* CADENA  */
+    ID = 299,                      /* ID  */
+    BOOL = 300                     /* BOOL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -105,12 +105,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 17 "parser.y"
+#line 17 "./lenguaje/parser.y"
 
     char* str;
+
     struct ASTNode* node;
 
-#line 114 "parser.tab.h"
+#line 115 "./lenguaje/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -139,4 +140,4 @@ extern YYLTYPE yylloc;
 int yyparse (void);
 
 
-#endif /* !YY_YY_PARSER_TAB_H_INCLUDED  */
+#endif /* !YY_YY_LENGUAJE_PARSER_TAB_H_INCLUDED  */

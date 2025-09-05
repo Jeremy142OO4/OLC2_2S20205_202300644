@@ -37,6 +37,13 @@ class App(tk.Tk):
         btn_copy = ttk.Button(toolbar, text="Copiar a consola", command=self.on_copy_clicked)
         btn_copy.pack(side="left", padx=(6, 0))
 
+        # NUEVO: Botón limpiar consola
+        btn_clear = ttk.Button(toolbar, text="Limpiar consola", command=lambda: self.console_clear(insert_ready=True))
+        btn_clear.pack(side="left", padx=(6, 0))
+
+        # (Opcional) Atajo Ctrl+L para limpiar consola
+        self.bind_all("<Control-l>", lambda e: self.console_clear(insert_ready=True))
+
         # ---- paned vertical: arriba (contenido), abajo (consola) ----
         vpaned = ttk.PanedWindow(self, orient="vertical")
         vpaned.pack(side="top", fill="both", expand=True)
@@ -128,6 +135,13 @@ class App(tk.Tk):
         self.console.insert("end", text + "\n")
         self.console.see("end")
 
+    def console_clear(self, insert_ready=False):
+        """Limpia la consola. Si insert_ready=True, deja un mensaje de estado."""
+        self.console.delete("1.0", "end")
+        self.console.see("end")
+        if insert_ready:
+            self.console_insert("[Listo] Consola limpia.")
+
     # ---- botón: SOLO copiar editor -> consola (append) ----
     def on_copy_clicked(self):
         text = self.editor.get("1.0", "end-1c")
@@ -139,6 +153,9 @@ class App(tk.Tk):
 
     # ---- Ejecutar binario externo ./compilador sobre archivo temporal ----
     def run_compiler_with_temp(self, compiler="./src/compilador"):
+        # LIMPIAR CONSOLA ANTES DE EJECUTAR
+        self.console_clear()
+
         text = self.editor.get("1.0", "end-1c")
         if not text.strip():
             self.console_insert("[Ejecutar] (editor vacío)")
@@ -151,18 +168,18 @@ class App(tk.Tk):
             f.write(text)
 
         cmd = [compiler, tmp_path]
-        #self.console_insert(f"[Ejecutar] Lanzando: {' '.join(cmd)}")
+        # self.console_insert(f"[Ejecutar] Lanzando: {' '.join(cmd)}")
 
         try:
             # Nota: text=True captura stdout/stderr como str (UTF-8 por defecto)
             proc = subprocess.run(cmd, capture_output=True, text=True)
             if proc.stdout:
-                #self.console_insert("[STDOUT]")
+                # self.console_insert("[STDOUT]")
                 self.console_insert(proc.stdout.rstrip("\n"))
-            #if proc.stderr:
-                #self.console_insert("[STDERR]")
-                #self.console_insert(proc.stderr.rstrip("\n"))
-            #self.console_insert(f"[Exit] Código de salida: {proc.returncode}")
+            # if proc.stderr:
+            #     self.console_insert("[STDERR]")
+            #     self.console_insert(proc.stderr.rstrip("\n"))
+            # self.console_insert(f"[Exit] Código de salida: {proc.returncode}")
 
         except FileNotFoundError:
             self.console_insert("[Error] No se encontró el ejecutable del compilador.")

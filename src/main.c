@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../ast/ast.h"
+#include "./ast/ast.h"
+#include "./class/ejecutar.h"
 // Declaraciones externas que Flex/Bison generan
 extern int yyparse(void);
 extern FILE *yyin;
@@ -27,7 +28,9 @@ int main(int argc, char *argv[]) {
 
     if (resultado == 0) {
         //printf("Parseo completado exitosamente.\n");
-        ast_print(root, 0);
+        //ast_print(root, 0);
+        struct entorno* global = nuevo_entorno(NULL);
+        TipoRetorno res = ejecutar(root, global);
     } else {
         printf("Error en el parseo.\n");
     }

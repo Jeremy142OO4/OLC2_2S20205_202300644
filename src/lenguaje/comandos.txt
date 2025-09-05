@@ -16,4 +16,4 @@ juntarlos con main
 gcc -o compilador main.c ./lenguaje/parser.tab.c ./lenguaje/lex.yy.c
 
 jungar ast:
-gcc -o compilador main.c lenguaje/parser.tab.c lenguaje/lex.yy.c ast/ast.c -Iast -Ilenguaje
+gcc -o compilador main.c lenguaje/parser.tab.c lenguaje/lex.yy.c ast/ast.c class/entorno.c class/ejecutar.c -Iast -Ilenguaje

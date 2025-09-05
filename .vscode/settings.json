@@ -1,5 +1,16 @@
 {
     "files.associations": {
-        "gtk.h": "c"
+        "gtk.h": "c",
+        "bit": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "type_traits": "cpp",
+        "cmath": "cpp",
+        "limits": "cpp",
+        "new": "cpp",
+        "tipos.h": "c",
+        "symbol.h": "c",
+        "stdlib.h": "c",
+        "ast.h": "c"
     }
 }
