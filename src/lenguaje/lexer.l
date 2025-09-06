@@ -89,6 +89,7 @@ espacios                [ \t]+
 "/"                      { return TK_DIVISION; }
 "%"                      { return TK_MODULAR; }
 
+[0-9]+"."[0-9]+[fF]      { yytext[yyleng-1] = '\0';  yylval.str = strdup(yytext); return DECIMAL; }
 [0-9]+"."[0-9]+          { yylval.str = strdup(yytext); return DECIMAL; }
 [0-9]+                   { yylval.str = strdup(yytext); return INT; }
 \"([^"\n])*\"            { yylval.str = strdup(yytext); return CADENA; }

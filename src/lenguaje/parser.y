@@ -52,13 +52,13 @@ struct ASTNode* root = NULL;
 %token TK_DOSPUNTOS_IGUAL
 %token TK_IGUAL_IGUAL TK_DIFERENTE
 
-%token <str> INT DECIMAL CARACTER CADENA ID BOOL
+%token <str> INT DECIMAL CARACTER CADENA ID BOOL 
 
 
 %type <node> inicio listainstrucciones instruccion IMPRIMIR
 %type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS
-%type <node> DECLARACION ASIGNACION
-
+%type <node> DECLARACION ASIGNACION 
+%type <str> OP_ASIGNACION
 
 %left TK_OR
 %left TK_AND
@@ -93,7 +93,7 @@ DECLARACION:
     ;
 
 ASIGNACION:
-      ID TK_IGUAL expr                   { $$ = ast_assign($1, $3); }
+      expr OP_ASIGNACION expr                   { $$ = ast_assign($2, $3, $1); }
     ;
 
 IMPRIMIR:
@@ -109,28 +109,42 @@ TIPO:
     ;
 
 expr: 
-    TK_PA expr TK_PC  {$$ = $2;}
-    | TK_PA TIPO TK_PC expr { $$ = ast_cast($4, $2); }
-    | INT               { $$ = ast_literal($1); }
-    | DECIMAL           { $$ = ast_literal($1); }
-    | CARACTER          { $$ = ast_literal($1); }
-    | CADENA            { $$ = ast_literal($1); }
-    | BOOL              { $$ = ast_literal($1); }
-    | ID                { $$ = ast_identifier($1); }
-
-    | ARITMETICOS   { $$ = $1; }
-    | RELACIONALES  { $$ = $1; }
-    | LOGICOS       { $$ = $1; }
+    TK_PA expr TK_PC            {$$ = $2;}
+    | TK_PA TIPO TK_PC expr     { $$ = ast_cast($4, $2); }
+    | INT                       { $$ = ast_literal($1); }
+    | DECIMAL                   { $$ = ast_literal($1); }
+    | CARACTER                  { $$ = ast_literal($1); }
+    | CADENA                    { $$ = ast_literal($1); }
+    | BOOL                      { $$ = ast_literal($1); }
+    | ID                        { $$ = ast_identifier($1); }
+    | ARITMETICOS               { $$ = $1; }
+    | RELACIONALES              { $$ = $1; }
+    | LOGICOS                   { $$ = $1; }
     ;
 
 
 
 ARITMETICOS:
       expr TK_SUMA expr             { $$ = ast_binop("+", $1, $3); }
-    | expr TK_RESTA expr            { $$ = ast_binop("-", $1, $3);}
+    | expr TK_RESTA expr            { $$ = ast_binop("-", $1, $3); }
     | expr TK_MULTIPLICACION expr   { $$ = ast_binop("*", $1, $3); }
     | expr TK_DIVISION expr         { $$ = ast_binop("/", $1, $3); }
     | expr TK_MODULAR expr          { $$ = ast_binop("%", $1, $3); }
+    ;
+
+OP_ASIGNACION:
+      TK_IGUAL               { $$ = strdup("="); }
+    | TK_MAS_IGUAL           { $$ = strdup("+="); }
+    | TK_MENOS_IGUAL         { $$ = strdup("-="); }
+    | TK_POR_IGUAL           { $$ = strdup("*="); }
+    | TK_DIVIDIR_IGUAL       { $$ = strdup("/="); }
+    | TK_PORCENTAJE_IGUAL    { $$ = strdup("%="); }
+    | TK_AND_IGUAL           { $$ = strdup("&="); }
+    | TK_OR_IGUAL            { $$ = strdup("|="); }
+    | TK_POTENCIA_IGUAL      { $$ = strdup("^="); }   
+    | TK_MAYOR_MAYOR_IGUAL   { $$ = strdup(">>="); }
+    | TK_MENOR_MENOR_IGUAL   { $$ = strdup("<<="); }
+    | TK_DOSPUNTOS_IGUAL     { $$ = strdup(":="); }
     ;
 
 

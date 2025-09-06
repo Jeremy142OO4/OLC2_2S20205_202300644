@@ -1,11 +1,11 @@
 #include "ejecutar.h"
 #include "entorno.h"
 #include "symbol.h"
-// #include "Aritmeticos.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 
 TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
 {
@@ -67,8 +67,6 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
             printf("Error: literal no soportado: %s\n", node->value);
         }
     }
-
-    // IDENTIFICADOR
     else if (strcmp(node->kind, "id") == 0)
     {
         struct symbol *s = getVar(entorno, node->value);
@@ -82,40 +80,105 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
             // printf("Error: variable '%s' no definida\n", node->value);
         }
     }
-
-    // BINARIO
     else if (strcmp(node->kind, "binop") == 0)
     {
-        TipoRetorno leftVal = ejecutar(node->left, entorno);
-        TipoRetorno rightVal = ejecutar(node->right, entorno);
+        TipoRetorno exp1 = ejecutar(node->left, entorno);
+        TipoRetorno exp2 = ejecutar(node->right, entorno);
 
-        if (leftVal.tipo == TIPO_ENTERO && rightVal.tipo == TIPO_ENTERO)
+        if (exp1.tipo == TIPO_ENTERO && exp2.tipo == TIPO_ENTERO)
         {
             int *val = malloc(sizeof(int));
             if (strcmp(node->value, "+") == 0)
-                *val = *((int *)leftVal.valor) + *((int *)rightVal.valor);
+            {
+                *val = *((int *)exp1.valor) + *((int *)exp2.valor);
+            }
             else if (strcmp(node->value, "-") == 0)
-                *val = *((int *)leftVal.valor) - *((int *)rightVal.valor);
+            {
+                *val = *((int *)exp1.valor) - *((int *)exp2.valor);
+            }
             else if (strcmp(node->value, "*") == 0)
-                *val = *((int *)leftVal.valor) * *((int *)rightVal.valor);
+            {
+                *val = *((int *)exp1.valor) * *((int *)exp2.valor);
+            }
             else if (strcmp(node->value, "/") == 0)
-                *val = *((int *)leftVal.valor) / *((int *)rightVal.valor);
+            {
+
+                if (*((int *)exp2.valor) == 0)
+                {
+                    printf("Error: División por cero\n");
+                    res.valor = NULL;
+                    res.tipo = TIPO_NULO;
+                    return res;
+                }
+                else
+                {
+                    *val = *((int *)exp1.valor) / *((int *)exp2.valor);
+                }
+            }
+            else if (strcmp(node->value, "%") == 0)
+            {
+
+                if (*((int *)exp2.valor) == 0)
+                {
+                    printf("Error: División por cero\n");
+                    res.valor = NULL;
+                    res.tipo = TIPO_NULO;
+                    return res;
+                }
+                else
+                {
+                    *val = *((int *)exp1.valor) % *((int *)exp2.valor);
+                }
+            }
+
             res.valor = val;
             res.tipo = TIPO_ENTERO;
         }
-        else if (leftVal.tipo == TIPO_DECIMAL || rightVal.tipo == TIPO_DECIMAL)
+        else if (exp1.tipo == TIPO_DECIMAL || exp2.tipo == TIPO_DECIMAL)
         {
-            float v1 = (leftVal.tipo == TIPO_ENTERO) ? *((int *)leftVal.valor) : *((float *)leftVal.valor);
-            float v2 = (rightVal.tipo == TIPO_ENTERO) ? *((int *)rightVal.valor) : *((float *)rightVal.valor);
+            float num1 = (exp1.tipo == TIPO_ENTERO) ? *((int *)exp1.valor) : *((float *)exp1.valor);
+            float num2 = (exp2.tipo == TIPO_ENTERO) ? *((int *)exp2.valor) : *((float *)exp2.valor);
             float *val = malloc(sizeof(float));
             if (strcmp(node->value, "+") == 0)
-                *val = v1 + v2;
+            {
+                *val = num1 + num2;
+            }
             else if (strcmp(node->value, "-") == 0)
-                *val = v1 - v2;
+            {
+                *val = num1 - num2;
+            }
             else if (strcmp(node->value, "*") == 0)
-                *val = v1 * v2;
+            {
+                *val = num1 * num2;
+            }
             else if (strcmp(node->value, "/") == 0)
-                *val = v1 / v2;
+            {
+                if (num2 == 0.0f)
+                {
+                    printf("Error: División por cero\n");
+                    res.valor = NULL;
+                    res.tipo = TIPO_NULO;
+                    return res;
+                }
+                else
+                {
+                    *val = num1 / num2;
+                }
+            }
+            else if (strcmp(node->value, "%") == 0)
+            {
+                if (num2 == 0.0f)
+                {
+                    printf("Error: División por cero\n");
+                    res.valor = NULL;
+                    res.tipo = TIPO_NULO;
+                    return res;
+                }
+                else
+                {
+                    *val = fmod(num1, num2);
+                }
+            }
             res.valor = val;
             res.tipo = TIPO_DECIMAL;
         }
@@ -124,8 +187,6 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
             printf("Error: operación binaria con tipos incompatibles\n");
         }
     }
-
-    // PRINT
     else if (strcmp(node->kind, "print") == 0)
     {
         TipoRetorno valor = ejecutar(node->left, entorno);
@@ -158,8 +219,6 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
             printf("null\n");
         }
     }
-
-    // DECLARACION
     else if (strcmp(node->kind, "var") == 0)
     {
         struct symbol *s = malloc(sizeof(struct symbol));
@@ -251,22 +310,180 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     }
     else if (strcmp(node->kind, "assign") == 0)
     {
-        struct symbol *s = getVar(entorno, node->value);
+        struct symbol *s = getVar(entorno, node->left->value);
+        printf("direccion %p nombre:'%s'\n", (void *)s, node->left->value);
         if (s)
         {
-            TipoRetorno val = ejecutar(node->left, entorno);
+            printf("Asignando a variable: %s\n", s->id);
+            TipoRetorno val = ejecutar(node->right, entorno);
             if (s->tipo == val.tipo && s->constante != 1)
             {
-                s->valor = val.valor;
+                if (strcmp(node->value, "=") == 0)
+                {
+                    printf("ENTRO A ASIGNACION\n");
+                    s->valor = val.valor;
+                }
+                else if (strcmp(node->value, "+=") == 0)
+                {
+                    if (s->tipo == TIPO_ENTERO)
+                    {
+                        int *res = malloc(sizeof(int));
+                        *res = (*(int *)s->valor) + (*(int *)val.valor);
+                        s->valor = res;
+                    }
+                    else if (s->tipo == TIPO_DECIMAL)
+                    {
+                        float *res = malloc(sizeof(float));
+                        *res = (*(float *)s->valor) + (*(float *)val.valor);
+                        s->valor = res;
+                    }
+                    else if (s->tipo == TIPO_CADENA)
+                    {
+                        char *res = malloc(strlen((char *)s->valor) + strlen((char *)val.valor) + 1);
+                        strcpy(res, (char *)s->valor);
+                        strcat(res, (char *)val.valor);
+                        s->valor = res;
+                    }
+                    else
+                    {
+                        printf("Error: Operación '+=' no soportada para este tipo\n");
+                    }
+                }
+                else if (strcmp(node->value, "-=") == 0)
+                {
+                    if (s->tipo == TIPO_ENTERO)
+                    {
+                        int *res = malloc(sizeof(int));
+                        *res = (*(int *)s->valor) - (*(int *)val.valor);
+                        s->valor = res;
+                    }
+                    else if (s->tipo == TIPO_DECIMAL)
+                    {
+                        float *res = malloc(sizeof(float));
+                        *res = (*(float *)s->valor) - (*(float *)val.valor);
+                        s->valor = res;
+                    }
+                    else
+                    {
+                        printf("Error: Operación '-=' no soportada para este tipo\n");
+                    }
+                }
+                else if (strcmp(node->value, "*=") == 0)
+                {
+                    if (s->tipo == TIPO_ENTERO)
+                    {
+                        int *res = malloc(sizeof(int));
+                        *res = (*(int *)s->valor) * (*(int *)val.valor);
+                        s->valor = res;
+                    }
+                    else if (s->tipo == TIPO_DECIMAL)
+                    {
+                        float *res = malloc(sizeof(float));
+                        *res = (*(float *)s->valor) * (*(float *)val.valor);
+                        s->valor = res;
+                    }
+                    else
+                    {
+                        printf("Error: Operación '*=' no soportada para este tipo\n");
+                    }
+                }
+                else if (strcmp(node->value, "/=") == 0)
+                {
+                    if (s->tipo == TIPO_ENTERO)
+                    {
+                        if (*(int *)val.valor == 0)
+                        {
+                            printf("Error: División por cero\n");
+                        }
+                        else
+                        {
+                            int *res = malloc(sizeof(int));
+                            *res = (*(int *)s->valor) / (*(int *)val.valor);
+                            s->valor = res;
+                        }
+                    }
+                    else if (s->tipo == TIPO_DECIMAL)
+                    {
+                        if (*(float *)val.valor == 0.0f)
+                        {
+                            printf("Error: División por cero\n");
+                        }
+                        else
+                        {
+                            float *res = malloc(sizeof(float));
+                            *res = (*(float *)s->valor) / (*(float *)val.valor);
+                            s->valor = res;
+                        }
+                    }
+                    else
+                    {
+                        printf("Error: Operación '/=' no soportada para este tipo\n");
+                    }
+                }
+                else if (strcmp(node->value, "%=") == 0)
+                {
+                    if (s->tipo == TIPO_ENTERO)
+                    {
+                        if (*(int *)val.valor == 0)
+                        {
+                            printf("Error: División por cero\n");
+                        }
+                        else
+                        {
+                            int *res = malloc(sizeof(int));
+                            *res = (*(int *)s->valor) % (*(int *)val.valor);
+                            s->valor = res;
+                        }
+                    }
+                    else if (s->tipo == TIPO_DECIMAL)
+                    {
+                        if (*(float *)val.valor == 0.0f)
+                        {
+                            printf("Error: División por cero\n");
+                        }
+                        else
+                        {
+                            float *res = malloc(sizeof(float));
+                            *res = fmod((*(float *)s->valor), (*(float *)val.valor));
+                            s->valor = res;
+                        }
+                    }
+                    else
+                    {
+                        printf("Error: Operación '%%=' no soportada para este tipo\n");
+                    }
+                }
+                else if (strcmp(node->value, "&="))
+                {
+                    if (s->tipo == TIPO_ENTERO)
+                    {
+                        int *res = malloc(sizeof(int));
+                        *res = (*(int *)s->valor) & (*(int *)val.valor);
+                        s->valor = res;
+                    }
+                    else if (s->tipo == TIPO_BOOLEANO)
+                    {
+                        int *res = malloc(sizeof(int));
+                        int iz = (s->valor ? (*(int *)s->valor != 0) : 0);
+                        int de = (val.valor ? (*(int *)val.valor != 0) : 0);
+                        *res = iz & de; 
+                        s->valor = res;
+                    }
+                    else
+                    {
+                        printf("Error: Operación '&=' no soportada para este tipo\n");
+                    }
+                }
+
+                else
+                {
+                    printf("Error: asignación de tipo incompatible a la variable '%s'\n", s->id);
+                }
             }
             else
             {
-                printf("Error: asignación de tipo incompatible a la variable '%s'\n", s->id);
+                printf("Error: variable '%s' no definida para asignación\n", node->value);
             }
-        }
-        else
-        {
-            printf("Error: variable '%s' no definida para asignación\n", node->value);
         }
     }
     else if (strcmp(node->kind, "cast") == 0)
@@ -315,7 +532,6 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
 
         return res;
     }
-
     else if (strcmp(node->kind, "link") == 0)
     {
         ejecutar(node->left, entorno);

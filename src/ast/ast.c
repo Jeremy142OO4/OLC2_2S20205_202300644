@@ -16,7 +16,7 @@ struct ASTNode* ast_link(struct ASTNode* left, struct ASTNode* right) { return m
 struct ASTNode* ast_print_stmt(struct ASTNode* expr) { return make_node("print", NULL, expr, NULL); }
 struct ASTNode* ast_var_decl(char* id, struct ASTNode* type, struct ASTNode* expr) { return make_node("var", id, type, expr); }
 struct ASTNode* ast_var_decl_const(char* id, struct ASTNode* type, struct ASTNode* expr) { return make_node("var_const", id, type, expr); }
-struct ASTNode* ast_assign(char* id, struct ASTNode* expr) { return make_node("assign", id, expr, NULL); }
+struct ASTNode* ast_assign(char* op, struct ASTNode* expr, struct ASTNode* id) { return make_node("assign", op, id, expr); }
 struct ASTNode* ast_type(char* typeName) { return make_node("type", typeName, NULL, NULL); }
 struct ASTNode* ast_if(struct ASTNode* cond, struct ASTNode* body) { return make_node("if", NULL, cond, body); }
 struct ASTNode* ast_literal(char* value) { return make_node("literal", value, NULL, NULL); }
