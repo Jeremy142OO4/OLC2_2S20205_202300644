@@ -7,7 +7,21 @@ flex -l -o ./lenguaje/lex.yy.c ./lenguaje/lexer.l
 bison -dv -o ./lenguaje/parser.tab.c ./lenguaje/parser.y
 
 # Compilar todo con GCC
-gcc -o compilador main.c lenguaje/parser.tab.c lenguaje/lex.yy.c ast/ast.c class/entorno.c class/ejecutar.c -Iast -Ilenguaje -lm
-
+gcc -o compilador \
+    main.c \
+    lenguaje/parser.tab.c \
+    lenguaje/lex.yy.c \
+    ast/ast.c \
+    class/entorno.c \
+    class/ejecutar.c \
+    class/expresiones/aritmetico.c \
+    class/expresiones/literal.c \
+    class/expresiones/relacional.c \
+    class/expresiones/id.c \
+    class/instrucciones/imprimir.c \
+    class/instrucciones/declarar_var.c \
+    class/instrucciones/asignacion.c \
+    -Iast -Ilenguaje -Iclass/expresiones -Iclass/instrucciones \
+    -lm
 # Mensaje final
 echo "✅ Compilación completada. Ejecuta ./compilador"

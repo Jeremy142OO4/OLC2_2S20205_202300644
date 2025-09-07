@@ -11,6 +11,9 @@
         "tipos.h": "c",
         "symbol.h": "c",
         "stdlib.h": "c",
-        "ast.h": "c"
+        "ast.h": "c",
+        "ctype.h": "c",
+        "relacional.h": "c",
+        "asignacion.h": "c"
     }
 }
