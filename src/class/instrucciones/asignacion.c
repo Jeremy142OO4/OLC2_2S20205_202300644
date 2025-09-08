@@ -4,7 +4,7 @@
 #include <math.h>
 
 #include "asignacion.h"
-#include "../ejecutar.h" 
+#include "../expresiones/ejecutar.h" 
 
 TipoRetorno ejecutarAsignacion(struct ASTNode* node, struct entorno* e) {
     TipoRetorno res = { NULL, TIPO_NULO };

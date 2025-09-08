@@ -12,16 +12,18 @@ gcc -o compilador \
     lenguaje/parser.tab.c \
     lenguaje/lex.yy.c \
     ast/ast.c \
-    class/entorno.c \
-    class/ejecutar.c \
+    class/entorno/entorno.c \
+    class/expresiones/ejecutar.c \
     class/expresiones/aritmetico.c \
     class/expresiones/literal.c \
     class/expresiones/relacional.c \
     class/expresiones/id.c \
+    class/expresiones/casteo.c \
+    class/expresiones/logico.c \
     class/instrucciones/imprimir.c \
     class/instrucciones/declarar_var.c \
     class/instrucciones/asignacion.c \
-    -Iast -Ilenguaje -Iclass/expresiones -Iclass/instrucciones \
+    -Iast -Ilenguaje -Iclass/expresiones -Iclass/instrucciones -Iclass/entorno\
     -lm
 # Mensaje final
 echo "✅ Compilación completada. Ejecuta ./compilador"

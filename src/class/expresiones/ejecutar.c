@@ -1,14 +1,15 @@
 #include "ejecutar.h"
 #include "entorno.h"
 #include "symbol.h"
-#include "./expresiones/aritmetico.h"
-#include "./expresiones/literal.h"
-#include "./expresiones/id.h"
-#include "./expresiones/relacional.h"
-#include "./expresiones/casteo.h"
-#include "./instrucciones/imprimir.h"
-#include "./instrucciones/declarar_var.h"
-#include "./instrucciones/asignacion.h"
+#include "./aritmetico.h"
+#include "./literal.h"
+#include "./id.h"
+#include "./relacional.h"
+#include "./casteo.h"
+#include "./logico.h"
+#include "../instrucciones/imprimir.h"
+#include "../instrucciones/declarar_var.h"
+#include "../instrucciones/asignacion.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -48,12 +49,30 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
             TipoRetorno exp2 = ejecutar(node->right, entorno);
             res = ejecutarRelacional(node->value, exp1, exp2);
         }
+        else if (strcmp(node->value, "&&") == 0 || strcmp(node->value, "||") == 0)
+        {
+            res = ejecutarLogico(node->value, exp1, exp2);
+        }
 
         else
         {
             printf("Error: operación binaria no soportada: %s\n", node->value);
             return res;
         }
+    }
+    else if (strcmp(node->kind, "unop") == 0){
+        TipoRetorno exp1 = ejecutar(node->left, entorno);
+        if (strcmp(node->value, "!") == 0 )
+        {
+            TipoRetorno nulo = { NULL, TIPO_NULO };
+            res = ejecutarLogico(node->value, exp1, nulo);
+        }
+        else
+        {
+            printf("Error: operación unaria no soportada: %s\n", node->value);
+            return res;
+        }
+
     }
     else if (strcmp(node->kind, "print") == 0)
     {

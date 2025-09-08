@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "./ast/ast.h"
-#include "./class/ejecutar.h"
+#include "./class/expresiones/ejecutar.h"
 // Declaraciones externas que Flex/Bison generan
 extern int yyparse(void);
 extern FILE *yyin;
