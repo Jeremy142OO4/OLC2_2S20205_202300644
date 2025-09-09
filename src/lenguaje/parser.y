@@ -57,7 +57,7 @@ struct ASTNode* root = NULL;
 
 %type <node> inicio listainstrucciones instruccion 
 %type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS
-%type <node> DECLARACION ASIGNACION IMPRIMIR IF INCREMENTO_DECREMENTO SWITCH CASES CASE BREAK
+%type <node> DECLARACION ASIGNACION IMPRIMIR IF INCREMENTO_DECREMENTO SWITCH CASES CASE BREAK WHILE FOR CONTINUAR
 %type <str> OP_ASIGNACION
 
 %left TK_OR
@@ -85,9 +85,12 @@ instruccion:
     | DECLARACION
     | ASIGNACION 
     | IF
-    | INCREMENTO_DECREMENTO
+    | INCREMENTO_DECREMENTO TK_PTCOMA
     | SWITCH
     | BREAK
+    | WHILE
+    | FOR
+    | CONTINUAR
     ;
 
 DECLARACION:
@@ -104,8 +107,8 @@ IMPRIMIR:
       TK_PRINT TK_PA expr TK_PC  TK_PTCOMA        { $$ = ast_print_stmt($3);}
 
 INCREMENTO_DECREMENTO:
-      expr TK_SUMA TK_SUMA TK_PTCOMA        { $$ = ast_incremento_decremento("++", $1); }
-    | expr TK_RESTA TK_RESTA TK_PTCOMA      { $$ = ast_incremento_decremento("--", $1); }
+      expr TK_SUMA TK_SUMA         { $$ = ast_incremento_decremento("++", $1); }
+    | expr TK_RESTA TK_RESTA       { $$ = ast_incremento_decremento("--", $1); }
     ;
 
 IF: 
@@ -117,6 +120,9 @@ IF:
 BREAK:
     TK_BREAK TK_PTCOMA      { $$ = ast_break(); }
   ;
+
+CONTINUAR:
+    TK_CONTINUE TK_PTCOMA   { $$ = ast_continue(); }
 
 SWITCH: 
     TK_SWITCH TK_PA expr TK_PC TK_LLA CASES TK_LLC { $$ = ast_switch($3, $6); }
@@ -130,6 +136,14 @@ CASES:
 CASE: 
     TK_CASE expr TK_DOSPUNTOS listainstrucciones  { $$ = ast_case($2, $4); }
   | TK_DEFAULT TK_DOSPUNTOS listainstrucciones    { $$ = ast_case(NULL, $3); }   
+  ;
+
+WHILE:
+    TK_WHILE TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC { $$ = ast_while($3, $6); }
+  ;
+
+FOR:
+    TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC { $$ = ast_for($3, $4, $6, $9); }
   ;
 
 TIPO:

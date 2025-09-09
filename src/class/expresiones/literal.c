@@ -8,6 +8,7 @@ TipoRetorno ejecutarLiteral(const char* value) {
     TipoRetorno res;
     res.valor = NULL;
     res.tipo = TIPO_NULO;
+    res.control = CTRL_NORMAL;
 
     if (isdigit(value[0])) {
         if (strchr(value, '.') != NULL) {

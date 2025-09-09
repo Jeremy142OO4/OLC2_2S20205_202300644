@@ -13,6 +13,10 @@
 #include "../instrucciones/if.h"
 #include "../instrucciones/incremento_decremento.h"
 #include "../instrucciones/switch.h"
+#include "../instrucciones/while.h"
+#include "../instrucciones/break.h"
+#include "../instrucciones/continuar.h"
+#include "../instrucciones/for.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -24,11 +28,12 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     TipoRetorno res;
     res.valor = NULL;
     res.tipo = TIPO_NULO;
+    res.control = CTRL_NORMAL;
 
     if (!node)
         return res;
 
-    //printf("Ejecutando nodo: %s\n", node->kind);
+    // printf("Ejecutando nodo: %s\n", node->kind);
 
     if (strcmp(node->kind, "literal") == 0)
     {
@@ -46,7 +51,7 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
         {
             res = ejecutarAritmetico(node->value, exp1, exp2);
         }
-        else if (strcmp(node->value, "==") == 0 || strcmp(node->value, "!=") == 0||  strcmp(node->value, "<") == 0 || strcmp(node->value, "<=") == 0 || strcmp(node->value, ">") == 0 || strcmp(node->value, ">=") == 0)
+        else if (strcmp(node->value, "==") == 0 || strcmp(node->value, "!=") == 0 || strcmp(node->value, "<") == 0 || strcmp(node->value, "<=") == 0 || strcmp(node->value, ">") == 0 || strcmp(node->value, ">=") == 0)
         {
             TipoRetorno exp1 = ejecutar(node->left, entorno);
             TipoRetorno exp2 = ejecutar(node->right, entorno);
@@ -63,11 +68,12 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
             return res;
         }
     }
-    else if (strcmp(node->kind, "unop") == 0){
+    else if (strcmp(node->kind, "unop") == 0)
+    {
         TipoRetorno exp1 = ejecutar(node->left, entorno);
-        if (strcmp(node->value, "!") == 0 )
+        if (strcmp(node->value, "!") == 0)
         {
-            TipoRetorno nulo = { NULL, TIPO_NULO };
+            TipoRetorno nulo = {NULL, TIPO_NULO};
             res = ejecutarLogico(node->value, exp1, nulo);
         }
         else
@@ -75,7 +81,6 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
             printf("Error: operación unaria no soportada: %s\n", node->value);
             return res;
         }
-
     }
     else if (strcmp(node->kind, "print") == 0)
     {
@@ -97,13 +102,13 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     else if (strcmp(node->kind, "cast") == 0)
     {
         TipoRetorno valor = ejecutar(node->left, entorno);
-        const char* tipoDestino = node->right ? node->right->value : NULL;
+        const char *tipoDestino = node->right ? node->right->value : NULL;
         res = ejecutarCasteo(tipoDestino, valor);
     }
     else if (strcmp(node->kind, "if") == 0)
     {
 
-        ejecutarIf(node, entorno);
+        res = ejecutarIf(node, entorno);
     }
     else if (strcmp(node->kind, "incremento_decremento") == 0)
     {
@@ -113,12 +118,31 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     {
         ejecutarSwitch(node, entorno);
     }
-    
-
+    else if (strcmp(node->kind, "while") == 0)
+    {
+        ejecutarWhile(node, entorno);
+    }
+    else if (strcmp(node->kind, "for") == 0)
+    {
+        ejecutarFor(node, entorno);
+    }
+    else if (strcmp(node->kind, "break") == 0)
+    {
+        res = ejecutarBreak();
+    }
+    else if (strcmp(node->kind, "continue") == 0)
+    {
+        res = ejecutarContinuar();
+    }
     else if (strcmp(node->kind, "link") == 0)
     {
-        ejecutar(node->left, entorno);
-        ejecutar(node->right, entorno);
+        TipoRetorno r1 = ejecutar(node->left, entorno);
+
+        if (r1.control != CTRL_NORMAL)
+            return r1;
+
+        TipoRetorno r2 = ejecutar(node->right, entorno);
+        return r2;
     }
 
     return res;

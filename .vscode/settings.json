@@ -19,6 +19,9 @@
         "imprimir.h": "c",
         "casteo.h": "c",
         "if.h": "c",
-        "aritmetico.h": "c"
+        "aritmetico.h": "c",
+        "ejecutar.h": "c",
+        "break.h": "c",
+        "entorno.h": "c"
     }
 }

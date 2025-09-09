@@ -7,6 +7,7 @@ TipoRetorno ejecutarRelacional(const char* op, TipoRetorno a, TipoRetorno b) {
     TipoRetorno res;
     res.valor = NULL;
     res.tipo = TIPO_NULO;
+    res.control = CTRL_NORMAL;
 
     int *val = malloc(sizeof(int));
     if (!val) {

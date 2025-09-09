@@ -11,9 +11,17 @@ typedef enum {
     TIPO_CHAR
 } Tipo;
 
+typedef enum {
+    CTRL_NORMAL,
+    CTRL_BREAK,
+    CTRL_CONTINUE,
+    CTRL_RETURN
+} ControlFlujo;
+
 typedef struct {
     void* valor;
-    Tipo tipo;
+    Tipo  tipo;
+    ControlFlujo control; 
 } TipoRetorno;
 
 #endif

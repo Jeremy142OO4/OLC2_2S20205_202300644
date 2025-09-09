@@ -6,6 +6,7 @@ TipoRetorno ejecutarId(struct entorno* e, const char* nombre) {
     TipoRetorno res;
     res.valor = NULL;
     res.tipo = TIPO_NULO;
+    res.control = CTRL_NORMAL;
 
     struct symbol* s = getVar(e, nombre);
     if (s) {

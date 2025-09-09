@@ -1,11 +1,11 @@
-#ifndef IF_H
-#define IF_H
+#ifndef WHILE_H
+#define WHILE_H
 
 #include "../tipos.h"  
 #include "../entorno/entorno.h"    
 #include "../../ast/ast.h"  
 #include "../expresiones/ejecutar.h"  
 
-TipoRetorno ejecutarIf(struct ASTNode* node, struct entorno* e);
+void ejecutarWhile(struct ASTNode* node, struct entorno* entorno);
 
 #endif

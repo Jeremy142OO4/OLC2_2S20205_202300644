@@ -7,6 +7,7 @@ TipoRetorno ejecutarCasteo(const char* tipoDestino, TipoRetorno valor) {
     TipoRetorno res;
     res.valor = NULL;
     res.tipo  = TIPO_NULO;
+    res.control = CTRL_NORMAL;
 
     if (!tipoDestino) {
         printf("Error: tipo destino nulo en casteo\n");

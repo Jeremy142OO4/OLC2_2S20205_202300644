@@ -1,11 +1,11 @@
-#ifndef IF_H
-#define IF_H
+#ifndef FOR_H
+#define FOR_H
 
 #include "../tipos.h"  
 #include "../entorno/entorno.h"    
 #include "../../ast/ast.h"  
 #include "../expresiones/ejecutar.h"  
 
-TipoRetorno ejecutarIf(struct ASTNode* node, struct entorno* e);
+void ejecutarFor(struct ASTNode* node, struct entorno* entorno);
 
 #endif

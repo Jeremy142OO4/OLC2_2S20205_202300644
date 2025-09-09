@@ -26,6 +26,10 @@ gcc -o compilador \
     class/instrucciones/incremento_decremento.c \
     class/instrucciones/if.c \
     class/instrucciones/switch.c \
+    class/instrucciones/while.c \
+    class/instrucciones/for.c \
+    class/instrucciones/break.c \
+    class/instrucciones/continuar.c \
     -Iast -Ilenguaje -Iclass/expresiones -Iclass/instrucciones -Iclass/entorno\
     -lm
 # Mensaje final

@@ -42,11 +42,11 @@ void ejecutarSwitch(struct ASTNode* nodo, struct entorno* entorno) {
 
     int coincidio = 0;
     struct ASTNode* def = NULL;
-
-    recorrerCasos(nodo->right, entorno, var, &coincidio, &def);
+    struct entorno* entorno_switch = nuevo_entorno(entorno);
+    recorrerCasos(nodo->right, entorno_switch, var, &coincidio, &def);
 
     if (!coincidio && def) {
-        ejecutar(def, entorno);  
+        ejecutar(def, entorno_switch);  
     }
 
     

@@ -7,7 +7,7 @@
 #include "../expresiones/ejecutar.h" 
 
 TipoRetorno ejecutarAsignacion(struct ASTNode* node, struct entorno* e) {
-    TipoRetorno res = { NULL, TIPO_NULO };
+    TipoRetorno res = { NULL, TIPO_NULO ,CTRL_NORMAL};
     if (!node || !node->left || !node->left->value) {
         printf("Error: asignación con nodo inválido\n");
         return res;

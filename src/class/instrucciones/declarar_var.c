@@ -5,7 +5,10 @@
 #include "declarar_var.h"
 
 static TipoRetorno declarar(const char* t) {
-    TipoRetorno r; r.valor = NULL; r.tipo = TIPO_NULO;
+    TipoRetorno r; 
+    r.valor = NULL; 
+    r.tipo = TIPO_NULO ;
+    r.control = CTRL_NORMAL;
     if (!t) return r;
 
     if (strcmp(t, "int") == 0) {
