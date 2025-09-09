@@ -23,12 +23,12 @@ struct ASTNode* root = NULL;
 
 
 
-%token TK_PRINT
+%token TK_PRINT TK_IF TK_ELSE TK_WHILE TK_FOR TK_DO TK_SWITCH TK_CASE TK_CONTINUE TK_BREAK TK_RETURN TK_VOID TK_MAIN TK_DEFAULT 
 %token TK_INT TK_FLOAT TK_STRING TK_BOOL TK_CHAR
-%token TK_FINAL
+%token TK_FINAL 
 
 
-%token TK_PA TK_PC    
+%token TK_PA TK_PC TK_LLA TK_LLC TK_PTCOMA TK_DOSPUNTOS TK_COMA
 %token TK_CA TK_CC    
 
 
@@ -55,9 +55,9 @@ struct ASTNode* root = NULL;
 %token <str> INT DECIMAL CARACTER CADENA ID BOOL 
 
 
-%type <node> inicio listainstrucciones instruccion IMPRIMIR
+%type <node> inicio listainstrucciones instruccion 
 %type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS
-%type <node> DECLARACION ASIGNACION 
+%type <node> DECLARACION ASIGNACION IMPRIMIR IF INCREMENTO_DECREMENTO SWITCH CASES CASE BREAK
 %type <str> OP_ASIGNACION
 
 %left TK_OR
@@ -81,24 +81,56 @@ listainstrucciones:
     ;
 
 instruccion:
-      IMPRIMIR
+      IMPRIMIR 
     | DECLARACION
     | ASIGNACION 
+    | IF
+    | INCREMENTO_DECREMENTO
+    | SWITCH
+    | BREAK
     ;
 
 DECLARACION:
-      TIPO ID TK_IGUAL expr             { $$ = ast_var_decl($2, $1, $4); }
-    | TIPO ID                           { $$ = ast_var_decl($2, $1, NULL); }
-    | TK_FINAL TIPO ID TK_IGUAL expr    {  $$ = ast_var_decl_const($3, $2, $5); }
+      TIPO ID TK_IGUAL expr TK_PTCOMA            { $$ = ast_var_decl($2, $1, $4); }
+    | TIPO ID  TK_PTCOMA                         { $$ = ast_var_decl($2, $1, NULL); }
+    | TK_FINAL TIPO ID TK_IGUAL expr  TK_PTCOMA  {  $$ = ast_var_decl_const($3, $2, $5); }
     ;
 
 ASIGNACION:
-      expr OP_ASIGNACION expr                   { $$ = ast_assign($2, $3, $1); }
+      expr OP_ASIGNACION expr TK_PTCOMA                { $$ = ast_assign($2, $3, $1); }
     ;
 
 IMPRIMIR:
-    TK_PRINT TK_PA expr TK_PC           { $$ = ast_print_stmt($3);}
+      TK_PRINT TK_PA expr TK_PC  TK_PTCOMA        { $$ = ast_print_stmt($3);}
 
+INCREMENTO_DECREMENTO:
+      expr TK_SUMA TK_SUMA TK_PTCOMA        { $$ = ast_incremento_decremento("++", $1); }
+    | expr TK_RESTA TK_RESTA TK_PTCOMA      { $$ = ast_incremento_decremento("--", $1); }
+    ;
+
+IF: 
+    TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC { $$ = ast_if($3, $6, NULL); }
+  | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC { $$ = ast_if($3, $6, $10); }
+  | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE IF { $$ = ast_if($3, $6, $9); } 
+  ;
+
+BREAK:
+    TK_BREAK TK_PTCOMA      { $$ = ast_break(); }
+  ;
+
+SWITCH: 
+    TK_SWITCH TK_PA expr TK_PC TK_LLA CASES TK_LLC { $$ = ast_switch($3, $6); }
+  ;
+
+CASES: 
+    CASE CASES              { $$ = ast_link($1, $2); }
+  | CASE                    { $$ = $1; }
+  ;
+
+CASE: 
+    TK_CASE expr TK_DOSPUNTOS listainstrucciones  { $$ = ast_case($2, $4); }
+  | TK_DEFAULT TK_DOSPUNTOS listainstrucciones    { $$ = ast_case(NULL, $3); }   
+  ;
 
 TIPO:
       TK_INT     { $$ = ast_type("int");}
@@ -109,7 +141,7 @@ TIPO:
     ;
 
 expr: 
-    TK_PA expr TK_PC            {$$ = $2;}
+      TK_PA expr TK_PC          {$$ = $2;}
     | TK_PA TIPO TK_PC expr     { $$ = ast_cast($4, $2); }
     | INT                       { $$ = ast_literal($1); }
     | DECIMAL                   { $$ = ast_literal($1); }

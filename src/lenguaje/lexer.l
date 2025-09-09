@@ -51,6 +51,19 @@ espacios                [ \t]+
 "String"                 { return TK_STRING; }
 "boolean"                { return TK_BOOL; }
 "char"                   { return TK_CHAR; }
+"if"                     { return TK_IF; }
+"else"                   { return TK_ELSE; }
+"while"                  { return TK_WHILE; }
+"for"                    { return TK_FOR; }
+"do"                     { return TK_DO; }
+"switch"                 { return TK_SWITCH; }
+"case"                   { return TK_CASE; }
+"break"                  { return TK_BREAK; }
+"default"                { return TK_DEFAULT; }
+"continue"               { return TK_CONTINUE; }
+"return"                 { return TK_RETURN; }
+"void"                   { return TK_VOID; }
+"main"                   { return TK_MAIN; }
 
 "=="                     { return TK_IGUAL_IGUAL; }
 "!="                     { return TK_DIFERENTE; }
@@ -82,6 +95,11 @@ espacios                [ \t]+
 ")"                      { return TK_PC; }
 "["                      { return TK_CA; }
 "]"                      { return TK_CC; }
+"{"                      { return TK_LLA; }
+"}"                      { return TK_LLC; }
+";"                      { return TK_PTCOMA; }
+":"                      { return TK_DOSPUNTOS; }
+","                      { return TK_COMA; }
 
 "+"                      { return TK_SUMA; }
 "-"                      { return TK_RESTA; }

@@ -18,8 +18,12 @@ struct ASTNode* ast_var_decl(char* id, struct ASTNode* type, struct ASTNode* exp
 struct ASTNode* ast_var_decl_const(char* id, struct ASTNode* type, struct ASTNode* expr) { return make_node("var_const", id, type, expr); }
 struct ASTNode* ast_assign(char* op, struct ASTNode* expr, struct ASTNode* id) { return make_node("assign", op, id, expr); }
 struct ASTNode* ast_type(char* typeName) { return make_node("type", typeName, NULL, NULL); }
-struct ASTNode* ast_if(struct ASTNode* cond, struct ASTNode* body) { return make_node("if", NULL, cond, body); }
+struct ASTNode* ast_incremento_decremento(char* op, struct ASTNode* expr) { return make_node("incremento_decremento", op, expr, NULL); }
+struct ASTNode* ast_switch(struct ASTNode* expr, struct ASTNode* cases) {return make_node("switch", NULL, expr, cases);}
+struct ASTNode* ast_case(struct ASTNode* value, struct ASTNode* body) {return make_node("case", NULL, value, body);}
+struct ASTNode* ast_if(struct ASTNode* cond,struct ASTNode* then_body,struct ASTNode* else_part) {return make_node("if", NULL, cond, ast_link(then_body, else_part));}
 struct ASTNode* ast_literal(char* value) { return make_node("literal", value, NULL, NULL); }
+struct ASTNode* ast_break() { return make_node("break", NULL, NULL, NULL); }
 struct ASTNode* ast_cast(struct ASTNode* value,struct ASTNode* type) { return make_node("cast", NULL, value, type); }
 struct ASTNode* ast_identifier(char* name) { return make_node("id", name, NULL, NULL); }
 struct ASTNode* ast_binop(char* op, struct ASTNode* left, struct ASTNode* right) { return make_node("binop", op, left, right); }

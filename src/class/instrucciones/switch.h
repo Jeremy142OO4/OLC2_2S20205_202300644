@@ -1,11 +1,11 @@
-#ifndef IF_H
-#define IF_H
+#ifndef SWITCH_H
+#define SWITCH_H   
 
 #include "../tipos.h"  
 #include "../entorno/entorno.h"    
 #include "../../ast/ast.h"  
 #include "../expresiones/ejecutar.h"  
 
-void ejecutarIf(struct ASTNode* node, struct entorno* e);
+void ejecutarSwitch(struct ASTNode* node, struct entorno* e);
 
 #endif

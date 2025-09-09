@@ -10,6 +10,9 @@
 #include "../instrucciones/imprimir.h"
 #include "../instrucciones/declarar_var.h"
 #include "../instrucciones/asignacion.h"
+#include "../instrucciones/if.h"
+#include "../instrucciones/incremento_decremento.h"
+#include "../instrucciones/switch.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -25,7 +28,7 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     if (!node)
         return res;
 
-    printf("Ejecutando nodo: %s\n", node->kind);
+    //printf("Ejecutando nodo: %s\n", node->kind);
 
     if (strcmp(node->kind, "literal") == 0)
     {
@@ -97,6 +100,21 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
         const char* tipoDestino = node->right ? node->right->value : NULL;
         res = ejecutarCasteo(tipoDestino, valor);
     }
+    else if (strcmp(node->kind, "if") == 0)
+    {
+
+        ejecutarIf(node, entorno);
+    }
+    else if (strcmp(node->kind, "incremento_decremento") == 0)
+    {
+        res = ejecutarIncremento_Decremento(node, entorno);
+    }
+    else if (strcmp(node->kind, "switch") == 0)
+    {
+        ejecutarSwitch(node, entorno);
+    }
+    
+
     else if (strcmp(node->kind, "link") == 0)
     {
         ejecutar(node->left, entorno);

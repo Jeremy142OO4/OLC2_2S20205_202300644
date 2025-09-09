@@ -23,6 +23,9 @@ gcc -o compilador \
     class/instrucciones/imprimir.c \
     class/instrucciones/declarar_var.c \
     class/instrucciones/asignacion.c \
+    class/instrucciones/incremento_decremento.c \
+    class/instrucciones/if.c \
+    class/instrucciones/switch.c \
     -Iast -Ilenguaje -Iclass/expresiones -Iclass/instrucciones -Iclass/entorno\
     -lm
 # Mensaje final

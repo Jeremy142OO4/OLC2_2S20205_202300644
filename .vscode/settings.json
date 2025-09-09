@@ -17,6 +17,8 @@
         "asignacion.h": "c",
         "declarar_var.h": "c",
         "imprimir.h": "c",
-        "casteo.h": "c"
+        "casteo.h": "c",
+        "if.h": "c",
+        "aritmetico.h": "c"
     }
 }

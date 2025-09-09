@@ -14,14 +14,14 @@ TipoRetorno ejecutarAsignacion(struct ASTNode* node, struct entorno* e) {
     }
 
     struct symbol *s = getVar(e, node->left->value);
-    printf("direccion %p nombre:'%s'\n", (void *)s, node->left->value);
+    //printf("direccion %p nombre:'%s'\n", (void *)s, node->left->value);
 
     if (!s) {
         printf("Error: variable '%s' no definida para asignación\n", node->left->value);
         return res;
     }
 
-    printf("Asignando a variable: %s\n", s->id);
+    //printf("Asignando a variable: %s\n", s->id);
 
     if (s->constante == 1) {
         printf("Error: no se puede asignar a constante '%s'\n", s->id);
@@ -44,17 +44,23 @@ TipoRetorno ejecutarAsignacion(struct ASTNode* node, struct entorno* e) {
         if (s->tipo == TIPO_ENTERO && val.tipo == TIPO_ENTERO) {
             int *salida = malloc(sizeof(int));
             *salida = (*(int*)s->valor) + (*(int*)val.valor);
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_ENTERO;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_ENTERO;
         } else if (s->tipo == TIPO_DECIMAL && val.tipo == TIPO_DECIMAL) {
             float *salida = malloc(sizeof(float));
             *salida = (*(float*)s->valor) + (*(float*)val.valor);
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_DECIMAL;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_DECIMAL;
         } else if (s->tipo == TIPO_CADENA && val.tipo == TIPO_CADENA) {
             size_t n1 = strlen((char*)s->valor), n2 = strlen((char*)val.valor);
             char *salida = malloc(n1 + n2 + 1);
             strcpy(salida, (char*)s->valor);
             strcat(salida, (char*)val.valor);
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_CADENA;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_CADENA;
         } else {
             printf("Error: Operación '+=' no soportada para estos tipos\n");
         }
@@ -63,11 +69,15 @@ TipoRetorno ejecutarAsignacion(struct ASTNode* node, struct entorno* e) {
         if (s->tipo == TIPO_ENTERO && val.tipo == TIPO_ENTERO) {
             int *salida = malloc(sizeof(int));
             *salida = (*(int*)s->valor) - (*(int*)val.valor);
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_ENTERO;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_ENTERO;
         } else if (s->tipo == TIPO_DECIMAL && val.tipo == TIPO_DECIMAL) {
             float *salida = malloc(sizeof(float));
             *salida = (*(float*)s->valor) - (*(float*)val.valor);
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_DECIMAL;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_DECIMAL;
         } else {
             printf("Error: Operación '-=' no soportada para estos tipos\n");
         }
@@ -76,11 +86,15 @@ TipoRetorno ejecutarAsignacion(struct ASTNode* node, struct entorno* e) {
         if (s->tipo == TIPO_ENTERO && val.tipo == TIPO_ENTERO) {
             int *salida = malloc(sizeof(int));
             *salida = (*(int*)s->valor) * (*(int*)val.valor);
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_ENTERO;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_ENTERO;
         } else if (s->tipo == TIPO_DECIMAL && val.tipo == TIPO_DECIMAL) {
             float *salida = malloc(sizeof(float));
             *salida = (*(float*)s->valor) * (*(float*)val.valor);
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_DECIMAL;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_DECIMAL;
         } else {
             printf("Error: Operación '*=' no soportada para estos tipos\n");
         }
@@ -91,13 +105,17 @@ TipoRetorno ejecutarAsignacion(struct ASTNode* node, struct entorno* e) {
             if (derecha == 0) { printf("Error: División por cero\n"); return res; }
             int *salida = malloc(sizeof(int));
             *salida = (*(int*)s->valor) / derecha;
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_ENTERO;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_ENTERO;
         } else if (s->tipo == TIPO_DECIMAL && val.tipo == TIPO_DECIMAL) {
             float derecha = *(float*)val.valor;
             if (derecha == 0.0f) { printf("Error: División por cero\n"); return res; }
             float *salida = malloc(sizeof(float));
             *salida = (*(float*)s->valor) / derecha;
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_DECIMAL;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_DECIMAL;
         } else {
             printf("Error: Operación '/=' no soportada para estos tipos\n");
         }
@@ -108,13 +126,17 @@ TipoRetorno ejecutarAsignacion(struct ASTNode* node, struct entorno* e) {
             if (derecha == 0) { printf("Error: División por cero\n"); return res; }
             int *salida = malloc(sizeof(int));
             *salida = (*(int*)s->valor) % derecha;
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_ENTERO;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_ENTERO;
         } else if (s->tipo == TIPO_DECIMAL && val.tipo == TIPO_DECIMAL) {
             float derecha = *(float*)val.valor;
             if (derecha == 0.0f) { printf("Error: División por cero\n"); return res; }
             float *salida = malloc(sizeof(float));
             *salida = fmod(*(float*)s->valor, derecha);
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_DECIMAL;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_DECIMAL;
         } else {
             printf("Error: Operación '%%=' no soportada para estos tipos\n");
         }
@@ -123,13 +145,17 @@ TipoRetorno ejecutarAsignacion(struct ASTNode* node, struct entorno* e) {
         if (s->tipo == TIPO_ENTERO && val.tipo == TIPO_ENTERO) {
             int *salida = malloc(sizeof(int));
             *salida = (*(int*)s->valor) & (*(int*)val.valor);
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_ENTERO;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_ENTERO;
         } else if (s->tipo == TIPO_BOOLEANO && val.tipo == TIPO_BOOLEANO) {
             int *salida = malloc(sizeof(int));
             int iz = (s->valor ? (*(int*)s->valor != 0) : 0);
             int de = (val.valor ? (*(int*)val.valor != 0) : 0);
             *salida = iz & de;
-            s->valor = salida; res.valor = salida; res.tipo = TIPO_BOOLEANO;
+            s->valor = salida; 
+            res.valor = salida; 
+            res.tipo = TIPO_BOOLEANO;
         } else {
             printf("Error: Operación '&=' no soportada para estos tipos\n");
         }

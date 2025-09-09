@@ -14,8 +14,11 @@ struct ASTNode* ast_var_decl(char* id, struct ASTNode* type, struct ASTNode* exp
 struct ASTNode* ast_var_decl_const(char* id, struct ASTNode* type, struct ASTNode* expr);
 struct ASTNode* ast_assign(char* op, struct ASTNode* expr, struct ASTNode* id);
 struct ASTNode* ast_type(char* typeName);
-
-struct ASTNode* ast_if(struct ASTNode* cond, struct ASTNode* body);
+struct ASTNode* ast_incremento_decremento(char* op, struct ASTNode* expr);
+struct ASTNode* ast_switch(struct ASTNode* expr, struct ASTNode* cases);
+struct ASTNode* ast_case(struct ASTNode* value, struct ASTNode* body);
+struct ASTNode* ast_if(struct ASTNode* cond,struct ASTNode* then_body, struct ASTNode* else_part);
+struct ASTNode* ast_break();
 struct ASTNode* ast_literal(char* value);
 struct ASTNode* ast_cast(struct ASTNode* value, struct ASTNode* type);
 struct ASTNode* ast_identifier(char* name);
