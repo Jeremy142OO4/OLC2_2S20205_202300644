@@ -20,6 +20,7 @@ gcc -o compilador \
     class/expresiones/id.c \
     class/expresiones/casteo.c \
     class/expresiones/logico.c \
+    class/expresiones/llamada_funcion.c \
     class/instrucciones/imprimir.c \
     class/instrucciones/declarar_var.c \
     class/instrucciones/asignacion.c \

@@ -7,6 +7,7 @@
 #include "./relacional.h"
 #include "./casteo.h"
 #include "./logico.h"
+#include "./llamada_funcion.h"
 #include "../instrucciones/imprimir.h"
 #include "../instrucciones/declarar_var.h"
 #include "../instrucciones/asignacion.h"
@@ -150,6 +151,10 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     {
        
         ejecutarDeclararParametros(node, entorno);
+    }
+    else if (strcmp(node->kind, "llamada_funcion") == 0)
+    {
+        res = ejecutarLlamadaFuncion(node, entorno);
     }
     else if (strcmp(node->kind, "link") == 0)
     {

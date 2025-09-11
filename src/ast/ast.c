@@ -31,6 +31,7 @@ struct ASTNode* ast_parametros(char* id, struct ASTNode* tipo, struct ASTNode* s
 struct ASTNode* ast_for(struct ASTNode* init, struct ASTNode* cond, struct ASTNode* cambio, struct ASTNode* body) { return make_node("for", NULL, ast_link(init, cond), ast_link(cambio, body)); }
 struct ASTNode* ast_cast(struct ASTNode* value,struct ASTNode* type) { return make_node("cast", NULL, value, type); }
 struct ASTNode* ast_identifier(char* name) { return make_node("id", name, NULL, NULL); }
+struct ASTNode* ast_funcion_call(char* nombre, struct ASTNode* parametros) { return make_node("llamada_funcion", nombre, parametros, NULL); }
 struct ASTNode* ast_funcion_decl(char* nombre, struct ASTNode* parametros, struct ASTNode* tipo, struct ASTNode* instrucciones) { return make_node("funcion_decl", nombre, parametros, ast_link(tipo, instrucciones)); }
 struct ASTNode* ast_binop(char* op, struct ASTNode* left, struct ASTNode* right) { return make_node("binop", op, left, right); }
 struct ASTNode* ast_unop(char* op, struct ASTNode* expr) { return make_node("unop", op, expr, NULL); }

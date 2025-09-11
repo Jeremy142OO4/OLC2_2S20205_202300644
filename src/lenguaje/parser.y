@@ -56,7 +56,7 @@ struct ASTNode* root = NULL;
 
 
 %type <node> inicio listainstrucciones instruccion 
-%type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS 
+%type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS VALORES LLAMADA_FUNCION LLAMADA_PROCEDIMIENTO
 %type <node> DECLARACION ASIGNACION IMPRIMIR IF INCREMENTO_DECREMENTO SWITCH CASES CASE BREAK WHILE FOR CONTINUAR DECLARAR_FUNCION PARAMETROS RETORNAR
 %type <str> OP_ASIGNACION
 
@@ -93,6 +93,7 @@ instruccion:
     | CONTINUAR
     | RETORNAR
     | DECLARAR_FUNCION
+    | LLAMADA_PROCEDIMIENTO
     ;
 
 DECLARACION:
@@ -159,8 +160,15 @@ PARAMETROS:
     ;
 
 DECLARAR_FUNCION:
-    TIPO ID TK_PA PARAMETROS TK_PC TK_LLA listainstrucciones TK_LLC { $$ = ast_funcion_decl($2, $4, $1, $7); }
+      TIPO ID TK_PA PARAMETROS TK_PC TK_LLA listainstrucciones TK_LLC     { $$ = ast_funcion_decl($2, $4, $1, $7); }
+    | TK_VOID ID TK_PA PARAMETROS TK_PC TK_LLA listainstrucciones TK_LLC  { $$ = ast_funcion_decl($2, $4, NULL, $7); }
     ;
+
+LLAMADA_PROCEDIMIENTO:
+    ID TK_PA VALORES TK_PC TK_PTCOMA { $$ = ast_funcion_call($1, $3); }
+    ;
+
+
 
 TIPO:
       TK_INT     { $$ = ast_type("int");}
@@ -182,6 +190,7 @@ expr:
     | ARITMETICOS               { $$ = $1; }
     | RELACIONALES              { $$ = $1; }
     | LOGICOS                   { $$ = $1; }
+    | LLAMADA_FUNCION           { $$ = $1; }
     ;
 
 
@@ -226,6 +235,16 @@ LOGICOS:
     | TK_NOT expr                   { $$ = ast_unop("!", $2); }
     ;
 
+
+VALORES:
+      expr TK_COMA VALORES     { $$ = ast_link($1, $3); }
+    | expr                     { $$ = ast_link($1, NULL); }
+    |                         { $$ = NULL; }
+    ;
+
+LLAMADA_FUNCION:
+    ID TK_PA VALORES TK_PC { $$ = ast_funcion_call($1, $3); }
+    ;
 
 %%
 

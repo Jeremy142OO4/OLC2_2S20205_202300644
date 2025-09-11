@@ -28,6 +28,7 @@ struct ASTNode* ast_funcion_decl(char* nombre, struct ASTNode* parametros, struc
 struct ASTNode* ast_literal(char* value);
 struct ASTNode* ast_cast(struct ASTNode* value, struct ASTNode* type);
 struct ASTNode* ast_identifier(char* name);
+struct ASTNode* ast_funcion_call(char* nombre, struct ASTNode* parametros);
 struct ASTNode* ast_binop(char* op, struct ASTNode* left, struct ASTNode* right);
 struct ASTNode* ast_unop(char* op, struct ASTNode* expr);
 void ast_print(struct ASTNode* node, int depth);

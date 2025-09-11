@@ -27,6 +27,7 @@
         "declarar_funcion.h": "c",
         "declarar_parametros.h": "c",
         "string.h": "c",
-        "llamada_funcion.h": "c"
+        "llamada_funcion.h": "c",
+        "incremento_decremento.h": "c"
     }
 }
