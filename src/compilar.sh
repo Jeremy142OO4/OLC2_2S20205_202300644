@@ -30,6 +30,9 @@ gcc -o compilador \
     class/instrucciones/for.c \
     class/instrucciones/break.c \
     class/instrucciones/continuar.c \
+    class/instrucciones/retornar.c \
+    class/instrucciones/declarar_funcion.c \
+    class/instrucciones/declarar_parametros.c \
     -Iast -Ilenguaje -Iclass/expresiones -Iclass/instrucciones -Iclass/entorno\
     -lm
 # Mensaje final

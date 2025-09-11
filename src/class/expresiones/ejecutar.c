@@ -16,7 +16,10 @@
 #include "../instrucciones/while.h"
 #include "../instrucciones/break.h"
 #include "../instrucciones/continuar.h"
+#include "../instrucciones/retornar.h"
 #include "../instrucciones/for.h"
+#include "../instrucciones/declarar_funcion.h"
+#include "../instrucciones/declarar_parametros.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -133,6 +136,20 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     else if (strcmp(node->kind, "continue") == 0)
     {
         res = ejecutarContinuar();
+    }
+    else if (strcmp(node->kind, "return") == 0)
+    {
+        res = ejecutarRetornar(node, entorno);
+    }
+    else if (strcmp(node->kind, "funcion_decl") == 0)
+    {
+        
+        res = ejecutarDeclararFuncion(node, entorno);
+    }
+    else if (strcmp(node->kind, "parametro") == 0)
+    {
+       
+        ejecutarDeclararParametros(node, entorno);
     }
     else if (strcmp(node->kind, "link") == 0)
     {

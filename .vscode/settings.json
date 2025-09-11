@@ -22,6 +22,11 @@
         "aritmetico.h": "c",
         "ejecutar.h": "c",
         "break.h": "c",
-        "entorno.h": "c"
+        "entorno.h": "c",
+        "stdbool.h": "c",
+        "declarar_funcion.h": "c",
+        "declarar_parametros.h": "c",
+        "string.h": "c",
+        "llamada_funcion.h": "c"
     }
 }

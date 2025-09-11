@@ -26,9 +26,12 @@ struct ASTNode* ast_if(struct ASTNode* cond,struct ASTNode* then_body,struct AST
 struct ASTNode* ast_literal(char* value) { return make_node("literal", value, NULL, NULL); }
 struct ASTNode* ast_break() { return make_node("break", NULL, NULL, NULL); }
 struct ASTNode* ast_continue() { return make_node("continue", NULL, NULL, NULL); }
+struct ASTNode* ast_return(struct ASTNode* expr) { return make_node("return", NULL, expr, NULL); }
+struct ASTNode* ast_parametros(char* id, struct ASTNode* tipo, struct ASTNode* siguiente) { return make_node("parametro", id, tipo, siguiente); }
 struct ASTNode* ast_for(struct ASTNode* init, struct ASTNode* cond, struct ASTNode* cambio, struct ASTNode* body) { return make_node("for", NULL, ast_link(init, cond), ast_link(cambio, body)); }
 struct ASTNode* ast_cast(struct ASTNode* value,struct ASTNode* type) { return make_node("cast", NULL, value, type); }
 struct ASTNode* ast_identifier(char* name) { return make_node("id", name, NULL, NULL); }
+struct ASTNode* ast_funcion_decl(char* nombre, struct ASTNode* parametros, struct ASTNode* tipo, struct ASTNode* instrucciones) { return make_node("funcion_decl", nombre, parametros, ast_link(tipo, instrucciones)); }
 struct ASTNode* ast_binop(char* op, struct ASTNode* left, struct ASTNode* right) { return make_node("binop", op, left, right); }
 struct ASTNode* ast_unop(char* op, struct ASTNode* expr) { return make_node("unop", op, expr, NULL); }
 

@@ -1,15 +1,13 @@
 Terminales no usados en la gramática
 
     TK_DO
-    TK_RETURN
     TK_VOID
     TK_MAIN
-    TK_COMA
     TK_CA
     TK_CC
 
 
-Estado 115 conflictos: 13 desplazamiento/reducción
+Estado 123 conflictos: 13 desplazamiento/reducción
 
 
 Gramática
@@ -31,152 +29,162 @@ Gramática
    11            | WHILE
    12            | FOR
    13            | CONTINUAR
+   14            | RETORNAR
+   15            | DECLARAR_FUNCION
 
-   14 DECLARACION: TIPO ID TK_IGUAL expr TK_PTCOMA
-   15            | TIPO ID TK_PTCOMA
-   16            | TK_FINAL TIPO ID TK_IGUAL expr TK_PTCOMA
+   16 DECLARACION: TIPO ID TK_IGUAL expr TK_PTCOMA
+   17            | TIPO ID TK_PTCOMA
+   18            | TK_FINAL TIPO ID TK_IGUAL expr TK_PTCOMA
 
-   17 ASIGNACION: expr OP_ASIGNACION expr TK_PTCOMA
+   19 ASIGNACION: expr OP_ASIGNACION expr TK_PTCOMA
 
-   18 IMPRIMIR: TK_PRINT TK_PA expr TK_PC TK_PTCOMA
+   20 IMPRIMIR: TK_PRINT TK_PA expr TK_PC TK_PTCOMA
 
-   19 INCREMENTO_DECREMENTO: expr TK_SUMA TK_SUMA
-   20                      | expr TK_RESTA TK_RESTA
+   21 INCREMENTO_DECREMENTO: expr TK_SUMA TK_SUMA
+   22                      | expr TK_RESTA TK_RESTA
 
-   21 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC
-   22   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
-   23   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE IF
+   23 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC
+   24   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
+   25   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE IF
 
-   24 BREAK: TK_BREAK TK_PTCOMA
+   26 BREAK: TK_BREAK TK_PTCOMA
 
-   25 CONTINUAR: TK_CONTINUE TK_PTCOMA
+   27 CONTINUAR: TK_CONTINUE TK_PTCOMA
 
-   26 SWITCH: TK_SWITCH TK_PA expr TK_PC TK_LLA CASES TK_LLC
+   28 RETORNAR: TK_RETURN expr TK_PTCOMA
 
-   27 CASES: CASE CASES
-   28      | CASE
+   29 SWITCH: TK_SWITCH TK_PA expr TK_PC TK_LLA CASES TK_LLC
 
-   29 CASE: TK_CASE expr TK_DOSPUNTOS listainstrucciones
-   30     | TK_DEFAULT TK_DOSPUNTOS listainstrucciones
+   30 CASES: CASE CASES
+   31      | CASE
 
-   31 WHILE: TK_WHILE TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC
+   32 CASE: TK_CASE expr TK_DOSPUNTOS listainstrucciones
+   33     | TK_DEFAULT TK_DOSPUNTOS listainstrucciones
 
-   32 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
+   34 WHILE: TK_WHILE TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC
 
-   33 TIPO: TK_INT
-   34     | TK_STRING
-   35     | TK_FLOAT
-   36     | TK_BOOL
-   37     | TK_CHAR
+   35 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
 
-   38 expr: TK_PA expr TK_PC
-   39     | TK_PA TIPO TK_PC expr
-   40     | INT
-   41     | DECIMAL
-   42     | CARACTER
-   43     | CADENA
-   44     | BOOL
-   45     | ID
-   46     | ARITMETICOS
-   47     | RELACIONALES
-   48     | LOGICOS
+   36 PARAMETROS: TIPO ID TK_COMA PARAMETROS
+   37           | TIPO ID
+   38           | ε
 
-   49 ARITMETICOS: expr TK_SUMA expr
-   50            | expr TK_RESTA expr
-   51            | expr TK_MULTIPLICACION expr
-   52            | expr TK_DIVISION expr
-   53            | expr TK_MODULAR expr
+   39 DECLARAR_FUNCION: TIPO ID TK_PA PARAMETROS TK_PC TK_LLA listainstrucciones TK_LLC
 
-   54 OP_ASIGNACION: TK_IGUAL
-   55              | TK_MAS_IGUAL
-   56              | TK_MENOS_IGUAL
-   57              | TK_POR_IGUAL
-   58              | TK_DIVIDIR_IGUAL
-   59              | TK_PORCENTAJE_IGUAL
-   60              | TK_AND_IGUAL
-   61              | TK_OR_IGUAL
-   62              | TK_POTENCIA_IGUAL
-   63              | TK_MAYOR_MAYOR_IGUAL
-   64              | TK_MENOR_MENOR_IGUAL
-   65              | TK_DOSPUNTOS_IGUAL
+   40 TIPO: TK_INT
+   41     | TK_STRING
+   42     | TK_FLOAT
+   43     | TK_BOOL
+   44     | TK_CHAR
 
-   66 RELACIONALES: expr TK_IGUAL_IGUAL expr
-   67             | expr TK_DIFERENTE expr
-   68             | expr TK_MAYOR_IGUAL expr
-   69             | expr TK_MENOR_IGUAL expr
-   70             | expr TK_MAYOR expr
-   71             | expr TK_MENOR expr
+   45 expr: TK_PA expr TK_PC
+   46     | TK_PA TIPO TK_PC expr
+   47     | INT
+   48     | DECIMAL
+   49     | CARACTER
+   50     | CADENA
+   51     | BOOL
+   52     | ID
+   53     | ARITMETICOS
+   54     | RELACIONALES
+   55     | LOGICOS
 
-   72 LOGICOS: expr TK_AND expr
-   73        | expr TK_OR expr
-   74        | TK_NOT expr
+   56 ARITMETICOS: expr TK_SUMA expr
+   57            | expr TK_RESTA expr
+   58            | expr TK_MULTIPLICACION expr
+   59            | expr TK_DIVISION expr
+   60            | expr TK_MODULAR expr
+
+   61 OP_ASIGNACION: TK_IGUAL
+   62              | TK_MAS_IGUAL
+   63              | TK_MENOS_IGUAL
+   64              | TK_POR_IGUAL
+   65              | TK_DIVIDIR_IGUAL
+   66              | TK_PORCENTAJE_IGUAL
+   67              | TK_AND_IGUAL
+   68              | TK_OR_IGUAL
+   69              | TK_POTENCIA_IGUAL
+   70              | TK_MAYOR_MAYOR_IGUAL
+   71              | TK_MENOR_MENOR_IGUAL
+   72              | TK_DOSPUNTOS_IGUAL
+
+   73 RELACIONALES: expr TK_IGUAL_IGUAL expr
+   74             | expr TK_DIFERENTE expr
+   75             | expr TK_MAYOR_IGUAL expr
+   76             | expr TK_MENOR_IGUAL expr
+   77             | expr TK_MAYOR expr
+   78             | expr TK_MENOR expr
+
+   79 LOGICOS: expr TK_AND expr
+   80        | expr TK_OR expr
+   81        | TK_NOT expr
 
 
 Terminales con las reglas donde aparecen
 
     $end (0) 0
     error (256)
-    TK_PRINT (258) 18
-    TK_IF (259) 21 22 23
-    TK_ELSE (260) 22 23
-    TK_WHILE (261) 31
-    TK_FOR (262) 32
+    TK_PRINT (258) 20
+    TK_IF (259) 23 24 25
+    TK_ELSE (260) 24 25
+    TK_WHILE (261) 34
+    TK_FOR (262) 35
     TK_DO (263)
-    TK_SWITCH (264) 26
-    TK_CASE (265) 29
-    TK_CONTINUE (266) 25
-    TK_BREAK (267) 24
-    TK_RETURN (268)
+    TK_SWITCH (264) 29
+    TK_CASE (265) 32
+    TK_CONTINUE (266) 27
+    TK_BREAK (267) 26
+    TK_RETURN (268) 28
     TK_VOID (269)
     TK_MAIN (270)
-    TK_DEFAULT (271) 30
-    TK_INT (272) 33
-    TK_FLOAT (273) 35
-    TK_STRING (274) 34
-    TK_BOOL (275) 36
-    TK_CHAR (276) 37
-    TK_FINAL (277) 16
-    TK_PA (278) 18 21 22 23 26 31 32 38 39
-    TK_PC (279) 18 21 22 23 26 31 32 38 39
-    TK_LLA (280) 21 22 23 26 31 32
-    TK_LLC (281) 21 22 23 26 31 32
-    TK_PTCOMA (282) 8 14 15 16 17 18 24 25 32
-    TK_DOSPUNTOS (283) 29 30
-    TK_COMA (284)
+    TK_DEFAULT (271) 33
+    TK_INT (272) 40
+    TK_FLOAT (273) 42
+    TK_STRING (274) 41
+    TK_BOOL (275) 43
+    TK_CHAR (276) 44
+    TK_FINAL (277) 18
+    TK_PA (278) 20 23 24 25 29 34 35 39 45 46
+    TK_PC (279) 20 23 24 25 29 34 35 39 45 46
+    TK_LLA (280) 23 24 25 29 34 35 39
+    TK_LLC (281) 23 24 25 29 34 35 39
+    TK_PTCOMA (282) 8 16 17 18 19 20 26 27 28 35
+    TK_DOSPUNTOS (283) 32 33
+    TK_COMA (284) 36
     TK_CA (285)
     TK_CC (286)
-    TK_MAYOR (287) 70
-    TK_MENOR (288) 71
-    TK_MAYOR_IGUAL (289) 68
-    TK_MENOR_IGUAL (290) 69
-    TK_AND (291) 72
-    TK_OR (292) 73
-    TK_NOT (293) 74
-    TK_SUMA (294) 19 49
-    TK_RESTA (295) 20 50
-    TK_MULTIPLICACION (296) 51
-    TK_DIVISION (297) 52
-    TK_MODULAR (298) 53
-    TK_IGUAL (299) 14 16 54
-    TK_MAS_IGUAL (300) 55
-    TK_MENOS_IGUAL (301) 56
-    TK_POR_IGUAL (302) 57
-    TK_DIVIDIR_IGUAL (303) 58
-    TK_PORCENTAJE_IGUAL (304) 59
-    TK_AND_IGUAL (305) 60
-    TK_OR_IGUAL (306) 61
-    TK_POTENCIA_IGUAL (307) 62
-    TK_MAYOR_MAYOR_IGUAL (308) 63
-    TK_MENOR_MENOR_IGUAL (309) 64
-    TK_DOSPUNTOS_IGUAL (310) 65
-    TK_IGUAL_IGUAL (311) 66
-    TK_DIFERENTE (312) 67
-    INT <str> (313) 40
-    DECIMAL <str> (314) 41
-    CARACTER <str> (315) 42
-    CADENA <str> (316) 43
-    ID <str> (317) 14 15 16 45
-    BOOL <str> (318) 44
+    TK_MAYOR (287) 77
+    TK_MENOR (288) 78
+    TK_MAYOR_IGUAL (289) 75
+    TK_MENOR_IGUAL (290) 76
+    TK_AND (291) 79
+    TK_OR (292) 80
+    TK_NOT (293) 81
+    TK_SUMA (294) 21 56
+    TK_RESTA (295) 22 57
+    TK_MULTIPLICACION (296) 58
+    TK_DIVISION (297) 59
+    TK_MODULAR (298) 60
+    TK_IGUAL (299) 16 18 61
+    TK_MAS_IGUAL (300) 62
+    TK_MENOS_IGUAL (301) 63
+    TK_POR_IGUAL (302) 64
+    TK_DIVIDIR_IGUAL (303) 65
+    TK_PORCENTAJE_IGUAL (304) 66
+    TK_AND_IGUAL (305) 67
+    TK_OR_IGUAL (306) 68
+    TK_POTENCIA_IGUAL (307) 69
+    TK_MAYOR_MAYOR_IGUAL (308) 70
+    TK_MENOR_MENOR_IGUAL (309) 71
+    TK_DOSPUNTOS_IGUAL (310) 72
+    TK_IGUAL_IGUAL (311) 73
+    TK_DIFERENTE (312) 74
+    INT <str> (313) 47
+    DECIMAL <str> (314) 48
+    CARACTER <str> (315) 49
+    CADENA <str> (316) 50
+    ID <str> (317) 16 17 18 36 37 39 52
+    BOOL <str> (318) 51
 
 
 No terminales con las reglas donde aparecen
@@ -188,64 +196,73 @@ No terminales con las reglas donde aparecen
         on right: 0
     listainstrucciones <node> (66)
         on left: 2 3
-        on right: 1 2 21 22 23 29 30 31 32
+        on right: 1 2 23 24 25 32 33 34 35 39
     instruccion <node> (67)
-        on left: 4 5 6 7 8 9 10 11 12 13
+        on left: 4 5 6 7 8 9 10 11 12 13 14 15
         on right: 2 3
     DECLARACION <node> (68)
-        on left: 14 15 16
-        on right: 5 32
+        on left: 16 17 18
+        on right: 5 35
     ASIGNACION <node> (69)
-        on left: 17
+        on left: 19
         on right: 6
     IMPRIMIR <node> (70)
-        on left: 18
+        on left: 20
         on right: 4
     INCREMENTO_DECREMENTO <node> (71)
-        on left: 19 20
-        on right: 8 32
+        on left: 21 22
+        on right: 8 35
     IF <node> (72)
-        on left: 21 22 23
-        on right: 7 23
+        on left: 23 24 25
+        on right: 7 25
     BREAK <node> (73)
-        on left: 24
+        on left: 26
         on right: 10
     CONTINUAR <node> (74)
-        on left: 25
+        on left: 27
         on right: 13
-    SWITCH <node> (75)
-        on left: 26
+    RETORNAR <node> (75)
+        on left: 28
+        on right: 14
+    SWITCH <node> (76)
+        on left: 29
         on right: 9
-    CASES <node> (76)
-        on left: 27 28
-        on right: 26 27
-    CASE <node> (77)
-        on left: 29 30
-        on right: 27 28
-    WHILE <node> (78)
-        on left: 31
+    CASES <node> (77)
+        on left: 30 31
+        on right: 29 30
+    CASE <node> (78)
+        on left: 32 33
+        on right: 30 31
+    WHILE <node> (79)
+        on left: 34
         on right: 11
-    FOR <node> (79)
-        on left: 32
+    FOR <node> (80)
+        on left: 35
         on right: 12
-    TIPO <node> (80)
-        on left: 33 34 35 36 37
-        on right: 14 15 16 39
-    expr <node> (81)
-        on left: 38 39 40 41 42 43 44 45 46 47 48
-        on right: 14 16 17 18 19 20 21 22 23 26 29 31 32 38 39 49 50 51 52 53 66 67 68 69 70 71 72 73 74
-    ARITMETICOS <node> (82)
-        on left: 49 50 51 52 53
-        on right: 46
-    OP_ASIGNACION <str> (83)
-        on left: 54 55 56 57 58 59 60 61 62 63 64 65
-        on right: 17
-    RELACIONALES <node> (84)
-        on left: 66 67 68 69 70 71
-        on right: 47
-    LOGICOS <node> (85)
-        on left: 72 73 74
-        on right: 48
+    PARAMETROS <node> (81)
+        on left: 36 37 38
+        on right: 36 39
+    DECLARAR_FUNCION <node> (82)
+        on left: 39
+        on right: 15
+    TIPO <node> (83)
+        on left: 40 41 42 43 44
+        on right: 16 17 18 36 37 39 46
+    expr <node> (84)
+        on left: 45 46 47 48 49 50 51 52 53 54 55
+        on right: 16 18 19 20 21 22 23 24 25 28 29 32 34 35 45 46 56 57 58 59 60 73 74 75 76 77 78 79 80 81
+    ARITMETICOS <node> (85)
+        on left: 56 57 58 59 60
+        on right: 53
+    OP_ASIGNACION <str> (86)
+        on left: 61 62 63 64 65 66 67 68 69 70 71 72
+        on right: 19
+    RELACIONALES <node> (87)
+        on left: 73 74 75 76 77 78
+        on right: 54
+    LOGICOS <node> (88)
+        on left: 79 80 81
+        on right: 55
 
 
 Estado 0
@@ -259,235 +276,257 @@ Estado 0
     TK_SWITCH    desplazar e ir al estado 5
     TK_CONTINUE  desplazar e ir al estado 6
     TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
 
-    inicio                 ir al estado 22
-    listainstrucciones     ir al estado 23
-    instruccion            ir al estado 24
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    inicio                 ir al estado 23
+    listainstrucciones     ir al estado 24
+    instruccion            ir al estado 25
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
 
 
 Estado 1
 
-   18 IMPRIMIR: TK_PRINT • TK_PA expr TK_PC TK_PTCOMA
-
-    TK_PA  desplazar e ir al estado 40
-
-
-Estado 2
-
-   21 IF: TK_IF • TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC
-   22   | TK_IF • TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
-   23   | TK_IF • TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE IF
-
-    TK_PA  desplazar e ir al estado 41
-
-
-Estado 3
-
-   31 WHILE: TK_WHILE • TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC
-
-    TK_PA  desplazar e ir al estado 42
-
-
-Estado 4
-
-   32 FOR: TK_FOR • TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
+   20 IMPRIMIR: TK_PRINT • TK_PA expr TK_PC TK_PTCOMA
 
     TK_PA  desplazar e ir al estado 43
 
 
-Estado 5
+Estado 2
 
-   26 SWITCH: TK_SWITCH • TK_PA expr TK_PC TK_LLA CASES TK_LLC
+   23 IF: TK_IF • TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC
+   24   | TK_IF • TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
+   25   | TK_IF • TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE IF
 
     TK_PA  desplazar e ir al estado 44
 
 
+Estado 3
+
+   34 WHILE: TK_WHILE • TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC
+
+    TK_PA  desplazar e ir al estado 45
+
+
+Estado 4
+
+   35 FOR: TK_FOR • TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
+
+    TK_PA  desplazar e ir al estado 46
+
+
+Estado 5
+
+   29 SWITCH: TK_SWITCH • TK_PA expr TK_PC TK_LLA CASES TK_LLC
+
+    TK_PA  desplazar e ir al estado 47
+
+
 Estado 6
 
-   25 CONTINUAR: TK_CONTINUE • TK_PTCOMA
+   27 CONTINUAR: TK_CONTINUE • TK_PTCOMA
 
-    TK_PTCOMA  desplazar e ir al estado 45
+    TK_PTCOMA  desplazar e ir al estado 48
 
 
 Estado 7
 
-   24 BREAK: TK_BREAK • TK_PTCOMA
+   26 BREAK: TK_BREAK • TK_PTCOMA
 
-    TK_PTCOMA  desplazar e ir al estado 46
+    TK_PTCOMA  desplazar e ir al estado 49
 
 
 Estado 8
 
-   33 TIPO: TK_INT •
+   28 RETORNAR: TK_RETURN • expr TK_PTCOMA
 
-    $default  reduce usando la regla 33 (TIPO)
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 50
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 9
 
-   35 TIPO: TK_FLOAT •
+   40 TIPO: TK_INT •
 
-    $default  reduce usando la regla 35 (TIPO)
+    $default  reduce usando la regla 40 (TIPO)
 
 
 Estado 10
 
-   34 TIPO: TK_STRING •
+   42 TIPO: TK_FLOAT •
 
-    $default  reduce usando la regla 34 (TIPO)
+    $default  reduce usando la regla 42 (TIPO)
 
 
 Estado 11
 
-   36 TIPO: TK_BOOL •
+   41 TIPO: TK_STRING •
 
-    $default  reduce usando la regla 36 (TIPO)
+    $default  reduce usando la regla 41 (TIPO)
 
 
 Estado 12
 
-   37 TIPO: TK_CHAR •
+   43 TIPO: TK_BOOL •
 
-    $default  reduce usando la regla 37 (TIPO)
+    $default  reduce usando la regla 43 (TIPO)
 
 
 Estado 13
 
-   16 DECLARACION: TK_FINAL • TIPO ID TK_IGUAL expr TK_PTCOMA
+   44 TIPO: TK_CHAR •
 
-    TK_INT     desplazar e ir al estado 8
-    TK_FLOAT   desplazar e ir al estado 9
-    TK_STRING  desplazar e ir al estado 10
-    TK_BOOL    desplazar e ir al estado 11
-    TK_CHAR    desplazar e ir al estado 12
-
-    TIPO  ir al estado 47
+    $default  reduce usando la regla 44 (TIPO)
 
 
 Estado 14
 
-   38 expr: TK_PA • expr TK_PC
-   39     | TK_PA • TIPO TK_PC expr
+   18 DECLARACION: TK_FINAL • TIPO ID TK_IGUAL expr TK_PTCOMA
 
-    TK_INT     desplazar e ir al estado 8
-    TK_FLOAT   desplazar e ir al estado 9
-    TK_STRING  desplazar e ir al estado 10
-    TK_BOOL    desplazar e ir al estado 11
-    TK_CHAR    desplazar e ir al estado 12
-    TK_PA      desplazar e ir al estado 14
-    TK_NOT     desplazar e ir al estado 15
-    INT        desplazar e ir al estado 16
-    DECIMAL    desplazar e ir al estado 17
-    CARACTER   desplazar e ir al estado 18
-    CADENA     desplazar e ir al estado 19
-    ID         desplazar e ir al estado 20
-    BOOL       desplazar e ir al estado 21
+    TK_INT     desplazar e ir al estado 9
+    TK_FLOAT   desplazar e ir al estado 10
+    TK_STRING  desplazar e ir al estado 11
+    TK_BOOL    desplazar e ir al estado 12
+    TK_CHAR    desplazar e ir al estado 13
 
-    TIPO          ir al estado 48
-    expr          ir al estado 49
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    TIPO  ir al estado 51
 
 
 Estado 15
 
-   74 LOGICOS: TK_NOT • expr
+   45 expr: TK_PA • expr TK_PC
+   46     | TK_PA • TIPO TK_PC expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_INT     desplazar e ir al estado 9
+    TK_FLOAT   desplazar e ir al estado 10
+    TK_STRING  desplazar e ir al estado 11
+    TK_BOOL    desplazar e ir al estado 12
+    TK_CHAR    desplazar e ir al estado 13
+    TK_PA      desplazar e ir al estado 15
+    TK_NOT     desplazar e ir al estado 16
+    INT        desplazar e ir al estado 17
+    DECIMAL    desplazar e ir al estado 18
+    CARACTER   desplazar e ir al estado 19
+    CADENA     desplazar e ir al estado 20
+    ID         desplazar e ir al estado 21
+    BOOL       desplazar e ir al estado 22
 
-    expr          ir al estado 50
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    TIPO          ir al estado 52
+    expr          ir al estado 53
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 16
 
-   40 expr: INT •
+   81 LOGICOS: TK_NOT • expr
 
-    $default  reduce usando la regla 40 (expr)
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 54
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 17
 
-   41 expr: DECIMAL •
+   47 expr: INT •
 
-    $default  reduce usando la regla 41 (expr)
+    $default  reduce usando la regla 47 (expr)
 
 
 Estado 18
 
-   42 expr: CARACTER •
+   48 expr: DECIMAL •
 
-    $default  reduce usando la regla 42 (expr)
+    $default  reduce usando la regla 48 (expr)
 
 
 Estado 19
 
-   43 expr: CADENA •
+   49 expr: CARACTER •
 
-    $default  reduce usando la regla 43 (expr)
+    $default  reduce usando la regla 49 (expr)
 
 
 Estado 20
 
-   45 expr: ID •
+   50 expr: CADENA •
 
-    $default  reduce usando la regla 45 (expr)
+    $default  reduce usando la regla 50 (expr)
 
 
 Estado 21
 
-   44 expr: BOOL •
+   52 expr: ID •
 
-    $default  reduce usando la regla 44 (expr)
+    $default  reduce usando la regla 52 (expr)
 
 
 Estado 22
 
-    0 $accept: inicio • $end
+   51 expr: BOOL •
 
-    $end  desplazar e ir al estado 51
+    $default  reduce usando la regla 51 (expr)
 
 
 Estado 23
+
+    0 $accept: inicio • $end
+
+    $end  desplazar e ir al estado 55
+
+
+Estado 24
 
     1 inicio: listainstrucciones •
     2 listainstrucciones: listainstrucciones • instruccion
@@ -499,1979 +538,1916 @@ Estado 23
     TK_SWITCH    desplazar e ir al estado 5
     TK_CONTINUE  desplazar e ir al estado 6
     TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
 
     $default  reduce usando la regla 1 (inicio)
 
-    instruccion            ir al estado 52
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    instruccion            ir al estado 56
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
 
 
-Estado 24
+Estado 25
 
     3 listainstrucciones: instruccion •
 
     $default  reduce usando la regla 3 (listainstrucciones)
 
 
-Estado 25
+Estado 26
 
     5 instruccion: DECLARACION •
 
     $default  reduce usando la regla 5 (instruccion)
 
 
-Estado 26
+Estado 27
 
     6 instruccion: ASIGNACION •
 
     $default  reduce usando la regla 6 (instruccion)
 
 
-Estado 27
+Estado 28
 
     4 instruccion: IMPRIMIR •
 
     $default  reduce usando la regla 4 (instruccion)
 
 
-Estado 28
+Estado 29
 
     8 instruccion: INCREMENTO_DECREMENTO • TK_PTCOMA
 
-    TK_PTCOMA  desplazar e ir al estado 53
+    TK_PTCOMA  desplazar e ir al estado 57
 
 
-Estado 29
+Estado 30
 
     7 instruccion: IF •
 
     $default  reduce usando la regla 7 (instruccion)
 
 
-Estado 30
+Estado 31
 
    10 instruccion: BREAK •
 
     $default  reduce usando la regla 10 (instruccion)
 
 
-Estado 31
+Estado 32
 
    13 instruccion: CONTINUAR •
 
     $default  reduce usando la regla 13 (instruccion)
 
 
-Estado 32
+Estado 33
+
+   14 instruccion: RETORNAR •
+
+    $default  reduce usando la regla 14 (instruccion)
+
+
+Estado 34
 
     9 instruccion: SWITCH •
 
     $default  reduce usando la regla 9 (instruccion)
 
 
-Estado 33
+Estado 35
 
    11 instruccion: WHILE •
 
     $default  reduce usando la regla 11 (instruccion)
 
 
-Estado 34
+Estado 36
 
    12 instruccion: FOR •
 
     $default  reduce usando la regla 12 (instruccion)
 
 
-Estado 35
-
-   14 DECLARACION: TIPO • ID TK_IGUAL expr TK_PTCOMA
-   15            | TIPO • ID TK_PTCOMA
-
-    ID  desplazar e ir al estado 54
-
-
-Estado 36
-
-   17 ASIGNACION: expr • OP_ASIGNACION expr TK_PTCOMA
-   19 INCREMENTO_DECREMENTO: expr • TK_SUMA TK_SUMA
-   20                      | expr • TK_RESTA TK_RESTA
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
-
-    TK_MAYOR              desplazar e ir al estado 55
-    TK_MENOR              desplazar e ir al estado 56
-    TK_MAYOR_IGUAL        desplazar e ir al estado 57
-    TK_MENOR_IGUAL        desplazar e ir al estado 58
-    TK_AND                desplazar e ir al estado 59
-    TK_OR                 desplazar e ir al estado 60
-    TK_SUMA               desplazar e ir al estado 61
-    TK_RESTA              desplazar e ir al estado 62
-    TK_MULTIPLICACION     desplazar e ir al estado 63
-    TK_DIVISION           desplazar e ir al estado 64
-    TK_MODULAR            desplazar e ir al estado 65
-    TK_IGUAL              desplazar e ir al estado 66
-    TK_MAS_IGUAL          desplazar e ir al estado 67
-    TK_MENOS_IGUAL        desplazar e ir al estado 68
-    TK_POR_IGUAL          desplazar e ir al estado 69
-    TK_DIVIDIR_IGUAL      desplazar e ir al estado 70
-    TK_PORCENTAJE_IGUAL   desplazar e ir al estado 71
-    TK_AND_IGUAL          desplazar e ir al estado 72
-    TK_OR_IGUAL           desplazar e ir al estado 73
-    TK_POTENCIA_IGUAL     desplazar e ir al estado 74
-    TK_MAYOR_MAYOR_IGUAL  desplazar e ir al estado 75
-    TK_MENOR_MENOR_IGUAL  desplazar e ir al estado 76
-    TK_DOSPUNTOS_IGUAL    desplazar e ir al estado 77
-    TK_IGUAL_IGUAL        desplazar e ir al estado 78
-    TK_DIFERENTE          desplazar e ir al estado 79
-
-    OP_ASIGNACION  ir al estado 80
-
-
 Estado 37
 
-   46 expr: ARITMETICOS •
+   15 instruccion: DECLARAR_FUNCION •
 
-    $default  reduce usando la regla 46 (expr)
+    $default  reduce usando la regla 15 (instruccion)
 
 
 Estado 38
 
-   47 expr: RELACIONALES •
+   16 DECLARACION: TIPO • ID TK_IGUAL expr TK_PTCOMA
+   17            | TIPO • ID TK_PTCOMA
+   39 DECLARAR_FUNCION: TIPO • ID TK_PA PARAMETROS TK_PC TK_LLA listainstrucciones TK_LLC
 
-    $default  reduce usando la regla 47 (expr)
+    ID  desplazar e ir al estado 58
 
 
 Estado 39
 
-   48 expr: LOGICOS •
+   19 ASIGNACION: expr • OP_ASIGNACION expr TK_PTCOMA
+   21 INCREMENTO_DECREMENTO: expr • TK_SUMA TK_SUMA
+   22                      | expr • TK_RESTA TK_RESTA
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    $default  reduce usando la regla 48 (expr)
+    TK_MAYOR              desplazar e ir al estado 59
+    TK_MENOR              desplazar e ir al estado 60
+    TK_MAYOR_IGUAL        desplazar e ir al estado 61
+    TK_MENOR_IGUAL        desplazar e ir al estado 62
+    TK_AND                desplazar e ir al estado 63
+    TK_OR                 desplazar e ir al estado 64
+    TK_SUMA               desplazar e ir al estado 65
+    TK_RESTA              desplazar e ir al estado 66
+    TK_MULTIPLICACION     desplazar e ir al estado 67
+    TK_DIVISION           desplazar e ir al estado 68
+    TK_MODULAR            desplazar e ir al estado 69
+    TK_IGUAL              desplazar e ir al estado 70
+    TK_MAS_IGUAL          desplazar e ir al estado 71
+    TK_MENOS_IGUAL        desplazar e ir al estado 72
+    TK_POR_IGUAL          desplazar e ir al estado 73
+    TK_DIVIDIR_IGUAL      desplazar e ir al estado 74
+    TK_PORCENTAJE_IGUAL   desplazar e ir al estado 75
+    TK_AND_IGUAL          desplazar e ir al estado 76
+    TK_OR_IGUAL           desplazar e ir al estado 77
+    TK_POTENCIA_IGUAL     desplazar e ir al estado 78
+    TK_MAYOR_MAYOR_IGUAL  desplazar e ir al estado 79
+    TK_MENOR_MENOR_IGUAL  desplazar e ir al estado 80
+    TK_DOSPUNTOS_IGUAL    desplazar e ir al estado 81
+    TK_IGUAL_IGUAL        desplazar e ir al estado 82
+    TK_DIFERENTE          desplazar e ir al estado 83
+
+    OP_ASIGNACION  ir al estado 84
 
 
 Estado 40
 
-   18 IMPRIMIR: TK_PRINT TK_PA • expr TK_PC TK_PTCOMA
+   53 expr: ARITMETICOS •
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 81
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    $default  reduce usando la regla 53 (expr)
 
 
 Estado 41
 
-   21 IF: TK_IF TK_PA • expr TK_PC TK_LLA listainstrucciones TK_LLC
-   22   | TK_IF TK_PA • expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
-   23   | TK_IF TK_PA • expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE IF
+   54 expr: RELACIONALES •
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 82
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    $default  reduce usando la regla 54 (expr)
 
 
 Estado 42
 
-   31 WHILE: TK_WHILE TK_PA • expr TK_PC TK_LLA listainstrucciones TK_LLC
+   55 expr: LOGICOS •
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 83
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    $default  reduce usando la regla 55 (expr)
 
 
 Estado 43
 
-   32 FOR: TK_FOR TK_PA • DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
+   20 IMPRIMIR: TK_PRINT TK_PA • expr TK_PC TK_PTCOMA
 
-    TK_INT     desplazar e ir al estado 8
-    TK_FLOAT   desplazar e ir al estado 9
-    TK_STRING  desplazar e ir al estado 10
-    TK_BOOL    desplazar e ir al estado 11
-    TK_CHAR    desplazar e ir al estado 12
-    TK_FINAL   desplazar e ir al estado 13
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    DECLARACION  ir al estado 84
-    TIPO         ir al estado 35
+    expr          ir al estado 85
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 44
 
-   26 SWITCH: TK_SWITCH TK_PA • expr TK_PC TK_LLA CASES TK_LLC
+   23 IF: TK_IF TK_PA • expr TK_PC TK_LLA listainstrucciones TK_LLC
+   24   | TK_IF TK_PA • expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
+   25   | TK_IF TK_PA • expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE IF
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    expr          ir al estado 85
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    expr          ir al estado 86
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 45
 
-   25 CONTINUAR: TK_CONTINUE TK_PTCOMA •
+   34 WHILE: TK_WHILE TK_PA • expr TK_PC TK_LLA listainstrucciones TK_LLC
 
-    $default  reduce usando la regla 25 (CONTINUAR)
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 87
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 46
 
-   24 BREAK: TK_BREAK TK_PTCOMA •
+   35 FOR: TK_FOR TK_PA • DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
 
-    $default  reduce usando la regla 24 (BREAK)
+    TK_INT     desplazar e ir al estado 9
+    TK_FLOAT   desplazar e ir al estado 10
+    TK_STRING  desplazar e ir al estado 11
+    TK_BOOL    desplazar e ir al estado 12
+    TK_CHAR    desplazar e ir al estado 13
+    TK_FINAL   desplazar e ir al estado 14
+
+    DECLARACION  ir al estado 88
+    TIPO         ir al estado 89
 
 
 Estado 47
 
-   16 DECLARACION: TK_FINAL TIPO • ID TK_IGUAL expr TK_PTCOMA
+   29 SWITCH: TK_SWITCH TK_PA • expr TK_PC TK_LLA CASES TK_LLC
 
-    ID  desplazar e ir al estado 86
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 90
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 48
 
-   39 expr: TK_PA TIPO • TK_PC expr
+   27 CONTINUAR: TK_CONTINUE TK_PTCOMA •
 
-    TK_PC  desplazar e ir al estado 87
+    $default  reduce usando la regla 27 (CONTINUAR)
 
 
 Estado 49
 
-   38 expr: TK_PA expr • TK_PC
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   26 BREAK: TK_BREAK TK_PTCOMA •
 
-    TK_PC              desplazar e ir al estado 88
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    $default  reduce usando la regla 26 (BREAK)
 
 
 Estado 50
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
-   74        | TK_NOT expr •
+   28 RETORNAR: TK_RETURN expr • TK_PTCOMA
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
-
-    $default  reduce usando la regla 74 (LOGICOS)
+    TK_PTCOMA          desplazar e ir al estado 91
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
 
 
 Estado 51
+
+   18 DECLARACION: TK_FINAL TIPO • ID TK_IGUAL expr TK_PTCOMA
+
+    ID  desplazar e ir al estado 94
+
+
+Estado 52
+
+   46 expr: TK_PA TIPO • TK_PC expr
+
+    TK_PC  desplazar e ir al estado 95
+
+
+Estado 53
+
+   45 expr: TK_PA expr • TK_PC
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
+
+    TK_PC              desplazar e ir al estado 96
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
+
+
+Estado 54
+
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
+   81        | TK_NOT expr •
+
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
+
+    $default  reduce usando la regla 81 (LOGICOS)
+
+
+Estado 55
 
     0 $accept: inicio $end •
 
     $default  aceptar
 
 
-Estado 52
+Estado 56
 
     2 listainstrucciones: listainstrucciones instruccion •
 
     $default  reduce usando la regla 2 (listainstrucciones)
 
 
-Estado 53
+Estado 57
 
     8 instruccion: INCREMENTO_DECREMENTO TK_PTCOMA •
 
     $default  reduce usando la regla 8 (instruccion)
 
 
-Estado 54
-
-   14 DECLARACION: TIPO ID • TK_IGUAL expr TK_PTCOMA
-   15            | TIPO ID • TK_PTCOMA
-
-    TK_PTCOMA  desplazar e ir al estado 91
-    TK_IGUAL   desplazar e ir al estado 92
-
-
-Estado 55
-
-   70 RELACIONALES: expr TK_MAYOR • expr
-
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 93
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
-
-
-Estado 56
-
-   71 RELACIONALES: expr TK_MENOR • expr
-
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 94
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
-
-
-Estado 57
-
-   68 RELACIONALES: expr TK_MAYOR_IGUAL • expr
-
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 95
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
-
-
 Estado 58
 
-   69 RELACIONALES: expr TK_MENOR_IGUAL • expr
+   16 DECLARACION: TIPO ID • TK_IGUAL expr TK_PTCOMA
+   17            | TIPO ID • TK_PTCOMA
+   39 DECLARAR_FUNCION: TIPO ID • TK_PA PARAMETROS TK_PC TK_LLA listainstrucciones TK_LLC
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 96
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    TK_PA      desplazar e ir al estado 97
+    TK_PTCOMA  desplazar e ir al estado 98
+    TK_IGUAL   desplazar e ir al estado 99
 
 
 Estado 59
 
-   72 LOGICOS: expr TK_AND • expr
+   77 RELACIONALES: expr TK_MAYOR • expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    expr          ir al estado 97
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    expr          ir al estado 100
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 60
 
-   73 LOGICOS: expr TK_OR • expr
+   78 RELACIONALES: expr TK_MENOR • expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    expr          ir al estado 98
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    expr          ir al estado 101
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 61
 
-   19 INCREMENTO_DECREMENTO: expr TK_SUMA • TK_SUMA
-   49 ARITMETICOS: expr TK_SUMA • expr
+   75 RELACIONALES: expr TK_MAYOR_IGUAL • expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    TK_SUMA   desplazar e ir al estado 99
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    expr          ir al estado 100
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    expr          ir al estado 102
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 62
 
-   20 INCREMENTO_DECREMENTO: expr TK_RESTA • TK_RESTA
-   50 ARITMETICOS: expr TK_RESTA • expr
+   76 RELACIONALES: expr TK_MENOR_IGUAL • expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    TK_RESTA  desplazar e ir al estado 101
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    expr          ir al estado 102
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    expr          ir al estado 103
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 63
 
-   51 ARITMETICOS: expr TK_MULTIPLICACION • expr
+   79 LOGICOS: expr TK_AND • expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    expr          ir al estado 103
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    expr          ir al estado 104
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 64
 
-   52 ARITMETICOS: expr TK_DIVISION • expr
+   80 LOGICOS: expr TK_OR • expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    expr          ir al estado 104
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    expr          ir al estado 105
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 65
 
-   53 ARITMETICOS: expr TK_MODULAR • expr
+   21 INCREMENTO_DECREMENTO: expr TK_SUMA • TK_SUMA
+   56 ARITMETICOS: expr TK_SUMA • expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    TK_SUMA   desplazar e ir al estado 106
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    expr          ir al estado 105
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    expr          ir al estado 107
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 66
 
-   54 OP_ASIGNACION: TK_IGUAL •
+   22 INCREMENTO_DECREMENTO: expr TK_RESTA • TK_RESTA
+   57 ARITMETICOS: expr TK_RESTA • expr
 
-    $default  reduce usando la regla 54 (OP_ASIGNACION)
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    TK_RESTA  desplazar e ir al estado 108
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 109
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 67
 
-   55 OP_ASIGNACION: TK_MAS_IGUAL •
+   58 ARITMETICOS: expr TK_MULTIPLICACION • expr
 
-    $default  reduce usando la regla 55 (OP_ASIGNACION)
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 110
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 68
 
-   56 OP_ASIGNACION: TK_MENOS_IGUAL •
+   59 ARITMETICOS: expr TK_DIVISION • expr
 
-    $default  reduce usando la regla 56 (OP_ASIGNACION)
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 111
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 69
 
-   57 OP_ASIGNACION: TK_POR_IGUAL •
+   60 ARITMETICOS: expr TK_MODULAR • expr
 
-    $default  reduce usando la regla 57 (OP_ASIGNACION)
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 112
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 70
 
-   58 OP_ASIGNACION: TK_DIVIDIR_IGUAL •
-
-    $default  reduce usando la regla 58 (OP_ASIGNACION)
-
-
-Estado 71
-
-   59 OP_ASIGNACION: TK_PORCENTAJE_IGUAL •
-
-    $default  reduce usando la regla 59 (OP_ASIGNACION)
-
-
-Estado 72
-
-   60 OP_ASIGNACION: TK_AND_IGUAL •
-
-    $default  reduce usando la regla 60 (OP_ASIGNACION)
-
-
-Estado 73
-
-   61 OP_ASIGNACION: TK_OR_IGUAL •
+   61 OP_ASIGNACION: TK_IGUAL •
 
     $default  reduce usando la regla 61 (OP_ASIGNACION)
 
 
-Estado 74
+Estado 71
 
-   62 OP_ASIGNACION: TK_POTENCIA_IGUAL •
+   62 OP_ASIGNACION: TK_MAS_IGUAL •
 
     $default  reduce usando la regla 62 (OP_ASIGNACION)
 
 
-Estado 75
+Estado 72
 
-   63 OP_ASIGNACION: TK_MAYOR_MAYOR_IGUAL •
+   63 OP_ASIGNACION: TK_MENOS_IGUAL •
 
     $default  reduce usando la regla 63 (OP_ASIGNACION)
 
 
-Estado 76
+Estado 73
 
-   64 OP_ASIGNACION: TK_MENOR_MENOR_IGUAL •
+   64 OP_ASIGNACION: TK_POR_IGUAL •
 
     $default  reduce usando la regla 64 (OP_ASIGNACION)
 
 
-Estado 77
+Estado 74
 
-   65 OP_ASIGNACION: TK_DOSPUNTOS_IGUAL •
+   65 OP_ASIGNACION: TK_DIVIDIR_IGUAL •
 
     $default  reduce usando la regla 65 (OP_ASIGNACION)
 
 
+Estado 75
+
+   66 OP_ASIGNACION: TK_PORCENTAJE_IGUAL •
+
+    $default  reduce usando la regla 66 (OP_ASIGNACION)
+
+
+Estado 76
+
+   67 OP_ASIGNACION: TK_AND_IGUAL •
+
+    $default  reduce usando la regla 67 (OP_ASIGNACION)
+
+
+Estado 77
+
+   68 OP_ASIGNACION: TK_OR_IGUAL •
+
+    $default  reduce usando la regla 68 (OP_ASIGNACION)
+
+
 Estado 78
 
-   66 RELACIONALES: expr TK_IGUAL_IGUAL • expr
+   69 OP_ASIGNACION: TK_POTENCIA_IGUAL •
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 106
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    $default  reduce usando la regla 69 (OP_ASIGNACION)
 
 
 Estado 79
 
-   67 RELACIONALES: expr TK_DIFERENTE • expr
+   70 OP_ASIGNACION: TK_MAYOR_MAYOR_IGUAL •
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 107
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    $default  reduce usando la regla 70 (OP_ASIGNACION)
 
 
 Estado 80
 
-   17 ASIGNACION: expr OP_ASIGNACION • expr TK_PTCOMA
+   71 OP_ASIGNACION: TK_MENOR_MENOR_IGUAL •
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 108
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    $default  reduce usando la regla 71 (OP_ASIGNACION)
 
 
 Estado 81
 
-   18 IMPRIMIR: TK_PRINT TK_PA expr • TK_PC TK_PTCOMA
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   72 OP_ASIGNACION: TK_DOSPUNTOS_IGUAL •
 
-    TK_PC              desplazar e ir al estado 109
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    $default  reduce usando la regla 72 (OP_ASIGNACION)
 
 
 Estado 82
 
-   21 IF: TK_IF TK_PA expr • TK_PC TK_LLA listainstrucciones TK_LLC
-   22   | TK_IF TK_PA expr • TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
-   23   | TK_IF TK_PA expr • TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE IF
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   73 RELACIONALES: expr TK_IGUAL_IGUAL • expr
 
-    TK_PC              desplazar e ir al estado 110
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 113
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 83
 
-   31 WHILE: TK_WHILE TK_PA expr • TK_PC TK_LLA listainstrucciones TK_LLC
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   74 RELACIONALES: expr TK_DIFERENTE • expr
 
-    TK_PC              desplazar e ir al estado 111
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 114
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 84
 
-   32 FOR: TK_FOR TK_PA DECLARACION • expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
+   19 ASIGNACION: expr OP_ASIGNACION • expr TK_PTCOMA
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    expr          ir al estado 112
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    expr          ir al estado 115
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 85
 
-   26 SWITCH: TK_SWITCH TK_PA expr • TK_PC TK_LLA CASES TK_LLC
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   20 IMPRIMIR: TK_PRINT TK_PA expr • TK_PC TK_PTCOMA
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_PC              desplazar e ir al estado 113
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    TK_PC              desplazar e ir al estado 116
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
 
 
 Estado 86
 
-   16 DECLARACION: TK_FINAL TIPO ID • TK_IGUAL expr TK_PTCOMA
+   23 IF: TK_IF TK_PA expr • TK_PC TK_LLA listainstrucciones TK_LLC
+   24   | TK_IF TK_PA expr • TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
+   25   | TK_IF TK_PA expr • TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE IF
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_IGUAL  desplazar e ir al estado 114
+    TK_PC              desplazar e ir al estado 117
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
 
 
 Estado 87
 
-   39 expr: TK_PA TIPO TK_PC • expr
+   34 WHILE: TK_WHILE TK_PA expr • TK_PC TK_LLA listainstrucciones TK_LLC
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 115
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    TK_PC              desplazar e ir al estado 118
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
 
 
 Estado 88
 
-   38 expr: TK_PA expr TK_PC •
+   35 FOR: TK_FOR TK_PA DECLARACION • expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
 
-    $default  reduce usando la regla 38 (expr)
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 119
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 89
 
-   49 ARITMETICOS: expr TK_SUMA • expr
+   16 DECLARACION: TIPO • ID TK_IGUAL expr TK_PTCOMA
+   17            | TIPO • ID TK_PTCOMA
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 100
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    ID  desplazar e ir al estado 120
 
 
 Estado 90
 
-   50 ARITMETICOS: expr TK_RESTA • expr
+   29 SWITCH: TK_SWITCH TK_PA expr • TK_PC TK_LLA CASES TK_LLC
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    expr          ir al estado 102
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    TK_PC              desplazar e ir al estado 121
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
 
 
 Estado 91
 
-   15 DECLARACION: TIPO ID TK_PTCOMA •
+   28 RETORNAR: TK_RETURN expr TK_PTCOMA •
 
-    $default  reduce usando la regla 15 (DECLARACION)
+    $default  reduce usando la regla 28 (RETORNAR)
 
 
 Estado 92
 
-   14 DECLARACION: TIPO ID TK_IGUAL • expr TK_PTCOMA
+   56 ARITMETICOS: expr TK_SUMA • expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    expr          ir al estado 116
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    expr          ir al estado 107
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 93
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   70             | expr TK_MAYOR expr •
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   57 ARITMETICOS: expr TK_RESTA • expr
 
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    $default  reduce usando la regla 70 (RELACIONALES)
+    expr          ir al estado 109
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 94
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   71             | expr TK_MENOR expr •
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   18 DECLARACION: TK_FINAL TIPO ID • TK_IGUAL expr TK_PTCOMA
 
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-
-    $default  reduce usando la regla 71 (RELACIONALES)
+    TK_IGUAL  desplazar e ir al estado 122
 
 
 Estado 95
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   68             | expr TK_MAYOR_IGUAL expr •
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   46 expr: TK_PA TIPO TK_PC • expr
 
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    $default  reduce usando la regla 68 (RELACIONALES)
+    expr          ir al estado 123
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 96
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   69             | expr TK_MENOR_IGUAL expr •
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   45 expr: TK_PA expr TK_PC •
 
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-
-    $default  reduce usando la regla 69 (RELACIONALES)
+    $default  reduce usando la regla 45 (expr)
 
 
 Estado 97
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   72        | expr TK_AND expr •
-   73        | expr • TK_OR expr
+   39 DECLARAR_FUNCION: TIPO ID TK_PA • PARAMETROS TK_PC TK_LLA listainstrucciones TK_LLC
 
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    TK_INT     desplazar e ir al estado 9
+    TK_FLOAT   desplazar e ir al estado 10
+    TK_STRING  desplazar e ir al estado 11
+    TK_BOOL    desplazar e ir al estado 12
+    TK_CHAR    desplazar e ir al estado 13
 
-    $default  reduce usando la regla 72 (LOGICOS)
+    $default  reduce usando la regla 38 (PARAMETROS)
+
+    PARAMETROS  ir al estado 124
+    TIPO        ir al estado 125
 
 
 Estado 98
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
-   73        | expr TK_OR expr •
+   17 DECLARACION: TIPO ID TK_PTCOMA •
 
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
-
-    $default  reduce usando la regla 73 (LOGICOS)
+    $default  reduce usando la regla 17 (DECLARACION)
 
 
 Estado 99
 
-   19 INCREMENTO_DECREMENTO: expr TK_SUMA TK_SUMA •
+   16 DECLARACION: TIPO ID TK_IGUAL • expr TK_PTCOMA
 
-    $default  reduce usando la regla 19 (INCREMENTO_DECREMENTO)
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    expr          ir al estado 126
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 100
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   49            | expr TK_SUMA expr •
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   77             | expr TK_MAYOR expr •
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
 
-    $default  reduce usando la regla 49 (ARITMETICOS)
+    $default  reduce usando la regla 77 (RELACIONALES)
 
 
 Estado 101
 
-   20 INCREMENTO_DECREMENTO: expr TK_RESTA TK_RESTA •
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   78             | expr TK_MENOR expr •
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    $default  reduce usando la regla 20 (INCREMENTO_DECREMENTO)
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+
+    $default  reduce usando la regla 78 (RELACIONALES)
 
 
 Estado 102
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   50            | expr TK_RESTA expr •
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   75             | expr TK_MAYOR_IGUAL expr •
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
 
-    $default  reduce usando la regla 50 (ARITMETICOS)
+    $default  reduce usando la regla 75 (RELACIONALES)
 
 
 Estado 103
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   51            | expr TK_MULTIPLICACION expr •
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   76             | expr TK_MENOR_IGUAL expr •
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    $default  reduce usando la regla 51 (ARITMETICOS)
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+
+    $default  reduce usando la regla 76 (RELACIONALES)
 
 
 Estado 104
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   52            | expr TK_DIVISION expr •
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   79        | expr TK_AND expr •
+   80        | expr • TK_OR expr
 
-    $default  reduce usando la regla 52 (ARITMETICOS)
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
+
+    $default  reduce usando la regla 79 (LOGICOS)
 
 
 Estado 105
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   53            | expr TK_MODULAR expr •
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
+   80        | expr TK_OR expr •
 
-    $default  reduce usando la regla 53 (ARITMETICOS)
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
+
+    $default  reduce usando la regla 80 (LOGICOS)
 
 
 Estado 106
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   66             | expr TK_IGUAL_IGUAL expr •
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   21 INCREMENTO_DECREMENTO: expr TK_SUMA TK_SUMA •
 
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-
-    $default  reduce usando la regla 66 (RELACIONALES)
+    $default  reduce usando la regla 21 (INCREMENTO_DECREMENTO)
 
 
 Estado 107
 
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   67             | expr TK_DIFERENTE expr •
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   56 ARITMETICOS: expr • TK_SUMA expr
+   56            | expr TK_SUMA expr •
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
 
-    $default  reduce usando la regla 67 (RELACIONALES)
+    $default  reduce usando la regla 56 (ARITMETICOS)
 
 
 Estado 108
 
-   17 ASIGNACION: expr OP_ASIGNACION expr • TK_PTCOMA
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   22 INCREMENTO_DECREMENTO: expr TK_RESTA TK_RESTA •
 
-    TK_PTCOMA          desplazar e ir al estado 117
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    $default  reduce usando la regla 22 (INCREMENTO_DECREMENTO)
 
 
 Estado 109
 
-   18 IMPRIMIR: TK_PRINT TK_PA expr TK_PC • TK_PTCOMA
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   57            | expr TK_RESTA expr •
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_PTCOMA  desplazar e ir al estado 118
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+
+    $default  reduce usando la regla 57 (ARITMETICOS)
 
 
 Estado 110
 
-   21 IF: TK_IF TK_PA expr TK_PC • TK_LLA listainstrucciones TK_LLC
-   22   | TK_IF TK_PA expr TK_PC • TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
-   23   | TK_IF TK_PA expr TK_PC • TK_LLA listainstrucciones TK_LLC TK_ELSE IF
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   58            | expr TK_MULTIPLICACION expr •
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_LLA  desplazar e ir al estado 119
+    $default  reduce usando la regla 58 (ARITMETICOS)
 
 
 Estado 111
 
-   31 WHILE: TK_WHILE TK_PA expr TK_PC • TK_LLA listainstrucciones TK_LLC
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   59            | expr TK_DIVISION expr •
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_LLA  desplazar e ir al estado 120
+    $default  reduce usando la regla 59 (ARITMETICOS)
 
 
 Estado 112
 
-   32 FOR: TK_FOR TK_PA DECLARACION expr • TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   60            | expr TK_MODULAR expr •
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_PTCOMA          desplazar e ir al estado 121
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    $default  reduce usando la regla 60 (ARITMETICOS)
 
 
 Estado 113
 
-   26 SWITCH: TK_SWITCH TK_PA expr TK_PC • TK_LLA CASES TK_LLC
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   73             | expr TK_IGUAL_IGUAL expr •
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_LLA  desplazar e ir al estado 122
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+
+    $default  reduce usando la regla 73 (RELACIONALES)
 
 
 Estado 114
 
-   16 DECLARACION: TK_FINAL TIPO ID TK_IGUAL • expr TK_PTCOMA
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   74             | expr TK_DIFERENTE expr •
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
 
-    expr          ir al estado 123
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    $default  reduce usando la regla 74 (RELACIONALES)
 
 
 Estado 115
 
-   39 expr: TK_PA TIPO TK_PC expr •
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   19 ASIGNACION: expr OP_ASIGNACION expr • TK_PTCOMA
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
-
-    TK_MAYOR           [reduce usando la regla 39 (expr)]
-    TK_MENOR           [reduce usando la regla 39 (expr)]
-    TK_MAYOR_IGUAL     [reduce usando la regla 39 (expr)]
-    TK_MENOR_IGUAL     [reduce usando la regla 39 (expr)]
-    TK_AND             [reduce usando la regla 39 (expr)]
-    TK_OR              [reduce usando la regla 39 (expr)]
-    TK_SUMA            [reduce usando la regla 39 (expr)]
-    TK_RESTA           [reduce usando la regla 39 (expr)]
-    TK_MULTIPLICACION  [reduce usando la regla 39 (expr)]
-    TK_DIVISION        [reduce usando la regla 39 (expr)]
-    TK_MODULAR         [reduce usando la regla 39 (expr)]
-    TK_IGUAL_IGUAL     [reduce usando la regla 39 (expr)]
-    TK_DIFERENTE       [reduce usando la regla 39 (expr)]
-    $default           reduce usando la regla 39 (expr)
+    TK_PTCOMA          desplazar e ir al estado 127
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
 
 
 Estado 116
 
-   14 DECLARACION: TIPO ID TK_IGUAL expr • TK_PTCOMA
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   20 IMPRIMIR: TK_PRINT TK_PA expr TK_PC • TK_PTCOMA
 
-    TK_PTCOMA          desplazar e ir al estado 124
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    TK_PTCOMA  desplazar e ir al estado 128
 
 
 Estado 117
 
-   17 ASIGNACION: expr OP_ASIGNACION expr TK_PTCOMA •
+   23 IF: TK_IF TK_PA expr TK_PC • TK_LLA listainstrucciones TK_LLC
+   24   | TK_IF TK_PA expr TK_PC • TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
+   25   | TK_IF TK_PA expr TK_PC • TK_LLA listainstrucciones TK_LLC TK_ELSE IF
 
-    $default  reduce usando la regla 17 (ASIGNACION)
+    TK_LLA  desplazar e ir al estado 129
 
 
 Estado 118
 
-   18 IMPRIMIR: TK_PRINT TK_PA expr TK_PC TK_PTCOMA •
+   34 WHILE: TK_WHILE TK_PA expr TK_PC • TK_LLA listainstrucciones TK_LLC
 
-    $default  reduce usando la regla 18 (IMPRIMIR)
+    TK_LLA  desplazar e ir al estado 130
 
 
 Estado 119
 
-   21 IF: TK_IF TK_PA expr TK_PC TK_LLA • listainstrucciones TK_LLC
-   22   | TK_IF TK_PA expr TK_PC TK_LLA • listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
-   23   | TK_IF TK_PA expr TK_PC TK_LLA • listainstrucciones TK_LLC TK_ELSE IF
+   35 FOR: TK_FOR TK_PA DECLARACION expr • TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_PRINT     desplazar e ir al estado 1
-    TK_IF        desplazar e ir al estado 2
-    TK_WHILE     desplazar e ir al estado 3
-    TK_FOR       desplazar e ir al estado 4
-    TK_SWITCH    desplazar e ir al estado 5
-    TK_CONTINUE  desplazar e ir al estado 6
-    TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
-
-    listainstrucciones     ir al estado 125
-    instruccion            ir al estado 24
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    TK_PTCOMA          desplazar e ir al estado 131
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
 
 
 Estado 120
 
-   31 WHILE: TK_WHILE TK_PA expr TK_PC TK_LLA • listainstrucciones TK_LLC
+   16 DECLARACION: TIPO ID • TK_IGUAL expr TK_PTCOMA
+   17            | TIPO ID • TK_PTCOMA
 
-    TK_PRINT     desplazar e ir al estado 1
-    TK_IF        desplazar e ir al estado 2
-    TK_WHILE     desplazar e ir al estado 3
-    TK_FOR       desplazar e ir al estado 4
-    TK_SWITCH    desplazar e ir al estado 5
-    TK_CONTINUE  desplazar e ir al estado 6
-    TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
-
-    listainstrucciones     ir al estado 126
-    instruccion            ir al estado 24
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    TK_PTCOMA  desplazar e ir al estado 98
+    TK_IGUAL   desplazar e ir al estado 99
 
 
 Estado 121
 
-   32 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA • INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
+   29 SWITCH: TK_SWITCH TK_PA expr TK_PC • TK_LLA CASES TK_LLC
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
-
-    INCREMENTO_DECREMENTO  ir al estado 127
-    expr                   ir al estado 128
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    TK_LLA  desplazar e ir al estado 132
 
 
 Estado 122
 
-   26 SWITCH: TK_SWITCH TK_PA expr TK_PC TK_LLA • CASES TK_LLC
+   18 DECLARACION: TK_FINAL TIPO ID TK_IGUAL • expr TK_PTCOMA
 
-    TK_CASE     desplazar e ir al estado 129
-    TK_DEFAULT  desplazar e ir al estado 130
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    CASES  ir al estado 131
-    CASE   ir al estado 132
+    expr          ir al estado 133
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 123
 
-   16 DECLARACION: TK_FINAL TIPO ID TK_IGUAL expr • TK_PTCOMA
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   46 expr: TK_PA TIPO TK_PC expr •
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_PTCOMA          desplazar e ir al estado 133
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
+
+    TK_MAYOR           [reduce usando la regla 46 (expr)]
+    TK_MENOR           [reduce usando la regla 46 (expr)]
+    TK_MAYOR_IGUAL     [reduce usando la regla 46 (expr)]
+    TK_MENOR_IGUAL     [reduce usando la regla 46 (expr)]
+    TK_AND             [reduce usando la regla 46 (expr)]
+    TK_OR              [reduce usando la regla 46 (expr)]
+    TK_SUMA            [reduce usando la regla 46 (expr)]
+    TK_RESTA           [reduce usando la regla 46 (expr)]
+    TK_MULTIPLICACION  [reduce usando la regla 46 (expr)]
+    TK_DIVISION        [reduce usando la regla 46 (expr)]
+    TK_MODULAR         [reduce usando la regla 46 (expr)]
+    TK_IGUAL_IGUAL     [reduce usando la regla 46 (expr)]
+    TK_DIFERENTE       [reduce usando la regla 46 (expr)]
+    $default           reduce usando la regla 46 (expr)
 
 
 Estado 124
 
-   14 DECLARACION: TIPO ID TK_IGUAL expr TK_PTCOMA •
+   39 DECLARAR_FUNCION: TIPO ID TK_PA PARAMETROS • TK_PC TK_LLA listainstrucciones TK_LLC
 
-    $default  reduce usando la regla 14 (DECLARACION)
+    TK_PC  desplazar e ir al estado 134
 
 
 Estado 125
 
-    2 listainstrucciones: listainstrucciones • instruccion
-   21 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones • TK_LLC
-   22   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones • TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
-   23   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones • TK_LLC TK_ELSE IF
+   36 PARAMETROS: TIPO • ID TK_COMA PARAMETROS
+   37           | TIPO • ID
 
-    TK_PRINT     desplazar e ir al estado 1
-    TK_IF        desplazar e ir al estado 2
-    TK_WHILE     desplazar e ir al estado 3
-    TK_FOR       desplazar e ir al estado 4
-    TK_SWITCH    desplazar e ir al estado 5
-    TK_CONTINUE  desplazar e ir al estado 6
-    TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_LLC       desplazar e ir al estado 134
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
-
-    instruccion            ir al estado 52
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    ID  desplazar e ir al estado 135
 
 
 Estado 126
 
-    2 listainstrucciones: listainstrucciones • instruccion
-   31 WHILE: TK_WHILE TK_PA expr TK_PC TK_LLA listainstrucciones • TK_LLC
+   16 DECLARACION: TIPO ID TK_IGUAL expr • TK_PTCOMA
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    TK_PRINT     desplazar e ir al estado 1
-    TK_IF        desplazar e ir al estado 2
-    TK_WHILE     desplazar e ir al estado 3
-    TK_FOR       desplazar e ir al estado 4
-    TK_SWITCH    desplazar e ir al estado 5
-    TK_CONTINUE  desplazar e ir al estado 6
-    TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_LLC       desplazar e ir al estado 135
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
-
-    instruccion            ir al estado 52
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    TK_PTCOMA          desplazar e ir al estado 136
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
 
 
 Estado 127
 
-   32 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO • TK_PC TK_LLA listainstrucciones TK_LLC
+   19 ASIGNACION: expr OP_ASIGNACION expr TK_PTCOMA •
 
-    TK_PC  desplazar e ir al estado 136
+    $default  reduce usando la regla 19 (ASIGNACION)
 
 
 Estado 128
 
-   19 INCREMENTO_DECREMENTO: expr • TK_SUMA TK_SUMA
-   20                      | expr • TK_RESTA TK_RESTA
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+   20 IMPRIMIR: TK_PRINT TK_PA expr TK_PC TK_PTCOMA •
 
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 61
-    TK_RESTA           desplazar e ir al estado 62
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    $default  reduce usando la regla 20 (IMPRIMIR)
 
 
 Estado 129
 
-   29 CASE: TK_CASE • expr TK_DOSPUNTOS listainstrucciones
+   23 IF: TK_IF TK_PA expr TK_PC TK_LLA • listainstrucciones TK_LLC
+   24   | TK_IF TK_PA expr TK_PC TK_LLA • listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
+   25   | TK_IF TK_PA expr TK_PC TK_LLA • listainstrucciones TK_LLC TK_ELSE IF
 
-    TK_PA     desplazar e ir al estado 14
-    TK_NOT    desplazar e ir al estado 15
-    INT       desplazar e ir al estado 16
-    DECIMAL   desplazar e ir al estado 17
-    CARACTER  desplazar e ir al estado 18
-    CADENA    desplazar e ir al estado 19
-    ID        desplazar e ir al estado 20
-    BOOL      desplazar e ir al estado 21
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
 
-    expr          ir al estado 137
-    ARITMETICOS   ir al estado 37
-    RELACIONALES  ir al estado 38
-    LOGICOS       ir al estado 39
+    listainstrucciones     ir al estado 137
+    instruccion            ir al estado 25
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
 
 
 Estado 130
 
-   30 CASE: TK_DEFAULT • TK_DOSPUNTOS listainstrucciones
+   34 WHILE: TK_WHILE TK_PA expr TK_PC TK_LLA • listainstrucciones TK_LLC
 
-    TK_DOSPUNTOS  desplazar e ir al estado 138
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
+
+    listainstrucciones     ir al estado 138
+    instruccion            ir al estado 25
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
 
 
 Estado 131
 
-   26 SWITCH: TK_SWITCH TK_PA expr TK_PC TK_LLA CASES • TK_LLC
+   35 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA • INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC
 
-    TK_LLC  desplazar e ir al estado 139
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
+
+    INCREMENTO_DECREMENTO  ir al estado 139
+    expr                   ir al estado 140
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
 
 
 Estado 132
 
-   27 CASES: CASE • CASES
-   28      | CASE •
+   29 SWITCH: TK_SWITCH TK_PA expr TK_PC TK_LLA • CASES TK_LLC
 
-    TK_CASE     desplazar e ir al estado 129
-    TK_DEFAULT  desplazar e ir al estado 130
+    TK_CASE     desplazar e ir al estado 141
+    TK_DEFAULT  desplazar e ir al estado 142
 
-    $default  reduce usando la regla 28 (CASES)
-
-    CASES  ir al estado 140
-    CASE   ir al estado 132
+    CASES  ir al estado 143
+    CASE   ir al estado 144
 
 
 Estado 133
 
-   16 DECLARACION: TK_FINAL TIPO ID TK_IGUAL expr TK_PTCOMA •
+   18 DECLARACION: TK_FINAL TIPO ID TK_IGUAL expr • TK_PTCOMA
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    $default  reduce usando la regla 16 (DECLARACION)
+    TK_PTCOMA          desplazar e ir al estado 145
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
 
 
 Estado 134
 
-   21 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC •
-   22   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC • TK_ELSE TK_LLA listainstrucciones TK_LLC
-   23   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC • TK_ELSE IF
+   39 DECLARAR_FUNCION: TIPO ID TK_PA PARAMETROS TK_PC • TK_LLA listainstrucciones TK_LLC
 
-    TK_ELSE  desplazar e ir al estado 141
-
-    $default  reduce usando la regla 21 (IF)
+    TK_LLA  desplazar e ir al estado 146
 
 
 Estado 135
 
-   31 WHILE: TK_WHILE TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC •
+   36 PARAMETROS: TIPO ID • TK_COMA PARAMETROS
+   37           | TIPO ID •
 
-    $default  reduce usando la regla 31 (WHILE)
+    TK_COMA  desplazar e ir al estado 147
+
+    $default  reduce usando la regla 37 (PARAMETROS)
 
 
 Estado 136
 
-   32 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC • TK_LLA listainstrucciones TK_LLC
+   16 DECLARACION: TIPO ID TK_IGUAL expr TK_PTCOMA •
 
-    TK_LLA  desplazar e ir al estado 142
+    $default  reduce usando la regla 16 (DECLARACION)
 
 
 Estado 137
 
-   29 CASE: TK_CASE expr • TK_DOSPUNTOS listainstrucciones
-   49 ARITMETICOS: expr • TK_SUMA expr
-   50            | expr • TK_RESTA expr
-   51            | expr • TK_MULTIPLICACION expr
-   52            | expr • TK_DIVISION expr
-   53            | expr • TK_MODULAR expr
-   66 RELACIONALES: expr • TK_IGUAL_IGUAL expr
-   67             | expr • TK_DIFERENTE expr
-   68             | expr • TK_MAYOR_IGUAL expr
-   69             | expr • TK_MENOR_IGUAL expr
-   70             | expr • TK_MAYOR expr
-   71             | expr • TK_MENOR expr
-   72 LOGICOS: expr • TK_AND expr
-   73        | expr • TK_OR expr
+    2 listainstrucciones: listainstrucciones • instruccion
+   23 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones • TK_LLC
+   24   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones • TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC
+   25   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones • TK_LLC TK_ELSE IF
 
-    TK_DOSPUNTOS       desplazar e ir al estado 143
-    TK_MAYOR           desplazar e ir al estado 55
-    TK_MENOR           desplazar e ir al estado 56
-    TK_MAYOR_IGUAL     desplazar e ir al estado 57
-    TK_MENOR_IGUAL     desplazar e ir al estado 58
-    TK_AND             desplazar e ir al estado 59
-    TK_OR              desplazar e ir al estado 60
-    TK_SUMA            desplazar e ir al estado 89
-    TK_RESTA           desplazar e ir al estado 90
-    TK_MULTIPLICACION  desplazar e ir al estado 63
-    TK_DIVISION        desplazar e ir al estado 64
-    TK_MODULAR         desplazar e ir al estado 65
-    TK_IGUAL_IGUAL     desplazar e ir al estado 78
-    TK_DIFERENTE       desplazar e ir al estado 79
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_LLC       desplazar e ir al estado 148
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
+
+    instruccion            ir al estado 56
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
 
 
 Estado 138
 
-   30 CASE: TK_DEFAULT TK_DOSPUNTOS • listainstrucciones
+    2 listainstrucciones: listainstrucciones • instruccion
+   34 WHILE: TK_WHILE TK_PA expr TK_PC TK_LLA listainstrucciones • TK_LLC
 
     TK_PRINT     desplazar e ir al estado 1
     TK_IF        desplazar e ir al estado 2
@@ -2480,351 +2456,262 @@ Estado 138
     TK_SWITCH    desplazar e ir al estado 5
     TK_CONTINUE  desplazar e ir al estado 6
     TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_LLC       desplazar e ir al estado 149
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
 
-    listainstrucciones     ir al estado 144
-    instruccion            ir al estado 24
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    instruccion            ir al estado 56
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
 
 
 Estado 139
 
-   26 SWITCH: TK_SWITCH TK_PA expr TK_PC TK_LLA CASES TK_LLC •
+   35 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO • TK_PC TK_LLA listainstrucciones TK_LLC
 
-    $default  reduce usando la regla 26 (SWITCH)
+    TK_PC  desplazar e ir al estado 150
 
 
 Estado 140
 
-   27 CASES: CASE CASES •
+   21 INCREMENTO_DECREMENTO: expr • TK_SUMA TK_SUMA
+   22                      | expr • TK_RESTA TK_RESTA
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
 
-    $default  reduce usando la regla 27 (CASES)
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 65
+    TK_RESTA           desplazar e ir al estado 66
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
 
 
 Estado 141
 
-   22 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE • TK_LLA listainstrucciones TK_LLC
-   23   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE • IF
+   32 CASE: TK_CASE • expr TK_DOSPUNTOS listainstrucciones
 
-    TK_IF   desplazar e ir al estado 2
-    TK_LLA  desplazar e ir al estado 145
+    TK_PA     desplazar e ir al estado 15
+    TK_NOT    desplazar e ir al estado 16
+    INT       desplazar e ir al estado 17
+    DECIMAL   desplazar e ir al estado 18
+    CARACTER  desplazar e ir al estado 19
+    CADENA    desplazar e ir al estado 20
+    ID        desplazar e ir al estado 21
+    BOOL      desplazar e ir al estado 22
 
-    IF  ir al estado 146
+    expr          ir al estado 151
+    ARITMETICOS   ir al estado 40
+    RELACIONALES  ir al estado 41
+    LOGICOS       ir al estado 42
 
 
 Estado 142
 
-   32 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA • listainstrucciones TK_LLC
+   33 CASE: TK_DEFAULT • TK_DOSPUNTOS listainstrucciones
 
-    TK_PRINT     desplazar e ir al estado 1
-    TK_IF        desplazar e ir al estado 2
-    TK_WHILE     desplazar e ir al estado 3
-    TK_FOR       desplazar e ir al estado 4
-    TK_SWITCH    desplazar e ir al estado 5
-    TK_CONTINUE  desplazar e ir al estado 6
-    TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
-
-    listainstrucciones     ir al estado 147
-    instruccion            ir al estado 24
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    TK_DOSPUNTOS  desplazar e ir al estado 152
 
 
 Estado 143
 
-   29 CASE: TK_CASE expr TK_DOSPUNTOS • listainstrucciones
+   29 SWITCH: TK_SWITCH TK_PA expr TK_PC TK_LLA CASES • TK_LLC
 
-    TK_PRINT     desplazar e ir al estado 1
-    TK_IF        desplazar e ir al estado 2
-    TK_WHILE     desplazar e ir al estado 3
-    TK_FOR       desplazar e ir al estado 4
-    TK_SWITCH    desplazar e ir al estado 5
-    TK_CONTINUE  desplazar e ir al estado 6
-    TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
-
-    listainstrucciones     ir al estado 148
-    instruccion            ir al estado 24
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    TK_LLC  desplazar e ir al estado 153
 
 
 Estado 144
 
-    2 listainstrucciones: listainstrucciones • instruccion
-   30 CASE: TK_DEFAULT TK_DOSPUNTOS listainstrucciones •
+   30 CASES: CASE • CASES
+   31      | CASE •
 
-    TK_PRINT     desplazar e ir al estado 1
-    TK_IF        desplazar e ir al estado 2
-    TK_WHILE     desplazar e ir al estado 3
-    TK_FOR       desplazar e ir al estado 4
-    TK_SWITCH    desplazar e ir al estado 5
-    TK_CONTINUE  desplazar e ir al estado 6
-    TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
+    TK_CASE     desplazar e ir al estado 141
+    TK_DEFAULT  desplazar e ir al estado 142
 
-    $default  reduce usando la regla 30 (CASE)
+    $default  reduce usando la regla 31 (CASES)
 
-    instruccion            ir al estado 52
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    CASES  ir al estado 154
+    CASE   ir al estado 144
 
 
 Estado 145
 
-   22 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA • listainstrucciones TK_LLC
+   18 DECLARACION: TK_FINAL TIPO ID TK_IGUAL expr TK_PTCOMA •
 
-    TK_PRINT     desplazar e ir al estado 1
-    TK_IF        desplazar e ir al estado 2
-    TK_WHILE     desplazar e ir al estado 3
-    TK_FOR       desplazar e ir al estado 4
-    TK_SWITCH    desplazar e ir al estado 5
-    TK_CONTINUE  desplazar e ir al estado 6
-    TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
-
-    listainstrucciones     ir al estado 149
-    instruccion            ir al estado 24
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    $default  reduce usando la regla 18 (DECLARACION)
 
 
 Estado 146
 
-   23 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE IF •
+   39 DECLARAR_FUNCION: TIPO ID TK_PA PARAMETROS TK_PC TK_LLA • listainstrucciones TK_LLC
 
-    $default  reduce usando la regla 23 (IF)
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
+
+    listainstrucciones     ir al estado 155
+    instruccion            ir al estado 25
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
 
 
 Estado 147
 
-    2 listainstrucciones: listainstrucciones • instruccion
-   32 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones • TK_LLC
+   36 PARAMETROS: TIPO ID TK_COMA • PARAMETROS
 
-    TK_PRINT     desplazar e ir al estado 1
-    TK_IF        desplazar e ir al estado 2
-    TK_WHILE     desplazar e ir al estado 3
-    TK_FOR       desplazar e ir al estado 4
-    TK_SWITCH    desplazar e ir al estado 5
-    TK_CONTINUE  desplazar e ir al estado 6
-    TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_LLC       desplazar e ir al estado 150
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
+    TK_INT     desplazar e ir al estado 9
+    TK_FLOAT   desplazar e ir al estado 10
+    TK_STRING  desplazar e ir al estado 11
+    TK_BOOL    desplazar e ir al estado 12
+    TK_CHAR    desplazar e ir al estado 13
 
-    instruccion            ir al estado 52
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    $default  reduce usando la regla 38 (PARAMETROS)
+
+    PARAMETROS  ir al estado 156
+    TIPO        ir al estado 125
 
 
 Estado 148
 
-    2 listainstrucciones: listainstrucciones • instruccion
-   29 CASE: TK_CASE expr TK_DOSPUNTOS listainstrucciones •
+   23 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC •
+   24   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC • TK_ELSE TK_LLA listainstrucciones TK_LLC
+   25   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC • TK_ELSE IF
 
-    TK_PRINT     desplazar e ir al estado 1
-    TK_IF        desplazar e ir al estado 2
-    TK_WHILE     desplazar e ir al estado 3
-    TK_FOR       desplazar e ir al estado 4
-    TK_SWITCH    desplazar e ir al estado 5
-    TK_CONTINUE  desplazar e ir al estado 6
-    TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
+    TK_ELSE  desplazar e ir al estado 157
 
-    $default  reduce usando la regla 29 (CASE)
-
-    instruccion            ir al estado 52
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
+    $default  reduce usando la regla 23 (IF)
 
 
 Estado 149
 
-    2 listainstrucciones: listainstrucciones • instruccion
-   22 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones • TK_LLC
+   34 WHILE: TK_WHILE TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC •
+
+    $default  reduce usando la regla 34 (WHILE)
+
+
+Estado 150
+
+   35 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC • TK_LLA listainstrucciones TK_LLC
+
+    TK_LLA  desplazar e ir al estado 158
+
+
+Estado 151
+
+   32 CASE: TK_CASE expr • TK_DOSPUNTOS listainstrucciones
+   56 ARITMETICOS: expr • TK_SUMA expr
+   57            | expr • TK_RESTA expr
+   58            | expr • TK_MULTIPLICACION expr
+   59            | expr • TK_DIVISION expr
+   60            | expr • TK_MODULAR expr
+   73 RELACIONALES: expr • TK_IGUAL_IGUAL expr
+   74             | expr • TK_DIFERENTE expr
+   75             | expr • TK_MAYOR_IGUAL expr
+   76             | expr • TK_MENOR_IGUAL expr
+   77             | expr • TK_MAYOR expr
+   78             | expr • TK_MENOR expr
+   79 LOGICOS: expr • TK_AND expr
+   80        | expr • TK_OR expr
+
+    TK_DOSPUNTOS       desplazar e ir al estado 159
+    TK_MAYOR           desplazar e ir al estado 59
+    TK_MENOR           desplazar e ir al estado 60
+    TK_MAYOR_IGUAL     desplazar e ir al estado 61
+    TK_MENOR_IGUAL     desplazar e ir al estado 62
+    TK_AND             desplazar e ir al estado 63
+    TK_OR              desplazar e ir al estado 64
+    TK_SUMA            desplazar e ir al estado 92
+    TK_RESTA           desplazar e ir al estado 93
+    TK_MULTIPLICACION  desplazar e ir al estado 67
+    TK_DIVISION        desplazar e ir al estado 68
+    TK_MODULAR         desplazar e ir al estado 69
+    TK_IGUAL_IGUAL     desplazar e ir al estado 82
+    TK_DIFERENTE       desplazar e ir al estado 83
+
+
+Estado 152
+
+   33 CASE: TK_DEFAULT TK_DOSPUNTOS • listainstrucciones
 
     TK_PRINT     desplazar e ir al estado 1
     TK_IF        desplazar e ir al estado 2
@@ -2833,49 +2720,489 @@ Estado 149
     TK_SWITCH    desplazar e ir al estado 5
     TK_CONTINUE  desplazar e ir al estado 6
     TK_BREAK     desplazar e ir al estado 7
-    TK_INT       desplazar e ir al estado 8
-    TK_FLOAT     desplazar e ir al estado 9
-    TK_STRING    desplazar e ir al estado 10
-    TK_BOOL      desplazar e ir al estado 11
-    TK_CHAR      desplazar e ir al estado 12
-    TK_FINAL     desplazar e ir al estado 13
-    TK_PA        desplazar e ir al estado 14
-    TK_LLC       desplazar e ir al estado 151
-    TK_NOT       desplazar e ir al estado 15
-    INT          desplazar e ir al estado 16
-    DECIMAL      desplazar e ir al estado 17
-    CARACTER     desplazar e ir al estado 18
-    CADENA       desplazar e ir al estado 19
-    ID           desplazar e ir al estado 20
-    BOOL         desplazar e ir al estado 21
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
 
-    instruccion            ir al estado 52
-    DECLARACION            ir al estado 25
-    ASIGNACION             ir al estado 26
-    IMPRIMIR               ir al estado 27
-    INCREMENTO_DECREMENTO  ir al estado 28
-    IF                     ir al estado 29
-    BREAK                  ir al estado 30
-    CONTINUAR              ir al estado 31
-    SWITCH                 ir al estado 32
-    WHILE                  ir al estado 33
-    FOR                    ir al estado 34
-    TIPO                   ir al estado 35
-    expr                   ir al estado 36
-    ARITMETICOS            ir al estado 37
-    RELACIONALES           ir al estado 38
-    LOGICOS                ir al estado 39
-
-
-Estado 150
-
-   32 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC •
-
-    $default  reduce usando la regla 32 (FOR)
+    listainstrucciones     ir al estado 160
+    instruccion            ir al estado 25
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
 
 
-Estado 151
+Estado 153
 
-   22 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC •
+   29 SWITCH: TK_SWITCH TK_PA expr TK_PC TK_LLA CASES TK_LLC •
 
-    $default  reduce usando la regla 22 (IF)
+    $default  reduce usando la regla 29 (SWITCH)
+
+
+Estado 154
+
+   30 CASES: CASE CASES •
+
+    $default  reduce usando la regla 30 (CASES)
+
+
+Estado 155
+
+    2 listainstrucciones: listainstrucciones • instruccion
+   39 DECLARAR_FUNCION: TIPO ID TK_PA PARAMETROS TK_PC TK_LLA listainstrucciones • TK_LLC
+
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_LLC       desplazar e ir al estado 161
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
+
+    instruccion            ir al estado 56
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
+
+
+Estado 156
+
+   36 PARAMETROS: TIPO ID TK_COMA PARAMETROS •
+
+    $default  reduce usando la regla 36 (PARAMETROS)
+
+
+Estado 157
+
+   24 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE • TK_LLA listainstrucciones TK_LLC
+   25   | TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE • IF
+
+    TK_IF   desplazar e ir al estado 2
+    TK_LLA  desplazar e ir al estado 162
+
+    IF  ir al estado 163
+
+
+Estado 158
+
+   35 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA • listainstrucciones TK_LLC
+
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
+
+    listainstrucciones     ir al estado 164
+    instruccion            ir al estado 25
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
+
+
+Estado 159
+
+   32 CASE: TK_CASE expr TK_DOSPUNTOS • listainstrucciones
+
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
+
+    listainstrucciones     ir al estado 165
+    instruccion            ir al estado 25
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
+
+
+Estado 160
+
+    2 listainstrucciones: listainstrucciones • instruccion
+   33 CASE: TK_DEFAULT TK_DOSPUNTOS listainstrucciones •
+
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
+
+    $default  reduce usando la regla 33 (CASE)
+
+    instruccion            ir al estado 56
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
+
+
+Estado 161
+
+   39 DECLARAR_FUNCION: TIPO ID TK_PA PARAMETROS TK_PC TK_LLA listainstrucciones TK_LLC •
+
+    $default  reduce usando la regla 39 (DECLARAR_FUNCION)
+
+
+Estado 162
+
+   24 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA • listainstrucciones TK_LLC
+
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
+
+    listainstrucciones     ir al estado 166
+    instruccion            ir al estado 25
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
+
+
+Estado 163
+
+   25 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE IF •
+
+    $default  reduce usando la regla 25 (IF)
+
+
+Estado 164
+
+    2 listainstrucciones: listainstrucciones • instruccion
+   35 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones • TK_LLC
+
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_LLC       desplazar e ir al estado 167
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
+
+    instruccion            ir al estado 56
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
+
+
+Estado 165
+
+    2 listainstrucciones: listainstrucciones • instruccion
+   32 CASE: TK_CASE expr TK_DOSPUNTOS listainstrucciones •
+
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
+
+    $default  reduce usando la regla 32 (CASE)
+
+    instruccion            ir al estado 56
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
+
+
+Estado 166
+
+    2 listainstrucciones: listainstrucciones • instruccion
+   24 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones • TK_LLC
+
+    TK_PRINT     desplazar e ir al estado 1
+    TK_IF        desplazar e ir al estado 2
+    TK_WHILE     desplazar e ir al estado 3
+    TK_FOR       desplazar e ir al estado 4
+    TK_SWITCH    desplazar e ir al estado 5
+    TK_CONTINUE  desplazar e ir al estado 6
+    TK_BREAK     desplazar e ir al estado 7
+    TK_RETURN    desplazar e ir al estado 8
+    TK_INT       desplazar e ir al estado 9
+    TK_FLOAT     desplazar e ir al estado 10
+    TK_STRING    desplazar e ir al estado 11
+    TK_BOOL      desplazar e ir al estado 12
+    TK_CHAR      desplazar e ir al estado 13
+    TK_FINAL     desplazar e ir al estado 14
+    TK_PA        desplazar e ir al estado 15
+    TK_LLC       desplazar e ir al estado 168
+    TK_NOT       desplazar e ir al estado 16
+    INT          desplazar e ir al estado 17
+    DECIMAL      desplazar e ir al estado 18
+    CARACTER     desplazar e ir al estado 19
+    CADENA       desplazar e ir al estado 20
+    ID           desplazar e ir al estado 21
+    BOOL         desplazar e ir al estado 22
+
+    instruccion            ir al estado 56
+    DECLARACION            ir al estado 26
+    ASIGNACION             ir al estado 27
+    IMPRIMIR               ir al estado 28
+    INCREMENTO_DECREMENTO  ir al estado 29
+    IF                     ir al estado 30
+    BREAK                  ir al estado 31
+    CONTINUAR              ir al estado 32
+    RETORNAR               ir al estado 33
+    SWITCH                 ir al estado 34
+    WHILE                  ir al estado 35
+    FOR                    ir al estado 36
+    DECLARAR_FUNCION       ir al estado 37
+    TIPO                   ir al estado 38
+    expr                   ir al estado 39
+    ARITMETICOS            ir al estado 40
+    RELACIONALES           ir al estado 41
+    LOGICOS                ir al estado 42
+
+
+Estado 167
+
+   35 FOR: TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC •
+
+    $default  reduce usando la regla 35 (FOR)
+
+
+Estado 168
+
+   24 IF: TK_IF TK_PA expr TK_PC TK_LLA listainstrucciones TK_LLC TK_ELSE TK_LLA listainstrucciones TK_LLC •
+
+    $default  reduce usando la regla 24 (IF)

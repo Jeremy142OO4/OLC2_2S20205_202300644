@@ -56,8 +56,8 @@ struct ASTNode* root = NULL;
 
 
 %type <node> inicio listainstrucciones instruccion 
-%type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS
-%type <node> DECLARACION ASIGNACION IMPRIMIR IF INCREMENTO_DECREMENTO SWITCH CASES CASE BREAK WHILE FOR CONTINUAR
+%type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS 
+%type <node> DECLARACION ASIGNACION IMPRIMIR IF INCREMENTO_DECREMENTO SWITCH CASES CASE BREAK WHILE FOR CONTINUAR DECLARAR_FUNCION PARAMETROS RETORNAR
 %type <str> OP_ASIGNACION
 
 %left TK_OR
@@ -91,6 +91,8 @@ instruccion:
     | WHILE
     | FOR
     | CONTINUAR
+    | RETORNAR
+    | DECLARAR_FUNCION
     ;
 
 DECLARACION:
@@ -124,6 +126,10 @@ BREAK:
 CONTINUAR:
     TK_CONTINUE TK_PTCOMA   { $$ = ast_continue(); }
 
+RETORNAR:
+    TK_RETURN expr TK_PTCOMA { $$ = ast_return($2); }
+  ;
+
 SWITCH: 
     TK_SWITCH TK_PA expr TK_PC TK_LLA CASES TK_LLC { $$ = ast_switch($3, $6); }
   ;
@@ -145,6 +151,16 @@ WHILE:
 FOR:
     TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC { $$ = ast_for($3, $4, $6, $9); }
   ;
+
+PARAMETROS:
+      TIPO ID TK_COMA PARAMETROS   { $$ = ast_parametros($2, $1, $4); }
+    | TIPO ID                      { $$ = ast_parametros($2, $1, NULL); }
+    |                              { $$ = NULL; }
+    ;
+
+DECLARAR_FUNCION:
+    TIPO ID TK_PA PARAMETROS TK_PC TK_LLA listainstrucciones TK_LLC { $$ = ast_funcion_decl($2, $4, $1, $7); }
+    ;
 
 TIPO:
       TK_INT     { $$ = ast_type("int");}
