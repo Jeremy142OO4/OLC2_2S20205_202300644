@@ -24,7 +24,7 @@ struct ASTNode* root = NULL;
 
 
 %token TK_PRINT TK_IF TK_ELSE TK_WHILE TK_FOR TK_DO TK_SWITCH TK_CASE TK_CONTINUE TK_BREAK TK_RETURN TK_VOID TK_MAIN TK_DEFAULT 
-%token TK_INT TK_FLOAT TK_STRING TK_BOOL TK_CHAR
+%token TK_INT TK_FLOAT TK_STRING TK_BOOL TK_CHAR TK_PARSEINT TK_PARSEFLOAT TK_PARSEDOUBLE TK_VALUEOF TK_JOIN
 %token TK_FINAL 
 
 
@@ -180,6 +180,11 @@ TIPO:
 
 expr: 
       TK_PA expr TK_PC          {$$ = $2;}
+    | TK_PARSEINT TK_PA expr TK_PC    { $$ = ast_parser("parseInt", $3 );}
+    | TK_PARSEFLOAT TK_PA expr TK_PC  { $$ = ast_parser("parseFloat", $3); }
+    | TK_PARSEDOUBLE TK_PA expr TK_PC { $$ = ast_parser("parseDouble", $3); }
+    | TK_VALUEOF TK_PA expr TK_PC     { $$ = ast_parser("valueOf", $3); }
+    | TK_JOIN TK_PA expr TK_COMA VALORES TK_PC { $$ = ast_join($3, $5); }
     | TK_PA TIPO TK_PC expr     { $$ = ast_cast($4, $2); }
     | INT                       { $$ = ast_literal($1); }
     | DECIMAL                   { $$ = ast_literal($1); }
@@ -191,6 +196,7 @@ expr:
     | RELACIONALES              { $$ = $1; }
     | LOGICOS                   { $$ = $1; }
     | LLAMADA_FUNCION           { $$ = $1; }
+    
     ;
 
 

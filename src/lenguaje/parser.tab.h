@@ -73,48 +73,52 @@ extern int yydebug;
     TK_STRING = 274,               /* TK_STRING  */
     TK_BOOL = 275,                 /* TK_BOOL  */
     TK_CHAR = 276,                 /* TK_CHAR  */
-    TK_FINAL = 277,                /* TK_FINAL  */
-    TK_PA = 278,                   /* TK_PA  */
-    TK_PC = 279,                   /* TK_PC  */
-    TK_LLA = 280,                  /* TK_LLA  */
-    TK_LLC = 281,                  /* TK_LLC  */
-    TK_PTCOMA = 282,               /* TK_PTCOMA  */
-    TK_DOSPUNTOS = 283,            /* TK_DOSPUNTOS  */
-    TK_COMA = 284,                 /* TK_COMA  */
-    TK_CA = 285,                   /* TK_CA  */
-    TK_CC = 286,                   /* TK_CC  */
-    TK_MAYOR = 287,                /* TK_MAYOR  */
-    TK_MENOR = 288,                /* TK_MENOR  */
-    TK_MAYOR_IGUAL = 289,          /* TK_MAYOR_IGUAL  */
-    TK_MENOR_IGUAL = 290,          /* TK_MENOR_IGUAL  */
-    TK_AND = 291,                  /* TK_AND  */
-    TK_OR = 292,                   /* TK_OR  */
-    TK_NOT = 293,                  /* TK_NOT  */
-    TK_SUMA = 294,                 /* TK_SUMA  */
-    TK_RESTA = 295,                /* TK_RESTA  */
-    TK_MULTIPLICACION = 296,       /* TK_MULTIPLICACION  */
-    TK_DIVISION = 297,             /* TK_DIVISION  */
-    TK_MODULAR = 298,              /* TK_MODULAR  */
-    TK_IGUAL = 299,                /* TK_IGUAL  */
-    TK_MAS_IGUAL = 300,            /* TK_MAS_IGUAL  */
-    TK_MENOS_IGUAL = 301,          /* TK_MENOS_IGUAL  */
-    TK_POR_IGUAL = 302,            /* TK_POR_IGUAL  */
-    TK_DIVIDIR_IGUAL = 303,        /* TK_DIVIDIR_IGUAL  */
-    TK_PORCENTAJE_IGUAL = 304,     /* TK_PORCENTAJE_IGUAL  */
-    TK_AND_IGUAL = 305,            /* TK_AND_IGUAL  */
-    TK_OR_IGUAL = 306,             /* TK_OR_IGUAL  */
-    TK_POTENCIA_IGUAL = 307,       /* TK_POTENCIA_IGUAL  */
-    TK_MAYOR_MAYOR_IGUAL = 308,    /* TK_MAYOR_MAYOR_IGUAL  */
-    TK_MENOR_MENOR_IGUAL = 309,    /* TK_MENOR_MENOR_IGUAL  */
-    TK_DOSPUNTOS_IGUAL = 310,      /* TK_DOSPUNTOS_IGUAL  */
-    TK_IGUAL_IGUAL = 311,          /* TK_IGUAL_IGUAL  */
-    TK_DIFERENTE = 312,            /* TK_DIFERENTE  */
-    INT = 313,                     /* INT  */
-    DECIMAL = 314,                 /* DECIMAL  */
-    CARACTER = 315,                /* CARACTER  */
-    CADENA = 316,                  /* CADENA  */
-    ID = 317,                      /* ID  */
-    BOOL = 318                     /* BOOL  */
+    TK_PARSEINT = 277,             /* TK_PARSEINT  */
+    TK_PARSEFLOAT = 278,           /* TK_PARSEFLOAT  */
+    TK_PARSEDOUBLE = 279,          /* TK_PARSEDOUBLE  */
+    TK_VALUEOF = 280,              /* TK_VALUEOF  */
+    TK_FINAL = 281,                /* TK_FINAL  */
+    TK_PA = 282,                   /* TK_PA  */
+    TK_PC = 283,                   /* TK_PC  */
+    TK_LLA = 284,                  /* TK_LLA  */
+    TK_LLC = 285,                  /* TK_LLC  */
+    TK_PTCOMA = 286,               /* TK_PTCOMA  */
+    TK_DOSPUNTOS = 287,            /* TK_DOSPUNTOS  */
+    TK_COMA = 288,                 /* TK_COMA  */
+    TK_CA = 289,                   /* TK_CA  */
+    TK_CC = 290,                   /* TK_CC  */
+    TK_MAYOR = 291,                /* TK_MAYOR  */
+    TK_MENOR = 292,                /* TK_MENOR  */
+    TK_MAYOR_IGUAL = 293,          /* TK_MAYOR_IGUAL  */
+    TK_MENOR_IGUAL = 294,          /* TK_MENOR_IGUAL  */
+    TK_AND = 295,                  /* TK_AND  */
+    TK_OR = 296,                   /* TK_OR  */
+    TK_NOT = 297,                  /* TK_NOT  */
+    TK_SUMA = 298,                 /* TK_SUMA  */
+    TK_RESTA = 299,                /* TK_RESTA  */
+    TK_MULTIPLICACION = 300,       /* TK_MULTIPLICACION  */
+    TK_DIVISION = 301,             /* TK_DIVISION  */
+    TK_MODULAR = 302,              /* TK_MODULAR  */
+    TK_IGUAL = 303,                /* TK_IGUAL  */
+    TK_MAS_IGUAL = 304,            /* TK_MAS_IGUAL  */
+    TK_MENOS_IGUAL = 305,          /* TK_MENOS_IGUAL  */
+    TK_POR_IGUAL = 306,            /* TK_POR_IGUAL  */
+    TK_DIVIDIR_IGUAL = 307,        /* TK_DIVIDIR_IGUAL  */
+    TK_PORCENTAJE_IGUAL = 308,     /* TK_PORCENTAJE_IGUAL  */
+    TK_AND_IGUAL = 309,            /* TK_AND_IGUAL  */
+    TK_OR_IGUAL = 310,             /* TK_OR_IGUAL  */
+    TK_POTENCIA_IGUAL = 311,       /* TK_POTENCIA_IGUAL  */
+    TK_MAYOR_MAYOR_IGUAL = 312,    /* TK_MAYOR_MAYOR_IGUAL  */
+    TK_MENOR_MENOR_IGUAL = 313,    /* TK_MENOR_MENOR_IGUAL  */
+    TK_DOSPUNTOS_IGUAL = 314,      /* TK_DOSPUNTOS_IGUAL  */
+    TK_IGUAL_IGUAL = 315,          /* TK_IGUAL_IGUAL  */
+    TK_DIFERENTE = 316,            /* TK_DIFERENTE  */
+    INT = 317,                     /* INT  */
+    DECIMAL = 318,                 /* DECIMAL  */
+    CARACTER = 319,                /* CARACTER  */
+    CADENA = 320,                  /* CADENA  */
+    ID = 321,                      /* ID  */
+    BOOL = 322                     /* BOOL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -129,7 +133,7 @@ union YYSTYPE
 
     struct ASTNode* node;
 
-#line 133 "./lenguaje/parser.tab.h"
+#line 137 "./lenguaje/parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

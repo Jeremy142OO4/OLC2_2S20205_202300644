@@ -22,6 +22,8 @@ struct ASTNode* ast_for(struct ASTNode* init, struct ASTNode* cond, struct ASTNo
 struct ASTNode* ast_while(struct ASTNode* cond,struct ASTNode* body);
 struct ASTNode* ast_break();
 struct ASTNode* ast_continue();
+struct ASTNode* ast_parser(char* func, struct ASTNode* expr);
+struct ASTNode* ast_join(struct ASTNode* delimitador,struct ASTNode* elemetos);
 struct ASTNode* ast_return(struct ASTNode* expr);
 struct ASTNode* ast_parametros(char* id, struct ASTNode* tipo, struct ASTNode* siguiente);
 struct ASTNode* ast_funcion_decl(char* nombre, struct ASTNode* parametros, struct ASTNode* tipo, struct ASTNode* instrucciones);

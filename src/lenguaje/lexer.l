@@ -43,6 +43,11 @@ espacios                [ \t]+
 
 
 "System.out.println"     { return TK_PRINT; }
+"Integer.parseInt"   { return TK_PARSEINT; }
+"Float.parseFloat"   { return TK_PARSEFLOAT; }
+"Double.parseDouble" { return TK_PARSEDOUBLE; }
+"String.valueOf"     { return TK_VALUEOF; }
+"String.join"        { return TK_JOIN; }
 "final"                  { return TK_FINAL; }
 
 

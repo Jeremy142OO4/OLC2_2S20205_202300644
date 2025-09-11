@@ -28,6 +28,7 @@
         "declarar_parametros.h": "c",
         "string.h": "c",
         "llamada_funcion.h": "c",
-        "incremento_decremento.h": "c"
+        "incremento_decremento.h": "c",
+        "parser.h": "c"
     }
 }
