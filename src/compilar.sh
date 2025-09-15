@@ -21,6 +21,7 @@ gcc -o compilador \
     class/expresiones/casteo.c \
     class/expresiones/logico.c \
     class/expresiones/parser.c \
+    class/expresiones/vector_index.c \
     class/expresiones/llamada_funcion.c \
     class/instrucciones/imprimir.c \
     class/instrucciones/declarar_var.c \
@@ -35,6 +36,7 @@ gcc -o compilador \
     class/instrucciones/retornar.c \
     class/instrucciones/declarar_funcion.c \
     class/instrucciones/declarar_parametros.c \
+    class/instrucciones/declarar_vector.c \
     -Iast -Ilenguaje -Iclass/expresiones -Iclass/instrucciones -Iclass/entorno\
     -lm
 # Mensaje final

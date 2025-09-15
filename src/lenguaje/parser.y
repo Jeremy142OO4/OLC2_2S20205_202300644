@@ -23,8 +23,8 @@ struct ASTNode* root = NULL;
 
 
 
-%token TK_PRINT TK_IF TK_ELSE TK_WHILE TK_FOR TK_DO TK_SWITCH TK_CASE TK_CONTINUE TK_BREAK TK_RETURN TK_VOID TK_MAIN TK_DEFAULT 
-%token TK_INT TK_FLOAT TK_STRING TK_BOOL TK_CHAR TK_PARSEINT TK_PARSEFLOAT TK_PARSEDOUBLE TK_VALUEOF TK_JOIN
+%token TK_PRINT TK_IF TK_ELSE TK_WHILE TK_FOR TK_DO TK_SWITCH TK_CASE TK_CONTINUE TK_BREAK TK_RETURN TK_VOID TK_MAIN TK_DEFAULT TK_NUEVO
+%token TK_INT TK_FLOAT TK_STRING TK_BOOL TK_CHAR TK_PARSEINT TK_PARSEFLOAT TK_PARSEDOUBLE TK_VALUEOF TK_JOIN TK_DOUBLE TK_EQUALS
 %token TK_FINAL 
 
 
@@ -52,11 +52,11 @@ struct ASTNode* root = NULL;
 %token TK_DOSPUNTOS_IGUAL
 %token TK_IGUAL_IGUAL TK_DIFERENTE
 
-%token <str> INT DECIMAL CARACTER CADENA ID BOOL 
+%token <str> INT DECIMAL CARACTER CADENA ID BOOL DOUBLE
 
 
 %type <node> inicio listainstrucciones instruccion 
-%type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS VALORES LLAMADA_FUNCION LLAMADA_PROCEDIMIENTO
+%type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS VALORES LLAMADA_FUNCION LLAMADA_PROCEDIMIENTO DECLARAR_VECTOR
 %type <node> DECLARACION ASIGNACION IMPRIMIR IF INCREMENTO_DECREMENTO SWITCH CASES CASE BREAK WHILE FOR CONTINUAR DECLARAR_FUNCION PARAMETROS RETORNAR
 %type <str> OP_ASIGNACION
 
@@ -94,6 +94,7 @@ instruccion:
     | RETORNAR
     | DECLARAR_FUNCION
     | LLAMADA_PROCEDIMIENTO
+    | DECLARAR_VECTOR
     ;
 
 DECLARACION:
@@ -102,8 +103,17 @@ DECLARACION:
     | TK_FINAL TIPO ID TK_IGUAL expr  TK_PTCOMA  {  $$ = ast_var_decl_const($3, $2, $5); }
     ;
 
+DECLARAR_VECTOR:
+    TIPO TK_CA TK_CC ID TK_IGUAL TK_NUEVO TIPO TK_CA expr TK_CC TK_PTCOMA
+      { if ($1 && $7 && strcmp($1->value,$7->value)==0) $$ = ast_vector_decl($4,$1,$9);
+      else $$ = NULL; }
+    |
+    TIPO TK_CA TK_CC ID TK_IGUAL TK_LLA VALORES TK_LLC TK_PTCOMA { $$ = ast_vector_decl_init($4,$1,$7); }
+    ;
+
 ASIGNACION:
-      expr OP_ASIGNACION expr TK_PTCOMA                { $$ = ast_assign($2, $3, $1); }
+      expr OP_ASIGNACION expr TK_PTCOMA                  { $$ = ast_assign($2, $3, $1); }
+    | ID TK_CA expr TK_CC OP_ASIGNACION expr TK_PTCOMA   { $$ = ast_assign($5, $6, ast_index1($1, $3)); }
     ;
 
 IMPRIMIR:
@@ -176,6 +186,7 @@ TIPO:
     | TK_FLOAT   { $$ = ast_type("float");}
     | TK_BOOL    { $$ = ast_type("bool");}
     | TK_CHAR    { $$ = ast_type("char");}
+    | TK_DOUBLE  { $$ = ast_type("double");}
     ;
 
 expr: 
@@ -191,11 +202,13 @@ expr:
     | CARACTER                  { $$ = ast_literal($1); }
     | CADENA                    { $$ = ast_literal($1); }
     | BOOL                      { $$ = ast_literal($1); }
+    | DOUBLE                    { $$ = ast_literal($1); }
     | ID                        { $$ = ast_identifier($1); }
     | ARITMETICOS               { $$ = $1; }
     | RELACIONALES              { $$ = $1; }
     | LOGICOS                   { $$ = $1; }
     | LLAMADA_FUNCION           { $$ = $1; }
+    | ID TK_CA expr TK_CC       { $$ = ast_index1($1, $3); }
     
     ;
 
@@ -227,6 +240,7 @@ OP_ASIGNACION:
 
 RELACIONALES:
       expr TK_IGUAL_IGUAL expr      { $$ = ast_binop("==", $1, $3); }
+    | expr TK_EQUALS TK_PA expr TK_PC { $$ = ast_binop("==", $1, $4); }
     | expr TK_DIFERENTE expr        { $$ = ast_binop("!=", $1, $3); }
     | expr TK_MAYOR_IGUAL expr      { $$ = ast_binop(">=", $1, $3); }
     | expr TK_MENOR_IGUAL expr      { $$ = ast_binop("<=", $1, $3); }

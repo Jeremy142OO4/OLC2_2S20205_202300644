@@ -9,6 +9,7 @@
 #include "./logico.h"
 #include "./llamada_funcion.h"
 #include "./parser.h"
+#include "./vector_index.h"
 #include "../instrucciones/imprimir.h"
 #include "../instrucciones/declarar_var.h"
 #include "../instrucciones/asignacion.h"
@@ -22,6 +23,7 @@
 #include "../instrucciones/for.h"
 #include "../instrucciones/declarar_funcion.h"
 #include "../instrucciones/declarar_parametros.h"
+#include "../instrucciones/declarar_vector.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -160,6 +162,18 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     else if (strcmp(node->kind, "parser") == 0)
     {
         res = ejecutarParser(node, entorno);
+    }
+    else if (strcmp(node->kind, "vector_decl") == 0)
+    {
+        ejecutarDeclararVector(node, entorno);
+    }
+    else if (strcmp(node->kind, "vector_decl_init") == 0)
+    {
+        ejecutarDeclararVector(node, entorno);
+    }
+    else if (strcmp(node->kind, "index1") == 0)
+    {
+        res = ejecutarVectorGet(node, entorno);
     }
     else if (strcmp(node->kind, "link") == 0)
     {

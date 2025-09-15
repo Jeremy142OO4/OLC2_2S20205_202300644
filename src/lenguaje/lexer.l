@@ -56,6 +56,8 @@ espacios                [ \t]+
 "String"                 { return TK_STRING; }
 "boolean"                { return TK_BOOL; }
 "char"                   { return TK_CHAR; }
+"double"                 { return TK_DOUBLE; }
+".equals"                { return TK_EQUALS;}
 "if"                     { return TK_IF; }
 "else"                   { return TK_ELSE; }
 "while"                  { return TK_WHILE; }
@@ -69,6 +71,7 @@ espacios                [ \t]+
 "return"                 { return TK_RETURN; }
 "void"                   { return TK_VOID; }
 "main"                   { return TK_MAIN; }
+"new"                    { return TK_NUEVO; }
 
 "=="                     { return TK_IGUAL_IGUAL; }
 "!="                     { return TK_DIFERENTE; }
@@ -111,9 +114,8 @@ espacios                [ \t]+
 "*"                      { return TK_MULTIPLICACION; }
 "/"                      { return TK_DIVISION; }
 "%"                      { return TK_MODULAR; }
-
-[0-9]+"."[0-9]+[fF]      { yytext[yyleng-1] = '\0';  yylval.str = strdup(yytext); return DECIMAL; }
-[0-9]+"."[0-9]+          { yylval.str = strdup(yytext); return DECIMAL; }
+[0-9]+"."[0-9]+[fF]      { yylval.str = strdup(yytext); return  DECIMAL; }
+[0-9]+"."[0-9]+          { yylval.str = strdup(yytext); return DOUBLE;}
 [0-9]+                   { yylval.str = strdup(yytext); return INT; }
 \"([^"\n])*\"            { yylval.str = strdup(yytext); return CADENA; }
 \'[^\']\'                { yylval.str = strdup(yytext); return CARACTER; }

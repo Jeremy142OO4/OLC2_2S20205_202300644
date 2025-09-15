@@ -7,7 +7,7 @@ void ejecutarImprimir(TipoRetorno valor) {
             printf("%d\n", *((int *)valor.valor));
             break;
         case TIPO_DECIMAL:
-            printf("%f\n", *((float *)valor.valor));
+            printf("%.2f\n", *((float *)valor.valor));
             break;
         case TIPO_CADENA:
             printf("%s\n", (char *)valor.valor);
@@ -21,6 +21,10 @@ void ejecutarImprimir(TipoRetorno valor) {
             break;
         case TIPO_CHAR:
             printf("%c\n", *((char *)valor.valor));
+            break;
+        case TIPO_DOUBLE:
+            
+            printf("%.5f\n", *((double *)valor.valor));
             break;
         default:
             printf("null\n");

@@ -29,6 +29,8 @@ struct ASTNode* ast_continue() { return make_node("continue", NULL, NULL, NULL);
 struct ASTNode* ast_join(struct ASTNode* delimitador,struct ASTNode* elemetos) { return make_node("join", NULL, delimitador, elemetos); }
 struct ASTNode* ast_parser(char* func, struct ASTNode* expr) { return make_node("parser", func, expr, NULL); }
 struct ASTNode* ast_return(struct ASTNode* expr) { return make_node("return", NULL, expr, NULL); }
+struct ASTNode* ast_vector_decl(char* id, struct ASTNode* tipo, struct ASTNode* tam) { return make_node("vector_decl", id, ast_link(tipo,tam), NULL); }
+struct ASTNode* ast_vector_decl_init(char* id, struct ASTNode* tipo, struct ASTNode* valores) { return make_node("vector_decl_init", id, tipo, valores); }
 struct ASTNode* ast_parametros(char* id, struct ASTNode* tipo, struct ASTNode* siguiente) { return make_node("parametro", id, tipo, siguiente); }
 struct ASTNode* ast_for(struct ASTNode* init, struct ASTNode* cond, struct ASTNode* cambio, struct ASTNode* body) { return make_node("for", NULL, ast_link(init, cond), ast_link(cambio, body)); }
 struct ASTNode* ast_cast(struct ASTNode* value,struct ASTNode* type) { return make_node("cast", NULL, value, type); }
@@ -36,6 +38,7 @@ struct ASTNode* ast_identifier(char* name) { return make_node("id", name, NULL, 
 struct ASTNode* ast_funcion_call(char* nombre, struct ASTNode* parametros) { return make_node("llamada_funcion", nombre, parametros, NULL); }
 struct ASTNode* ast_funcion_decl(char* nombre, struct ASTNode* parametros, struct ASTNode* tipo, struct ASTNode* instrucciones) { return make_node("funcion_decl", nombre, parametros, ast_link(tipo, instrucciones)); }
 struct ASTNode* ast_binop(char* op, struct ASTNode* left, struct ASTNode* right) { return make_node("binop", op, left, right); }
+struct ASTNode* ast_index1(char* id, struct ASTNode* idx) { return make_node("index1", id, ast_identifier(id), idx); }
 struct ASTNode* ast_unop(char* op, struct ASTNode* expr) { return make_node("unop", op, expr, NULL); }
 
 void ast_print(struct ASTNode* node, int depth) {

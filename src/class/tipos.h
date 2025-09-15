@@ -8,7 +8,8 @@ typedef enum {
     TIPO_DECIMAL,
     TIPO_CADENA,
     TIPO_BOOLEANO,
-    TIPO_CHAR
+    TIPO_CHAR,
+    TIPO_DOUBLE
 } Tipo;
 
 typedef enum {

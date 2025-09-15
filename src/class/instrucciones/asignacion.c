@@ -5,6 +5,7 @@
 
 #include "asignacion.h"
 #include "../expresiones/ejecutar.h" 
+#include "../expresiones/vector_index.h"
 
 TipoRetorno ejecutarAsignacion(struct ASTNode* node, struct entorno* e) {
     TipoRetorno res = { NULL, TIPO_NULO ,CTRL_NORMAL};
@@ -36,6 +37,10 @@ TipoRetorno ejecutarAsignacion(struct ASTNode* node, struct entorno* e) {
     }
 
     if (strcmp(node->value, "=") == 0) {
+        if (node->left && strcmp(node->left->kind,"index1")==0) {
+        ejecutarVectorSet(node->left, node->right, e);
+        return (TipoRetorno){ NULL, TIPO_NULO, CTRL_NORMAL };
+        }
         s->valor = val.valor;
         s->tipo  = val.tipo;    
         return val;

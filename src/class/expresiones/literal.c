@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>  
 #include "literal.h"
+#include <math.h> 
 
 TipoRetorno ejecutarLiteral(const char* value) {
     TipoRetorno res;
@@ -12,12 +13,28 @@ TipoRetorno ejecutarLiteral(const char* value) {
 
     if (isdigit(value[0])) {
         if (strchr(value, '.') != NULL) {
+            
+            size_t len = strlen(value);
+
+        // ¿termina en 'f' o 'F'? => float
+        if (len > 0 && (value[len - 1] == 'f' || value[len - 1] == 'F')) {
+            char tmp[64];
+            strncpy(tmp, value, len - 1); // copia sin la 'f'
+            tmp[len - 1] = '\0';
 
             float *val = malloc(sizeof(float));
             if (!val) { fprintf(stderr, "OOM\n"); return res; }
-            *val = atof(value);
+            *val = strtof(tmp, NULL);   // parsear como float
+            *val = roundf(*val * 100.0f) / 100.0f; 
             res.valor = val;
             res.tipo = TIPO_DECIMAL;
+        } else {
+            double *val = malloc(sizeof(double));
+            if (!val) { fprintf(stderr, "OOM\n"); return res; }
+            *val = strtod(value, NULL);   
+            res.valor = val;
+            res.tipo = TIPO_DOUBLE;
+        }
         } else {
 
             int *val = malloc(sizeof(int));

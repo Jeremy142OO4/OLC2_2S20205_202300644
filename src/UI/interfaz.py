@@ -33,6 +33,9 @@ class App(tk.Tk):
         btn_run = ttk.Button(toolbar, text="Ejecutar", command=lambda: self.run_compiler_with_temp("./src/compilador"))
         btn_run.pack(side="left")
 
+        btn_open = ttk.Button(toolbar, text="Abrir .usl", command=self.on_open_file)
+        btn_open.pack(side="left", padx=(6, 0))
+
         # Botón opcional: solo copia a consola (sin ejecutar)
         btn_copy = ttk.Button(toolbar, text="Copiar a consola", command=self.on_copy_clicked)
         btn_copy.pack(side="left", padx=(6, 0))
@@ -190,6 +193,25 @@ class App(tk.Tk):
                 os.remove(tmp_path)
             except OSError:
                 pass
+
+    def on_open_file(self):
+        filepath = filedialog.askopenfilename(
+            title="Abrir archivo .usl",
+            filetypes=[("Archivos USL", "*.usl"), ("Todos los archivos", "*.*")]
+        )
+        if not filepath:
+            return  # Cancelado
+
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                content = f.read()
+            # Limpiar editor antes de insertar
+            self.editor.delete("1.0", "end")
+            self.editor.insert("1.0", content)
+            self.console_insert(f"[Abrir] Archivo cargado: {os.path.basename(filepath)}")
+        except Exception as e:
+            self.console_insert(f"[Error al abrir archivo] {e}")
+
 
 if __name__ == "__main__":
     App().mainloop()

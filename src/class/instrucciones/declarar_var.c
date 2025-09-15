@@ -21,6 +21,11 @@ static TipoRetorno declarar(const char* t) {
         *p = 0.0f;
         r.valor = p; r.tipo = TIPO_DECIMAL;
     }
+    else if (strcmp(t, "double") == 0) {
+        double* p = malloc(sizeof(double));
+        *p = 0.0;
+        r.valor = p; r.tipo = TIPO_DOUBLE;
+    }
     else if (strcmp(t, "string") == 0) {
         r.valor = strdup("null");
         r.tipo = TIPO_CADENA;
@@ -46,11 +51,18 @@ void ejecutarDeclarar(struct ASTNode* node, struct entorno* e, int es_constante)
         return;
     }
 
+    if (getVar(e,node->value)){
+        printf("Error: Ya fue declarada la variable\n");
+        return;
+    }
+
     struct symbol* s = malloc(sizeof(struct symbol));
     if (!s) {
         printf("Error: sin memoria para símbolo\n");
         return;
     }
+
+
 
     s->id = strdup(node->value);
     s->siguiente = NULL;
@@ -58,6 +70,12 @@ void ejecutarDeclarar(struct ASTNode* node, struct entorno* e, int es_constante)
 
     if (node->right) {
         TipoRetorno val = ejecutar(node->right, e);
+        const char* t = (node->left && node->left->value) ? node->left->value : NULL;
+        TipoRetorno def = declarar(t);
+        if (val.tipo != def.tipo){
+            printf("Error: Tipos no coinciden\n");
+            return;
+        }
         s->valor = val.valor;
         s->tipo  = val.tipo;
         setVar(e, s);

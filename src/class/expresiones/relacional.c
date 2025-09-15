@@ -21,6 +21,8 @@ TipoRetorno ejecutarRelacional(const char* op, TipoRetorno a, TipoRetorno b) {
                 *val = (*(int*)a.valor == *(int*)b.valor);
             } else if (a.tipo == TIPO_DECIMAL) {
                 *val = (*(float*)a.valor == *(float*)b.valor);
+            } else if (a.tipo == TIPO_DOUBLE) {
+                *val = (*(double*)a.valor == *(double*)b.valor);
             } else if (a.tipo == TIPO_CADENA) {
                 *val = (strcmp((char*)a.valor, (char*)b.valor) == 0);
             } else if (a.tipo == TIPO_BOOLEANO) {
@@ -40,6 +42,8 @@ TipoRetorno ejecutarRelacional(const char* op, TipoRetorno a, TipoRetorno b) {
                 *val = (*(int*)a.valor != *(int*)b.valor);
             } else if (a.tipo == TIPO_DECIMAL) {
                 *val = (*(float*)a.valor != *(float*)b.valor);
+            } else if (a.tipo == TIPO_DOUBLE) {
+                *val = (*(double*)a.valor != *(double*)b.valor);
             } else if (a.tipo == TIPO_CADENA) {
                 *val = (strcmp((char*)a.valor, (char*)b.valor) != 0);
             } else if (a.tipo == TIPO_BOOLEANO) {
@@ -56,36 +60,52 @@ TipoRetorno ejecutarRelacional(const char* op, TipoRetorno a, TipoRetorno b) {
     else if (strcmp(op, "<") == 0) {
         if (a.tipo == TIPO_ENTERO && b.tipo == TIPO_ENTERO) {
             *val = (*(int*)a.valor < *(int*)b.valor);
+        } else if (a.tipo == TIPO_DOUBLE && b.tipo == TIPO_DOUBLE) {
+            *val = (*(double*)a.valor < *(double*)b.valor);
         } else {
-            float num1 = (a.tipo == TIPO_ENTERO) ? *(int*)a.valor : *(float*)a.valor;
-            float num2 = (b.tipo == TIPO_ENTERO) ? *(int*)b.valor : *(float*)b.valor;
+            double num1 = (a.tipo == TIPO_ENTERO) ? *(int*)a.valor : 
+                          (a.tipo == TIPO_DECIMAL ? *(float*)a.valor : *(double*)a.valor);
+            double num2 = (b.tipo == TIPO_ENTERO) ? *(int*)b.valor : 
+                          (b.tipo == TIPO_DECIMAL ? *(float*)b.valor : *(double*)b.valor);
             *val = (num1 < num2);
         }
     }
     else if (strcmp(op, "<=") == 0) {
         if (a.tipo == TIPO_ENTERO && b.tipo == TIPO_ENTERO) {
             *val = (*(int*)a.valor <= *(int*)b.valor);
+        } else if (a.tipo == TIPO_DOUBLE && b.tipo == TIPO_DOUBLE) {
+            *val = (*(double*)a.valor <= *(double*)b.valor);
         } else {
-            float num1 = (a.tipo == TIPO_ENTERO) ? *(int*)a.valor : *(float*)a.valor;
-            float num2 = (b.tipo == TIPO_ENTERO) ? *(int*)b.valor : *(float*)b.valor;
+            double num1 = (a.tipo == TIPO_ENTERO) ? *(int*)a.valor : 
+                          (a.tipo == TIPO_DECIMAL ? *(float*)a.valor : *(double*)a.valor);
+            double num2 = (b.tipo == TIPO_ENTERO) ? *(int*)b.valor : 
+                          (b.tipo == TIPO_DECIMAL ? *(float*)b.valor : *(double*)b.valor);
             *val = (num1 <= num2);
         }
     }
     else if (strcmp(op, ">") == 0) {
         if (a.tipo == TIPO_ENTERO && b.tipo == TIPO_ENTERO) {
             *val = (*(int*)a.valor > *(int*)b.valor);
+        } else if (a.tipo == TIPO_DOUBLE && b.tipo == TIPO_DOUBLE) {
+            *val = (*(double*)a.valor > *(double*)b.valor);
         } else {
-            float num1 = (a.tipo == TIPO_ENTERO) ? *(int*)a.valor : *(float*)a.valor;
-            float num2 = (b.tipo == TIPO_ENTERO) ? *(int*)b.valor : *(float*)b.valor;
+            double num1 = (a.tipo == TIPO_ENTERO) ? *(int*)a.valor : 
+                          (a.tipo == TIPO_DECIMAL ? *(float*)a.valor : *(double*)a.valor);
+            double num2 = (b.tipo == TIPO_ENTERO) ? *(int*)b.valor : 
+                          (b.tipo == TIPO_DECIMAL ? *(float*)b.valor : *(double*)b.valor);
             *val = (num1 > num2);
         }
     }
     else if (strcmp(op, ">=") == 0) {
         if (a.tipo == TIPO_ENTERO && b.tipo == TIPO_ENTERO) {
             *val = (*(int*)a.valor >= *(int*)b.valor);
+        } else if (a.tipo == TIPO_DOUBLE && b.tipo == TIPO_DOUBLE) {
+            *val = (*(double*)a.valor >= *(double*)b.valor);
         } else {
-            float num1 = (a.tipo == TIPO_ENTERO) ? *(int*)a.valor : *(float*)a.valor;
-            float num2 = (b.tipo == TIPO_ENTERO) ? *(int*)b.valor : *(float*)b.valor;
+            double num1 = (a.tipo == TIPO_ENTERO) ? *(int*)a.valor : 
+                          (a.tipo == TIPO_DECIMAL ? *(float*)a.valor : *(double*)a.valor);
+            double num2 = (b.tipo == TIPO_ENTERO) ? *(int*)b.valor : 
+                          (b.tipo == TIPO_DECIMAL ? *(float*)b.valor : *(double*)b.valor);
             *val = (num1 >= num2);
         }
     }

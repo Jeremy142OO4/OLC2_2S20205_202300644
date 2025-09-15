@@ -29,6 +29,7 @@
         "string.h": "c",
         "llamada_funcion.h": "c",
         "incremento_decremento.h": "c",
-        "parser.h": "c"
+        "parser.h": "c",
+        "declarar_vector.h": "c"
     }
 }

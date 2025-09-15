@@ -9,6 +9,12 @@ typedef struct symbol {
     Tipo tipo;
     struct symbol* siguiente; 
     int constante;
+
+    int   es_arreglo; 
+    int   dimensiones;       
+    int   longitud;        
+    int   filas;     
+    int   columnas;
 } symbol;
 
 #endif
