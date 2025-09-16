@@ -51,7 +51,7 @@ void ejecutarDeclarar(struct ASTNode* node, struct entorno* e, int es_constante)
         return;
     }
 
-    if (getVar(e,node->value)){
+    if (validar_var(e,node->value)){
         printf("Error: Ya fue declarada la variable\n");
         return;
     }

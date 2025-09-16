@@ -23,6 +23,7 @@ gcc -o compilador \
     class/expresiones/parser.c \
     class/expresiones/vector_index.c \
     class/expresiones/llamada_funcion.c \
+    class/expresiones/length.c  \
     class/instrucciones/imprimir.c \
     class/instrucciones/declarar_var.c \
     class/instrucciones/asignacion.c \

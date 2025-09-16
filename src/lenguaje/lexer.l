@@ -59,6 +59,7 @@ espacios                [ \t]+
 "double"                 { return TK_DOUBLE; }
 ".equals"                { return TK_EQUALS;}
 "if"                     { return TK_IF; }
+".length"                { return TK_LENGTH;}
 "else"                   { return TK_ELSE; }
 "while"                  { return TK_WHILE; }
 "for"                    { return TK_FOR; }

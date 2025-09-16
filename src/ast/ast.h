@@ -36,6 +36,8 @@ struct ASTNode* ast_unop(char* op, struct ASTNode* expr);
 struct ASTNode* ast_vector_decl(char* id, struct ASTNode* tipo, struct ASTNode* tam);
 struct ASTNode* ast_index1(char* id, struct ASTNode* idx);
 struct ASTNode* ast_vector_decl_init(char* id, struct ASTNode* tipo, struct ASTNode* valores);
+struct ASTNode* ast_array_length(char* id);
+
 void ast_print(struct ASTNode* node, int depth);
 
 #endif

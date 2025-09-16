@@ -7,6 +7,7 @@
 #include "./relacional.h"
 #include "./casteo.h"
 #include "./logico.h"
+#include "./length.h"
 #include "./llamada_funcion.h"
 #include "./parser.h"
 #include "./vector_index.h"
@@ -173,7 +174,12 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     }
     else if (strcmp(node->kind, "index1") == 0)
     {
+        
         res = ejecutarVectorGet(node, entorno);
+    }
+    else if (strcmp(node->kind, "array_length")== 0){
+        printf("ENtro aqui");
+        res = ejecutarLength(node,entorno);
     }
     else if (strcmp(node->kind, "link") == 0)
     {

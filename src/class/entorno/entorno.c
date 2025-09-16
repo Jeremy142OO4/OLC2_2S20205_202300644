@@ -49,6 +49,21 @@ symbol* getVar(entorno* entorno, const char* id) {
     return NULL;
 }
 
+symbol* validar_var(entorno* entorno, const char* id) {
+    
+    unsigned int h = hash(id);
+    symbol* actual = entorno->tabla[h];
+    while (actual) {
+        if (strcmp(actual->id, id) == 0) {
+            return actual;
+        }
+        actual = actual->siguiente;
+    }
+    
+    
+    return NULL;
+}
+
 void setFunc(entorno* entorno, funcion* f) {
     if (!entorno || !f || !f->id) return;
     unsigned int h = hash(f->id);

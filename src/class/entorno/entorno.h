@@ -16,6 +16,7 @@ entorno* nuevo_entorno(entorno* anterior);
 
 void setVar(entorno* entorno, symbol* simbolo);
 symbol* getVar(entorno* entorno, const char* id);
+symbol* validar_var(entorno* entorno, const char* id);
 
 void setFunc(entorno* entorno, funcion* funcion);
 funcion* getFunc(entorno* entorno, const char* id);

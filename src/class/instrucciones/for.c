@@ -5,17 +5,18 @@
 
 void For(struct ASTNode* node, struct entorno* entorno) {
     if (!node) return;
-
-    TipoRetorno cond = ejecutar(node->left->right, entorno);
+    struct entorno* entorno_for = nuevo_entorno(entorno);
+    TipoRetorno cond = ejecutar(node->left->right, entorno_for);
 
     if(*(int*)cond.valor) {
         struct ASTNode* instrucciones = node->right->right;
         struct ASTNode* cambio = node->right->left;
         if (instrucciones) {
-            ejecutar(instrucciones, entorno);        
+            TipoRetorno r = ejecutar(instrucciones, entorno_for);        
+            if (r.control == CTRL_BREAK) return;
         }
-        ejecutar(cambio, entorno);
-        For(node, entorno);
+        ejecutar(cambio, entorno_for);
+        For(node, entorno_for);
         
     } else {
         return;

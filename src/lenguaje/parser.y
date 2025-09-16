@@ -24,7 +24,7 @@ struct ASTNode* root = NULL;
 
 
 %token TK_PRINT TK_IF TK_ELSE TK_WHILE TK_FOR TK_DO TK_SWITCH TK_CASE TK_CONTINUE TK_BREAK TK_RETURN TK_VOID TK_MAIN TK_DEFAULT TK_NUEVO
-%token TK_INT TK_FLOAT TK_STRING TK_BOOL TK_CHAR TK_PARSEINT TK_PARSEFLOAT TK_PARSEDOUBLE TK_VALUEOF TK_JOIN TK_DOUBLE TK_EQUALS
+%token TK_INT TK_FLOAT TK_STRING TK_BOOL TK_CHAR TK_PARSEINT TK_PARSEFLOAT TK_PARSEDOUBLE TK_VALUEOF TK_JOIN TK_DOUBLE TK_EQUALS TK_LENGTH
 %token TK_FINAL 
 
 
@@ -56,9 +56,9 @@ struct ASTNode* root = NULL;
 
 
 %type <node> inicio listainstrucciones instruccion 
-%type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS VALORES LLAMADA_FUNCION LLAMADA_PROCEDIMIENTO DECLARAR_VECTOR
+%type <node> TIPO expr ARITMETICOS RELACIONALES LOGICOS VALORES LLAMADA_FUNCION LLAMADA_PROCEDIMIENTO DECLARAR_VECTOR 
 %type <node> DECLARACION ASIGNACION IMPRIMIR IF INCREMENTO_DECREMENTO SWITCH CASES CASE BREAK WHILE FOR CONTINUAR DECLARAR_FUNCION PARAMETROS RETORNAR
-%type <str> OP_ASIGNACION
+%type <str> OP_ASIGNACION 
 
 %left TK_OR
 %left TK_AND
@@ -189,8 +189,8 @@ TIPO:
     | TK_DOUBLE  { $$ = ast_type("double");}
     ;
 
-expr: 
-      TK_PA expr TK_PC          {$$ = $2;}
+expr:
+     TK_PA expr TK_PC          {$$ = $2;}
     | TK_PARSEINT TK_PA expr TK_PC    { $$ = ast_parser("parseInt", $3 );}
     | TK_PARSEFLOAT TK_PA expr TK_PC  { $$ = ast_parser("parseFloat", $3); }
     | TK_PARSEDOUBLE TK_PA expr TK_PC { $$ = ast_parser("parseDouble", $3); }
@@ -209,6 +209,7 @@ expr:
     | LOGICOS                   { $$ = $1; }
     | LLAMADA_FUNCION           { $$ = $1; }
     | ID TK_CA expr TK_CC       { $$ = ast_index1($1, $3); }
+    | ID TK_LENGTH              { $$ = ast_array_length($1); }
     
     ;
 
