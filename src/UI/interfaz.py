@@ -1,9 +1,12 @@
 # ide_tk.py
 import tkinter as tk
 from tkinter import ttk, font, filedialog
+from PIL import Image, ImageTk
+import io
+import os
+import cairosvg
 import subprocess
 import tempfile
-import os
 
 # -------- utilidades --------
 def scrolled_text(parent, **opts):
@@ -30,7 +33,8 @@ class App(tk.Tk):
         toolbar.pack(side="top", fill="x")
 
         # Botón que EJECUTA el compilador con archivo temporal
-        btn_run = ttk.Button(toolbar, text="Ejecutar", command=lambda: self.run_compiler_with_temp("./src/compilador"))
+        btn_run = ttk.Button(toolbar, text="Ejecutar",
+                             command=lambda: self.run_compiler_with_temp("./src/compilador"))
         btn_run.pack(side="left")
 
         btn_open = ttk.Button(toolbar, text="Abrir .usl", command=self.on_open_file)
@@ -41,7 +45,8 @@ class App(tk.Tk):
         btn_copy.pack(side="left", padx=(6, 0))
 
         # NUEVO: Botón limpiar consola
-        btn_clear = ttk.Button(toolbar, text="Limpiar consola", command=lambda: self.console_clear(insert_ready=True))
+        btn_clear = ttk.Button(toolbar, text="Limpiar consola",
+                               command=lambda: self.console_clear(insert_ready=True))
         btn_clear.pack(side="left", padx=(6, 0))
 
         # (Opcional) Atajo Ctrl+L para limpiar consola
@@ -57,29 +62,27 @@ class App(tk.Tk):
 
         # editor
         editor_frame, self.editor = scrolled_text(top_pane, font=self.mono, undo=True)
-        demo = (
-            ""
-        )
-        self.editor.insert("1.0", demo)
+        self.editor.insert("1.0", "")
         top_pane.add(editor_frame, weight=3)
 
         # notebook (AST / Símbolos / Errores)
         notebook = ttk.Notebook(top_pane)
         top_pane.add(notebook, weight=2)
 
-        # AST (texto)
-        ast_frame, self.ast_text = scrolled_text(notebook, font=self.mono, state="normal")
-        self.ast_text.insert(
-            "1.0",
-            "Program\n"
-            " ├─ FunctionDecl: sumar(a:int, b:int) -> int\n"
-            " │   └─ Return\n"
-            " │       └─ BinaryExpr '+'\n"
-            " │           ├─ Identifier 'a'\n"
-            " │           └─ Identifier 'b'\n"
-            " └─ VarDecl: x:int = 42\n"
-        )
-        self.ast_text.config(state="disabled")
+        # --- AST (IMAGEN SVG) ---
+        # Ruta al SVG (según tu árbol: ./src/ast.svg)
+        self.ast_svg_path = os.path.join(os.path.dirname(__file__), "..", "..", "ast.svg")
+
+        ast_frame = ttk.Frame(notebook)
+        # Label que contendrá la imagen renderizada
+        self.ast_image_label = tk.Label(ast_frame, bg="#1a1a1a")
+        self.ast_image_label.pack(fill="both", expand=True)
+
+        # Redibujar al cambiar tamaño de la pestaña
+        ast_frame.bind("<Configure>", self._update_ast_image)
+        # Primer render tras crear la UI
+        self.after(100, self._update_ast_image)
+
         notebook.add(ast_frame, text="AST")
 
         # Símbolos (tabla)
@@ -133,6 +136,28 @@ class App(tk.Tk):
         # posicion inicial de divisores (opcional)
         self.after(50, lambda: vpaned.sashpos(0, int(self.winfo_height()*0.7)))
 
+    # ---- helpers de AST/SVG ----
+    def _update_ast_image(self, *_):
+        """Renderiza el SVG al tamaño actual del label."""
+        # Medidas disponibles
+        w, h = self.ast_image_label.winfo_width(), self.ast_image_label.winfo_height()
+        if w <= 1 or h <= 1:
+            self.after(50, self._update_ast_image)
+            return
+        try:
+            with open(self.ast_svg_path, "rb") as f:
+                svg_bytes = f.read()
+            # Render directo del SVG a PNG en memoria con el tamaño disponible
+            png_bytes = cairosvg.svg2png(bytestring=svg_bytes, output_width=w, output_height=h)
+            img = Image.open(io.BytesIO(png_bytes)).convert("RGBA")
+            # Guardar referencia para que Tk no libere la imagen
+            self._ast_imgtk = ImageTk.PhotoImage(img)
+            self.ast_image_label.config(image=self._ast_imgtk, text="")
+        except Exception as e:
+            self.ast_image_label.config(
+                text=f"No se pudo mostrar ast.svg\n{e}", fg="red", bg="#1a1a1a", anchor="center", justify="center"
+            )
+
     # ---- helpers de consola ----
     def console_insert(self, text):
         self.console.insert("end", text + "\n")
@@ -171,19 +196,12 @@ class App(tk.Tk):
             f.write(text)
 
         cmd = [compiler, tmp_path]
-        # self.console_insert(f"[Ejecutar] Lanzando: {' '.join(cmd)}")
 
         try:
             # Nota: text=True captura stdout/stderr como str (UTF-8 por defecto)
             proc = subprocess.run(cmd, capture_output=True, text=True)
             if proc.stdout:
-                # self.console_insert("[STDOUT]")
                 self.console_insert(proc.stdout.rstrip("\n"))
-            # if proc.stderr:
-            #     self.console_insert("[STDERR]")
-            #     self.console_insert(proc.stderr.rstrip("\n"))
-            # self.console_insert(f"[Exit] Código de salida: {proc.returncode}")
-
         except FileNotFoundError:
             self.console_insert("[Error] No se encontró el ejecutable del compilador.")
         except Exception as e:
@@ -211,7 +229,6 @@ class App(tk.Tk):
             self.console_insert(f"[Abrir] Archivo cargado: {os.path.basename(filepath)}")
         except Exception as e:
             self.console_insert(f"[Error al abrir archivo] {e}")
-
 
 if __name__ == "__main__":
     App().mainloop()
