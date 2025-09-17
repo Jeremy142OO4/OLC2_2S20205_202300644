@@ -21,4 +21,6 @@ symbol* validar_var(entorno* entorno, const char* id);
 void setFunc(entorno* entorno, funcion* funcion);
 funcion* getFunc(entorno* entorno, const char* id);
 
+void exportar_tabla(entorno* e, const char* archivo, const char* entorno);
+
 #endif

@@ -6,7 +6,13 @@ import io
 import os
 import cairosvg
 import subprocess
+import csv
 import tempfile
+
+# Rutas relativas base
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SYMBOLS_CSV_PATH = os.path.normpath(os.path.join(BASE_DIR, "..", "..", "tabla_simbolos.txt"))
+AST_SVG_PATH = os.path.normpath(os.path.join(BASE_DIR, "..", "..", "ast.svg"))
 
 # -------- utilidades --------
 def scrolled_text(parent, **opts):
@@ -18,6 +24,7 @@ def scrolled_text(parent, **opts):
     yscroll.pack(side="right", fill="y")
     txt.pack(side="left", fill="both", expand=True)
     return frame, txt
+
 
 class App(tk.Tk):
     def __init__(self):
@@ -67,11 +74,11 @@ class App(tk.Tk):
 
         # notebook (AST / Símbolos / Errores)
         notebook = ttk.Notebook(top_pane)
+        self.notebook = notebook  # guardar referencia
         top_pane.add(notebook, weight=2)
 
         # --- AST (IMAGEN SVG) ---
-        # Ruta al SVG (según tu árbol: ./src/ast.svg)
-        self.ast_svg_path = os.path.join(os.path.dirname(__file__), "..", "..", "ast.svg")
+        self.ast_svg_path = AST_SVG_PATH
 
         ast_frame = ttk.Frame(notebook)
         # Label que contendrá la imagen renderizada
@@ -85,29 +92,34 @@ class App(tk.Tk):
 
         notebook.add(ast_frame, text="AST")
 
-        # Símbolos (tabla)
+        # --- Símbolos (tabla) ---
+        # Columnas del CSV: ID,Tipo,Entorno,Valor
         symbols_frame = ttk.Frame(notebook)
+        self.symbols_tab = symbols_frame  # para detectar selección de pestaña
+
         self.symbols = ttk.Treeview(
             symbols_frame,
-            columns=("nombre", "tipo", "ambito"),
+            columns=("id", "tipo", "entorno", "valor"),
             show="headings",
             height=12,
         )
-        for col, txt in zip(("nombre", "tipo", "ambito"), ("Nombre", "Tipo", "Ámbito")):
+        headers = (
+            ("id", "ID", 150),
+            ("tipo", "Tipo", 140),
+            ("entorno", "Entorno", 120),
+            ("valor", "Valor", 220),
+        )
+        for col, txt, w in headers:
             self.symbols.heading(col, text=txt)
-            self.symbols.column(col, width=120, anchor="w")
+            self.symbols.column(col, width=w, anchor="w")
         self.symbols.pack(side="left", fill="both", expand=True)
         sb_sym = ttk.Scrollbar(symbols_frame, orient="vertical", command=self.symbols.yview)
         self.symbols.configure(yscrollcommand=sb_sym.set)
         sb_sym.pack(side="right", fill="y")
 
-        # datos de ejemplo
-        self.symbols.insert("", "end", values=("x", "int", "global"))
-        self.symbols.insert("", "end", values=("sumar", "función(int,int)->int", "global"))
-
         notebook.add(symbols_frame, text="Símbolos")
 
-        # Errores (tabla)
+        # --- Errores (tabla) ---
         errors_frame = ttk.Frame(notebook)
         self.errors = ttk.Treeview(
             errors_frame,
@@ -123,8 +135,6 @@ class App(tk.Tk):
         self.errors.configure(yscrollcommand=sb_err.set)
         sb_err.pack(side="right", fill="y")
 
-        # ejemplo
-        self.errors.insert("", "end", values=(3, 15, "Token inesperado '}'"))
         notebook.add(errors_frame, text="Errores")
 
         # Consola (abajo)
@@ -135,6 +145,9 @@ class App(tk.Tk):
 
         # posicion inicial de divisores (opcional)
         self.after(50, lambda: vpaned.sashpos(0, int(self.winfo_height()*0.7)))
+
+        # SOLO cargar símbolos al hacer clic en la pestaña
+        self.notebook.bind("<<NotebookTabChanged>>", self._on_tab_changed)
 
     # ---- helpers de AST/SVG ----
     def _update_ast_image(self, *_):
@@ -229,6 +242,58 @@ class App(tk.Tk):
             self.console_insert(f"[Abrir] Archivo cargado: {os.path.basename(filepath)}")
         except Exception as e:
             self.console_insert(f"[Error al abrir archivo] {e}")
+
+    # ---- Carga diferida de símbolos (solo al abrir la pestaña) ----
+    def _on_tab_changed(self, event):
+
+        try:
+            tab_id = event.widget.select()
+            current_tab = event.widget.nametowidget(tab_id)
+            if current_tab is self.symbols_tab:
+                self.load_symbols_from_csv(SYMBOLS_CSV_PATH)
+        except Exception as e:
+            self.console_insert(f"[Símbolos] Error al refrescar: {e}")
+
+    def load_symbols_from_csv(self, csv_path: str):
+
+        # Limpiar filas actuales
+        for item in self.symbols.get_children():
+            self.symbols.delete(item)
+
+        if not os.path.exists(csv_path):
+            self.console_insert(f"[Símbolos] No existe: {os.path.relpath(csv_path, BASE_DIR)}")
+            return
+
+        try:
+            with open(csv_path, "r", encoding="utf-8", newline="") as f:
+                reader = csv.reader(f)
+                rows = list(reader)
+        except UnicodeDecodeError:
+            # CSV escrito sin UTF-8: intenta 'latin-1'
+            with open(csv_path, "r", encoding="latin-1", newline="") as f:
+                reader = csv.reader(f)
+                rows = list(reader)
+        except Exception as e:
+            self.console_insert(f"[Símbolos] Error leyendo CSV: {e}")
+            return
+
+        # ¿Tiene encabezado?
+        start_idx = 1 if rows and rows[0] and rows[0][0].strip().lower() in ("id", "nombre") else 0
+
+        count = 0
+        for row in rows[start_idx:]:
+            if not row:
+                continue
+            # Esperado: ID,Tipo,Entorno,Valor
+            id_ = row[0] if len(row) > 0 else ""
+            tipo = row[1] if len(row) > 1 else ""
+            entorno = row[2] if len(row) > 2 else ""
+            valor = row[3] if len(row) > 3 else ""
+            self.symbols.insert("", "end", values=(id_, tipo, entorno, valor))
+            count += 1
+
+        #self.console_insert(f"[Símbolos] Cargados {count} símbolo(s) desde {os.path.relpath(csv_path, BASE_DIR)}")
+
 
 if __name__ == "__main__":
     App().mainloop()

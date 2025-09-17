@@ -1,0 +1,23 @@
+ID,Tipo,Entorno,Valor
+puntosAccesoMultidimensional,ENTERO,global,0
+puntosMultidimensional,ENTERO,global,0
+puntosLen,ENTERO,global,1
+puntosJoin,ENTERO,global,2
+ok1,BOOLEANO,global,true
+ok2,BOOLEANO,global,true
+fraseComas,CADENA,global,"Hola, mundo, desde, Java"
+palabras,CADENA,global,""
+puntosIndex,ENTERO,global,3
+otra,ENTERO,global,5
+longitud1,ENTERO,global,5
+frase,CADENA,global,"Hola mundo desde Java"
+base,ENTERO,global,10
+puntosCreacion,ENTERO,global,3
+puntosAcceso,ENTERO,global,3
+indice1,ENTERO,global,2
+indice2,ENTERO,global,-1
+numeros,ENTERO,global,10
+puntos,ENTERO,global,15
+lista,ENTERO,global,1
+puntosAdd,ENTERO,global,3
+primerElemento,ENTERO,global,1
