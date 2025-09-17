@@ -43,12 +43,13 @@ espacios                [ \t]+
 
 
 "System.out.println"     { return TK_PRINT; }
-"Integer.parseInt"   { return TK_PARSEINT; }
-"Float.parseFloat"   { return TK_PARSEFLOAT; }
-"Double.parseDouble" { return TK_PARSEDOUBLE; }
-"String.valueOf"     { return TK_VALUEOF; }
-"String.join"        { return TK_JOIN; }
+"Integer.parseInt"       { return TK_PARSEINT; }
+"Float.parseFloat"       { return TK_PARSEFLOAT; }
+"Double.parseDouble"     { return TK_PARSEDOUBLE; }
+"String.valueOf"         { return TK_VALUEOF; }
+"String.join"            { return TK_JOIN; }
 "Arrays.indexOf"         { return TK_INDEXOF;}
+".add"                   { return TK_ADD; }
 "final"                  { return TK_FINAL; }
 
 

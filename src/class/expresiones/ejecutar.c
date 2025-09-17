@@ -27,6 +27,7 @@
 #include "../instrucciones/declarar_funcion.h"
 #include "../instrucciones/declarar_parametros.h"
 #include "../instrucciones/declarar_vector.h"
+#include "../instrucciones/array_add.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -80,6 +81,31 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     }
     else if (strcmp(node->kind, "unop") == 0)
     {
+        TipoRetorno val = ejecutar(node->left, entorno);
+        if (strcmp(node->value, "-") == 0 && val.tipo == TIPO_ENTERO)
+        {
+            int *p = malloc(sizeof(int));
+            *p = -(*(int *)val.valor);
+            res.tipo = TIPO_ENTERO;
+            res.valor = p;
+            return res;
+        }
+        else if (strcmp(node->value, "-") == 0 && val.tipo == TIPO_DOUBLE)
+        {
+            double *p = malloc(sizeof(double));
+            *p = -(*(double *)val.valor);
+            res.tipo = TIPO_DOUBLE;
+            res.valor = p;
+            return res;
+        }
+        else if (strcmp(node->value, "-") == 0 && val.tipo == TIPO_DECIMAL)
+        {
+            float *p = malloc(sizeof(float));
+            *p = -(*(float *)val.valor);
+            res.tipo = TIPO_DECIMAL;
+            res.valor = p;
+            return res;
+        }
         TipoRetorno exp1 = ejecutar(node->left, entorno);
         if (strcmp(node->value, "!") == 0)
         {
@@ -150,12 +176,12 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     }
     else if (strcmp(node->kind, "funcion_decl") == 0)
     {
-        
+
         res = ejecutarDeclararFuncion(node, entorno);
     }
     else if (strcmp(node->kind, "parametro") == 0)
     {
-       
+
         ejecutarDeclararParametros(node, entorno);
     }
     else if (strcmp(node->kind, "llamada_funcion") == 0)
@@ -176,19 +202,26 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     }
     else if (strcmp(node->kind, "index1") == 0)
     {
-        
+
         res = ejecutarVectorGet(node, entorno);
     }
-    else if (strcmp(node->kind, "array_length")== 0){
+    else if (strcmp(node->kind, "array_length") == 0)
+    {
 
-        res = ejecutarLength(node,entorno);
+        res = ejecutarLength(node, entorno);
     }
-    else if (strcmp(node->kind, "join")==0 ){
-        
-        res = ejecutarJoin(node,entorno);
+    else if (strcmp(node->kind, "join") == 0)
+    {
+
+        res = ejecutarJoin(node, entorno);
     }
-    else if (strcmp(node->kind, "array_indexof")==0){
-        res = ejecutarIndexOf(node,entorno);
+    else if (strcmp(node->kind, "array_indexof") == 0)
+    {
+        res = ejecutarIndexOf(node, entorno);
+    }
+    else if (strcmp(node->kind, "array_add") == 0)
+    {
+        ejecutarArrayAdd(node, entorno);
     }
     else if (strcmp(node->kind, "link") == 0)
     {

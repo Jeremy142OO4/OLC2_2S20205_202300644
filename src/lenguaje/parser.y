@@ -25,7 +25,7 @@ struct ASTNode* root = NULL;
 
 %token TK_PRINT TK_IF TK_ELSE TK_WHILE TK_FOR TK_DO TK_SWITCH TK_CASE TK_CONTINUE TK_BREAK TK_RETURN TK_VOID TK_MAIN TK_DEFAULT TK_NUEVO
 %token TK_INT TK_FLOAT TK_STRING TK_BOOL TK_CHAR TK_PARSEINT TK_PARSEFLOAT TK_PARSEDOUBLE TK_VALUEOF TK_JOIN TK_DOUBLE TK_EQUALS TK_LENGTH
-%token TK_FINAL  TK_INDEXOF
+%token TK_FINAL  TK_INDEXOF TK_ADD
 
 
 %token TK_PA TK_PC TK_LLA TK_LLC TK_PTCOMA TK_DOSPUNTOS TK_COMA
@@ -63,6 +63,7 @@ struct ASTNode* root = NULL;
 %left TK_OR
 %left TK_AND
 %right TK_NOT
+%right UMINUS
 %left TK_MENOR TK_MENOR_IGUAL TK_MAYOR TK_MAYOR_IGUAL TK_IGUAL_IGUAL TK_DIFERENTE 
 %left TK_SUMA TK_RESTA 
 %left TK_MULTIPLICACION TK_DIVISION TK_MODULAR
@@ -95,6 +96,7 @@ instruccion:
     | DECLARAR_FUNCION
     | LLAMADA_PROCEDIMIENTO
     | DECLARAR_VECTOR
+    | ID TK_ADD TK_PA expr TK_PC TK_PTCOMA   { $$ = ast_array_add($1, $4); }
     ;
 
 DECLARACION:
@@ -199,6 +201,7 @@ expr:
     | TK_JOIN TK_PA expr TK_COMA VALORES TK_PC { $$ = ast_join($3, $5); }
     | TK_PA TIPO TK_PC expr     { $$ = ast_cast($4, $2); }
     | TK_INDEXOF TK_PA expr  TK_COMA expr TK_PC { $$ = ast_indexof($3,$5);}
+    | TK_RESTA expr %prec UMINUS { $$ = ast_unop("-", $2); }
     | INT                       { $$ = ast_literal($1); }
     | DECIMAL                   { $$ = ast_literal($1); }
     | CARACTER                  { $$ = ast_literal($1); }

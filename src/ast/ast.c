@@ -41,6 +41,7 @@ struct ASTNode* ast_binop(char* op, struct ASTNode* left, struct ASTNode* right)
 struct ASTNode* ast_index1(char* id, struct ASTNode* idx) { return make_node("index1", id, ast_identifier(id), idx); }
 struct ASTNode* ast_array_length(char* id) {return make_node("array_length", id, NULL, NULL);}
 struct ASTNode* ast_indexof(struct ASTNode* valor, struct ASTNode* clave) {return make_node("array_indexof",NULL,valor,clave);}
+struct ASTNode* ast_array_add(char* id, struct ASTNode* valor) {return make_node("array_add", id, ast_identifier(id), valor);}
 struct ASTNode* ast_unop(char* op, struct ASTNode* expr) { return make_node("unop", op, expr, NULL); }
 
 void ast_print(struct ASTNode* node, int depth) {
@@ -51,4 +52,66 @@ void ast_print(struct ASTNode* node, int depth) {
     printf("\n");
     ast_print(node->left, depth+1);
     ast_print(node->right, depth+1);
+}
+
+static void escape_dot_label(const char* src, char* dest, size_t max) {
+    if (!src) { dest[0] = '\0'; return; }
+    size_t j = 0;
+    for (size_t i = 0; src[i] && j < max - 2; i++) {
+        if (src[i] == '"' || src[i] == '\\') {
+            if (j < max - 2) dest[j++] = '\\';
+        }
+        dest[j++] = src[i];
+    }
+    dest[j] = '\0';
+}
+
+static void ast_graphviz_rec(FILE* f, struct ASTNode* node, int* id_counter) {
+    if (!node) return;
+
+    int my_id = (*id_counter)++;
+
+    const char* color = "snow";
+
+    // Escribir el nodo con label seguro
+    fprintf(f, "  node%d [label=\"%s", my_id, node->kind ? node->kind : "null");
+    if (node->value) {
+        char safe[512];
+        escape_dot_label(node->value, safe, sizeof(safe));
+        fprintf(f, "\\n%s", safe);
+    }
+    fprintf(f, "\", shape=ellipse, style=filled, fillcolor=%s, color=black, fontcolor=black, fontname=\"Arial\"];\n", color);
+
+    // Guardar IDs de hijos antes de recursión
+    if (node->left) {
+        int left_id = *id_counter;
+        ast_graphviz_rec(f, node->left, id_counter);
+        fprintf(f, "  node%d -> node%d;\n", my_id, left_id);
+    }
+    if (node->right) {
+        int right_id = *id_counter;
+        ast_graphviz_rec(f, node->right, id_counter);
+        fprintf(f, "  node%d -> node%d;\n", my_id, right_id);
+    }
+}
+
+void ast_print_graphviz(struct ASTNode* root, const char* filename) {
+    FILE* f = fopen(filename, "w");
+    if (!f) {
+        perror("fopen");
+        return;
+    }
+
+    fprintf(f, "digraph AST {\n");
+    fprintf(f, "  rankdir=TB;\n");
+    fprintf(f, "  nodesep=0.6;\n");
+    fprintf(f, "  ranksep=0.8;\n");
+    fprintf(f, "  node [shape=ellipse, style=filled, fillcolor=snow, fontcolor=black, color=black, fontname=\"Arial\"];\n");
+    fprintf(f, "  edge [color=black];\n");
+
+    int id_counter = 0;
+    ast_graphviz_rec(f, root, &id_counter);
+
+    fprintf(f, "}\n");
+    fclose(f);
 }

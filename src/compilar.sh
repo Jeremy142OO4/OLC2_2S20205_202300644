@@ -40,6 +40,7 @@ gcc -o compilador \
     class/instrucciones/declarar_funcion.c \
     class/instrucciones/declarar_parametros.c \
     class/instrucciones/declarar_vector.c \
+    class/instrucciones/array_add.c \
     -Iast -Ilenguaje -Iclass/expresiones -Iclass/instrucciones -Iclass/entorno\
     -lm
 # Mensaje final

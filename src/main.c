@@ -31,6 +31,12 @@ int main(int argc, char *argv[]) {
         //ast_print(root, 0);
         struct entorno* global = nuevo_entorno(NULL);
         TipoRetorno res = ejecutar(root, global);
+        ast_print_graphviz(root, "ast.dot");
+        if (system("dot -Tsvg ast.dot -o ast.svg") != 0) {
+            printf("Error al generar el ast.svg\n");
+        } else {
+            printf("AST generado con exito: ast.svg\n");
+        }
     } else {
         printf("Error en el parseo.\n");
     }

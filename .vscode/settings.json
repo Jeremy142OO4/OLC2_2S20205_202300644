@@ -34,6 +34,7 @@
         "length.h": "c",
         "vector_index.h": "c",
         "cctype": "c",
-        "join.h": "c"
+        "join.h": "c",
+        "stdio.h": "c"
     }
 }

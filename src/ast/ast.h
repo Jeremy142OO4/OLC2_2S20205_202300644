@@ -1,3 +1,4 @@
+#include <stdio.h>
 #ifndef AST_H
 #define AST_H
 
@@ -38,7 +39,10 @@ struct ASTNode* ast_index1(char* id, struct ASTNode* idx);
 struct ASTNode* ast_vector_decl_init(char* id, struct ASTNode* tipo, struct ASTNode* valores);
 struct ASTNode* ast_array_length(char* id);
 struct ASTNode* ast_indexof(struct ASTNode* valor, struct ASTNode* clave);
+struct ASTNode* ast_array_add(char* id, struct ASTNode* valor);
+
 
 void ast_print(struct ASTNode* node, int depth);
-
+void ast_print_graphviz(struct ASTNode* root, const char* filename);
+static void ast_graphviz_rec(FILE* f, struct ASTNode* node, int* id_counter);
 #endif
