@@ -40,6 +40,7 @@ struct ASTNode* ast_funcion_decl(char* nombre, struct ASTNode* parametros, struc
 struct ASTNode* ast_binop(char* op, struct ASTNode* left, struct ASTNode* right) { return make_node("binop", op, left, right); }
 struct ASTNode* ast_index1(char* id, struct ASTNode* idx) { return make_node("index1", id, ast_identifier(id), idx); }
 struct ASTNode* ast_array_length(char* id) {return make_node("array_length", id, NULL, NULL);}
+struct ASTNode* ast_indexof(struct ASTNode* valor, struct ASTNode* clave) {return make_node("array_indexof",NULL,valor,clave);}
 struct ASTNode* ast_unop(char* op, struct ASTNode* expr) { return make_node("unop", op, expr, NULL); }
 
 void ast_print(struct ASTNode* node, int depth) {

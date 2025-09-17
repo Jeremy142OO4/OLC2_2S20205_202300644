@@ -21,6 +21,8 @@ gcc -o compilador \
     class/expresiones/casteo.c \
     class/expresiones/logico.c \
     class/expresiones/parser.c \
+    class/expresiones/join.c \
+    class/expresiones/indexOf.c \
     class/expresiones/vector_index.c \
     class/expresiones/llamada_funcion.c \
     class/expresiones/length.c  \

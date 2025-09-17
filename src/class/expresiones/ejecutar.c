@@ -9,8 +9,10 @@
 #include "./logico.h"
 #include "./length.h"
 #include "./llamada_funcion.h"
+#include "./join.h"
 #include "./parser.h"
 #include "./vector_index.h"
+#include "./indexOf.h"
 #include "../instrucciones/imprimir.h"
 #include "../instrucciones/declarar_var.h"
 #include "../instrucciones/asignacion.h"
@@ -178,8 +180,15 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
         res = ejecutarVectorGet(node, entorno);
     }
     else if (strcmp(node->kind, "array_length")== 0){
-        printf("ENtro aqui");
+
         res = ejecutarLength(node,entorno);
+    }
+    else if (strcmp(node->kind, "join")==0 ){
+        
+        res = ejecutarJoin(node,entorno);
+    }
+    else if (strcmp(node->kind, "array_indexof")==0){
+        res = ejecutarIndexOf(node,entorno);
     }
     else if (strcmp(node->kind, "link") == 0)
     {

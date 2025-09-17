@@ -32,6 +32,8 @@
         "parser.h": "c",
         "declarar_vector.h": "c",
         "length.h": "c",
-        "vector_index.h": "c"
+        "vector_index.h": "c",
+        "cctype": "c",
+        "join.h": "c"
     }
 }

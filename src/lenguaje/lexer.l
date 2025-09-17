@@ -48,6 +48,7 @@ espacios                [ \t]+
 "Double.parseDouble" { return TK_PARSEDOUBLE; }
 "String.valueOf"     { return TK_VALUEOF; }
 "String.join"        { return TK_JOIN; }
+"Arrays.indexOf"         { return TK_INDEXOF;}
 "final"                  { return TK_FINAL; }
 
 
