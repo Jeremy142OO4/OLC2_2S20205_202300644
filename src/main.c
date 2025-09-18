@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "./ast/ast.h"
 #include "./class/expresiones/ejecutar.h"
+#include "./class/utils/errores.h"
 // Declaraciones externas que Flex/Bison generan
 extern int yyparse(void);
 extern FILE *yyin;
@@ -29,8 +30,12 @@ int main(int argc, char *argv[]) {
     if (resultado == 0) {
         //printf("Parseo completado exitosamente.\n");
         //ast_print(root, 0);
+        if (errores_init("tabla_errores.txt") != 0) {
+        fprintf(stderr, "No se pudo abrir tabla_errores.txt\n");
+        }
         struct entorno* global = nuevo_entorno(NULL);
         TipoRetorno res = ejecutar(root, global);
+        errores_close();
         exportar_tabla(global,"tabla_simbolos.txt","global");
         ast_print_graphviz(root, "ast.dot");
         if (system("dot -Tsvg ast.dot -o ast.svg") != 0) {

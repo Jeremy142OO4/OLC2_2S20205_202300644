@@ -12,6 +12,7 @@ gcc -o compilador \
     lenguaje/parser.tab.c \
     lenguaje/lex.yy.c \
     ast/ast.c \
+    class/utils/errores.c \
     class/entorno/entorno.c \
     class/expresiones/ejecutar.c \
     class/expresiones/aritmetico.c \

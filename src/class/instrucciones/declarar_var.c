@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "../utils/errores.h"
 #include "declarar_var.h"
 
 static TipoRetorno declarar(const char* t) {
@@ -52,7 +52,9 @@ void ejecutarDeclarar(struct ASTNode* node, struct entorno* e, int es_constante)
     }
 
     if (validar_var(e,node->value)){
-        printf("Error: Ya fue declarada la variable\n");
+
+        errores_add("Error: Ya fue declarada la variable\n");
+        //printf("Error: Ya fue declarada la variable\n");
         return;
     }
 

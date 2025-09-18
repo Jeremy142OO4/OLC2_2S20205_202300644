@@ -9,10 +9,11 @@ import subprocess
 import csv
 import tempfile
 
-# Rutas relativas base
+# Rutas relativas base (ajusta si mueves archivos)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SYMBOLS_CSV_PATH = os.path.normpath(os.path.join(BASE_DIR, "..", "..", "tabla_simbolos.txt"))
-AST_SVG_PATH = os.path.normpath(os.path.join(BASE_DIR, "..", "..", "ast.svg"))
+ERRORS_TXT_PATH  = os.path.normpath(os.path.join(BASE_DIR, "..", "..", "tabla_errores.txt"))
+AST_SVG_PATH     = os.path.normpath(os.path.join(BASE_DIR, "..", "..", "ast.svg"))
 
 # -------- utilidades --------
 def scrolled_text(parent, **opts):
@@ -119,17 +120,18 @@ class App(tk.Tk):
 
         notebook.add(symbols_frame, text="Símbolos")
 
-        # --- Errores (tabla) ---
+        # --- Errores (tabla: UNA SOLA COLUMNA 'error') ---
         errors_frame = ttk.Frame(notebook)
+        self.errors_tab = errors_frame
+
         self.errors = ttk.Treeview(
             errors_frame,
-            columns=("linea", "col", "msg"),
+            columns=("error",),
             show="headings",
             height=12,
         )
-        for col, txt, w in (("linea", "Línea", 70), ("col", "Columna", 80), ("msg", "Mensaje", 360)):
-            self.errors.heading(col, text=txt)
-            self.errors.column(col, width=w, anchor="w")
+        self.errors.heading("error", text="Error")
+        self.errors.column("error", width=600, anchor="w")
         self.errors.pack(side="left", fill="both", expand=True)
         sb_err = ttk.Scrollbar(errors_frame, orient="vertical", command=self.errors.yview)
         self.errors.configure(yscrollcommand=sb_err.set)
@@ -146,7 +148,7 @@ class App(tk.Tk):
         # posicion inicial de divisores (opcional)
         self.after(50, lambda: vpaned.sashpos(0, int(self.winfo_height()*0.7)))
 
-        # SOLO cargar símbolos al hacer clic en la pestaña
+        # SOLO cargar símbolos/errores al hacer clic en las pestañas
         self.notebook.bind("<<NotebookTabChanged>>", self._on_tab_changed)
 
     # ---- helpers de AST/SVG ----
@@ -243,19 +245,20 @@ class App(tk.Tk):
         except Exception as e:
             self.console_insert(f"[Error al abrir archivo] {e}")
 
-    # ---- Carga diferida de símbolos (solo al abrir la pestaña) ----
+    # ---- Carga diferida de símbolos/errores (solo al abrir cada pestaña) ----
     def _on_tab_changed(self, event):
-
         try:
             tab_id = event.widget.select()
             current_tab = event.widget.nametowidget(tab_id)
             if current_tab is self.symbols_tab:
                 self.load_symbols_from_csv(SYMBOLS_CSV_PATH)
+            elif current_tab is self.errors_tab:
+                self.load_errors_from_txt(ERRORS_TXT_PATH)
         except Exception as e:
-            self.console_insert(f"[Símbolos] Error al refrescar: {e}")
+            self.console_insert(f"[Notebook] Error al refrescar: {e}")
 
+    # ---- Lectura de símbolos (CSV: ID,Tipo,Entorno,Valor) ----
     def load_symbols_from_csv(self, csv_path: str):
-
         # Limpiar filas actuales
         for item in self.symbols.get_children():
             self.symbols.delete(item)
@@ -269,7 +272,6 @@ class App(tk.Tk):
                 reader = csv.reader(f)
                 rows = list(reader)
         except UnicodeDecodeError:
-            # CSV escrito sin UTF-8: intenta 'latin-1'
             with open(csv_path, "r", encoding="latin-1", newline="") as f:
                 reader = csv.reader(f)
                 rows = list(reader)
@@ -280,7 +282,6 @@ class App(tk.Tk):
         # ¿Tiene encabezado?
         start_idx = 1 if rows and rows[0] and rows[0][0].strip().lower() in ("id", "nombre") else 0
 
-        count = 0
         for row in rows[start_idx:]:
             if not row:
                 continue
@@ -290,10 +291,31 @@ class App(tk.Tk):
             entorno = row[2] if len(row) > 2 else ""
             valor = row[3] if len(row) > 3 else ""
             self.symbols.insert("", "end", values=(id_, tipo, entorno, valor))
-            count += 1
 
-        #self.console_insert(f"[Símbolos] Cargados {count} símbolo(s) desde {os.path.relpath(csv_path, BASE_DIR)}")
+    # ---- Lectura de errores (TXT: una línea = un error) ----
+    def load_errors_from_txt(self, txt_path: str):
+        # Limpiar filas actuales
+        for item in self.errors.get_children():
+            self.errors.delete(item)
 
+        if not os.path.exists(txt_path):
+            self.console_insert(f"[Errores] No existe: {os.path.relpath(txt_path, BASE_DIR)}")
+            return
+
+        try:
+            with open(txt_path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+        except UnicodeDecodeError:
+            with open(txt_path, "r", encoding="latin-1") as f:
+                lines = f.readlines()
+        except Exception as e:
+            self.console_insert(f"[Errores] Error leyendo TXT: {e}")
+            return
+
+        for line in lines:
+            msg = line.rstrip("\r\n")
+            if msg:
+                self.errors.insert("", "end", values=(msg,))
 
 if __name__ == "__main__":
     App().mainloop()
