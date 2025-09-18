@@ -79,39 +79,33 @@ Herramienta que sirve para generar analizadores léxicos. Se encarga de leer el 
 
 ## FLUJO DE LAS FUNCIONALIDADES DEL SISTEMA
 
-1. Al arrancar el programa, aparece una pantalla con una barra de menú que ofrece las opciones "Acerca de" y "Salir". Asimismo, se muestran la tabla de errores que se llenara si en dado caso hay un error en el analicis.
+1. Al arrancar el programa, aparece una pantalla con una barra de menú que ofrece las opciones "Ejecutar" "Abrir.usl" "Copiar a consola" y "Limpiar consola" 
 
-![Paso1](imagenes/interfaz.png)
+![alt text](image.png)
 
-2. Para ver la información del estudiante, seleccionamos la opción "Acerca de", la cual mostrará los datos del alumno. Al elegir "Salir", se cierra el programa.
-
-![Paso2](imagenes/estudiante.png)
-
-3.	A continuación, se cargarán los archivos, los cuales deben tener la extensión .LFP
-
-![Paso3](imagenes/cargar.png)
-
-![Paso31](imagenes/cargar2.png)
-
-4.	Despues de presionar el boton analisis en la parte superior de la ventana para comenzar con el analisis.
-
-![Paso4](imagenes/presionar.png)
-
-5.	Despues de presionar el boton analisis en la parte superior de la ventana para comenzara con el analisis.
+2. Escribir codigo Java y "darle al boton de ejecutar para ver su salida"
 
 
-6.	Si en dado caso no hay error en el archivo .LFP nos generara la pagina web deseada.
+3.	Nos mostrara en la consola el resultado y aun lado podremos visualizar el ast del codigo Java
 
-![Paso6](imagenes/web.png)
+![alt text](image-1.png)
 
-7.	Si queremos consultar los tokens analizados presionaremos el boton "tokens" en la parte superior de la ventana.
+4.	Si presionamos el boton de simbolos nos mostrara la tabla de simbolos del codigo
 
-![Paso7](imagenes/tokens.png)
+![alt text](image-2.png)
 
-8.	Nos enviara a un reporte html con los tokens analizados.
+5.	Tambien podemos cargar archivos con extension .usl al presionar "Abrir.usl"
+![alt text](image-3.png)
 
-![Paso8](imagenes/analizados.png)
+6.	Seleccionamos el archivo deseado y se nos mostrara en consola
 
-9.	Si en dado caso el archivo .LFP contiene algun error se mostrara en la tabla de errores.
+![alt text](image-4.png)
 
-![Paso8](imagenes/errores.png)
+7.	Si queremos limpiar la consola basta con presionar el boton de "Limpiar consola"
+![alt text](image-5.png)
+
+
+
+8.	Para ejecutar el archivo cargado solo hay que presionar nuevamente el boton de "Ejecutar"
+
+![alt text](image-6.png)
