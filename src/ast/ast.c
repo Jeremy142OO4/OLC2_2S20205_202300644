@@ -33,6 +33,8 @@ struct ASTNode* ast_vector_decl(char* id, struct ASTNode* tipo, struct ASTNode* 
 struct ASTNode* ast_vector_decl_init(char* id, struct ASTNode* tipo, struct ASTNode* valores) { return make_node("vector_decl_init", id, tipo, valores); }
 struct ASTNode* ast_parametros(char* id, struct ASTNode* tipo, struct ASTNode* siguiente) { return make_node("parametro", id, tipo, siguiente); }
 struct ASTNode* ast_for(struct ASTNode* init, struct ASTNode* cond, struct ASTNode* cambio, struct ASTNode* body) { return make_node("for", NULL, ast_link(init, cond), ast_link(cambio, body)); }
+struct ASTNode* ast_for_cali(struct ASTNode* init, struct ASTNode* cond, struct ASTNode* cambio, struct ASTNode* body) { return make_node("for_cali", NULL, ast_link(init, cond), ast_link(cambio, body)); }
+
 struct ASTNode* ast_cast(struct ASTNode* value,struct ASTNode* type) { return make_node("cast", NULL, value, type); }
 struct ASTNode* ast_identifier(char* name) { return make_node("id", name, NULL, NULL); }
 struct ASTNode* ast_funcion_call(char* nombre, struct ASTNode* parametros) { return make_node("llamada_funcion", nombre, parametros, NULL); }

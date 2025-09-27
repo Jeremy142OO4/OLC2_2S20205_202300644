@@ -25,7 +25,7 @@ struct ASTNode* root = NULL;
 
 %token TK_PRINT TK_IF TK_ELSE TK_WHILE TK_FOR TK_DO TK_SWITCH TK_CASE TK_CONTINUE TK_BREAK TK_RETURN TK_VOID TK_MAIN TK_DEFAULT TK_NUEVO
 %token TK_INT TK_FLOAT TK_STRING TK_BOOL TK_CHAR TK_PARSEINT TK_PARSEFLOAT TK_PARSEDOUBLE TK_VALUEOF TK_JOIN TK_DOUBLE TK_EQUALS TK_LENGTH
-%token TK_FINAL  TK_INDEXOF TK_ADD
+%token TK_FINAL  TK_INDEXOF TK_ADD TK_IN TK_DOSPUNTOS_SEGUIDO
 
 
 %token TK_PA TK_PC TK_LLA TK_LLC TK_PTCOMA TK_DOSPUNTOS TK_COMA
@@ -102,6 +102,7 @@ instruccion:
 DECLARACION:
       TIPO ID TK_IGUAL expr TK_PTCOMA            { $$ = ast_var_decl($2, $1, $4); }
     | TIPO ID  TK_PTCOMA                         { $$ = ast_var_decl($2, $1, NULL); }
+    | TIPO ID                           { $$ = ast_var_decl($2, $1, NULL); }
     | TK_FINAL TIPO ID TK_IGUAL expr  TK_PTCOMA  {  $$ = ast_var_decl_const($3, $2, $5); }
     ;
 
@@ -164,6 +165,7 @@ WHILE:
 
 FOR:
     TK_FOR TK_PA DECLARACION expr TK_PTCOMA INCREMENTO_DECREMENTO TK_PC TK_LLA listainstrucciones TK_LLC { $$ = ast_for($3, $4, $6, $9); }
+  | TK_FOR TK_PA DECLARACION TK_IN expr TK_DOSPUNTOS_SEGUIDO expr TK_PC TK_LLA listainstrucciones TK_LLC { $$ = ast_for_cali($3,$5,$7,$10); } 
   ;
 
 PARAMETROS:

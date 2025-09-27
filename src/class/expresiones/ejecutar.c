@@ -24,6 +24,7 @@
 #include "../instrucciones/continuar.h"
 #include "../instrucciones/retornar.h"
 #include "../instrucciones/for.h"
+#include "../instrucciones/for_cali.h"
 #include "../instrucciones/declarar_funcion.h"
 #include "../instrucciones/declarar_parametros.h"
 #include "../instrucciones/declarar_vector.h"
@@ -161,6 +162,10 @@ TipoRetorno ejecutar(struct ASTNode *node, struct entorno *entorno)
     else if (strcmp(node->kind, "for") == 0)
     {
         ejecutarFor(node, entorno);
+    }
+    else if (strcmp(node->kind, "for_cali") == 0)
+    {
+        ejecutarForCali(node, entorno);
     }
     else if (strcmp(node->kind, "break") == 0)
     {

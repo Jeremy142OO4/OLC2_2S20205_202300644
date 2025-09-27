@@ -20,6 +20,8 @@ struct ASTNode* ast_switch(struct ASTNode* expr, struct ASTNode* cases);
 struct ASTNode* ast_case(struct ASTNode* value, struct ASTNode* body);
 struct ASTNode* ast_if(struct ASTNode* cond,struct ASTNode* then_body, struct ASTNode* else_part);
 struct ASTNode* ast_for(struct ASTNode* init, struct ASTNode* cond, struct ASTNode* cambio, struct ASTNode* body);    
+struct ASTNode* ast_for_cali(struct ASTNode* init, struct ASTNode* cond, struct ASTNode* cambio, struct ASTNode* body);    
+
 struct ASTNode* ast_while(struct ASTNode* cond,struct ASTNode* body);
 struct ASTNode* ast_break();
 struct ASTNode* ast_continue();

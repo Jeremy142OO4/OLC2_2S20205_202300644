@@ -75,7 +75,7 @@ espacios                [ \t]+
 "void"                   { return TK_VOID; }
 "main"                   { return TK_MAIN; }
 "new"                    { return TK_NUEVO; }
-
+"in"                     { return TK_IN;}
 "=="                     { return TK_IGUAL_IGUAL; }
 "!="                     { return TK_DIFERENTE; }
 ">="                     { return TK_MAYOR_IGUAL; }
@@ -101,7 +101,7 @@ espacios                [ \t]+
 "<<="                    { return TK_MENOR_MENOR_IGUAL; }
 
 ":="                     { return TK_DOSPUNTOS_IGUAL; }
-
+".."                     { return TK_DOSPUNTOS_SEGUIDO;}
 "("                      { return TK_PA; }
 ")"                      { return TK_PC; }
 "["                      { return TK_CA; }

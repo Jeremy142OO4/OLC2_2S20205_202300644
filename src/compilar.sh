@@ -35,6 +35,7 @@ gcc -o compilador \
     class/instrucciones/switch.c \
     class/instrucciones/while.c \
     class/instrucciones/for.c \
+    class/instrucciones/for_cali.c \
     class/instrucciones/break.c \
     class/instrucciones/continuar.c \
     class/instrucciones/retornar.c \
